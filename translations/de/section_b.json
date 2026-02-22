@@ -1,0 +1,115 @@
+{
+  "id": "section_b",
+  "title": "Abschnitt B — „Werden alle Feste aufgehoben werden?“",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Der Midrasch leitet aus dem Vers „Und ihr Andenken wird aus ihrem Samen nicht vergehen“ ab, dass selbst wenn in der Zukunft alle Feste aufgehoben werden sollten, die Tage von Purim nicht aufgehoben werden."
+    },
+    {
+      "type": "paragraph",
+      "text": "Diese Aussage findet sich in den Worten unserer Weisen seligen Andenkens und wird auch vom Rambam in der Halacha festgelegt."
+    },
+    {
+      "type": "paragraph",
+      "text": "Doch es erhebt sich eine äußerst schwerwiegende Frage: Wie ist es möglich zu sagen, dass die Feste der Tora aufgehoben werden? Einer der Glaubensgrundsätze besagt doch, dass die Tora weder verändert noch ersetzt werden wird."
+    },
+    {
+      "type": "paragraph",
+      "text": "Diese Frage ist so tiefgehend, dass große Gelehrte der Generationen Mühe hatten, sie zu erklären."
+    },
+    {
+      "type": "paragraph",
+      "text": "Der Rebbe erklärt, dass hier nicht von einer wörtlichen Aufhebung die Rede ist, sondern von einem vergleichenden Maßstab der Freude."
+    },
+    {
+      "type": "paragraph",
+      "text": "Die Freude der Feste ist groß, doch sie ist begrenzt. In den Tagen des Maschiach wird sich eine unendliche Freude offenbaren – „ewige Freude auf ihren Häuptern“. Im Vergleich zu ihr wird die Freude der Feste wie das Licht einer kleinen Kerze im hellen Tageslicht erscheinen."
+    },
+    {
+      "type": "paragraph",
+      "text": "Doch die Freude von Purim ist von solcher Größe, dass sie auch im Licht der unendlichen Freude der kommenden Ge’ula ihre volle Bedeutung bewahren wird."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Quelle 5 — Midrasch Mischlei 9,2",
+      "text": "Rabbi Abbahu sagte: Ester, die Königin, bereitete in der Stunde der Bedrängnis Israels in den Tagen Mordechais ein Mahl für Achaschwerosch und Haman und berauschte ihn mit Wein. Der Frevler meinte, sie erweise ihm Ehre, doch er wusste nicht, dass sie ihm eine Falle stellte. Durch das, dass sie ihn berauschte, erwarb ihr Volk Ewigkeit. Alle Feste werden in der Zukunft aufgehoben werden, doch die Tage von Purim werden niemals aufgehoben, wie es heißt: „Und diese Tage von Purim werden unter den Juden nicht vergehen“."
+    },
+    {
+      "title": "Quelle 6 — Rambam, Hilchot Megilla 2:18",
+      "text": "Alle Bücher der Propheten und der Schriften werden in den Tagen des Maschiach aufgehoben werden, außer der Megillat Ester. Und obwohl die Erinnerung an die Leiden verschwinden wird, wie es heißt: „Denn die früheren Bedrängnisse werden vergessen sein“, werden die Tage von Purim nicht aufgehoben werden, wie es heißt: „Und diese Tage von Purim werden unter den Juden nicht vergehen, und ihr Andenken wird aus ihrem Samen nicht verschwinden“."
+    },
+    {
+      "title": "Quelle 7 — Responsa Raschba, Teil I, Siman 93",
+      "text": "Du fragtest hinsichtlich der Worte des Midrasch, dass alle Feste aufgehoben werden, die Tage von Purim jedoch nicht. Wer könnte sagen, dass auch nur ein Buchstabe oder selbst das Geringste aus der Tora aufgehoben werde? Viele Erklärungen zu dieser aggadischen Aussage wurden vor mir vorgebracht, doch keine ist in mein Herz eingedrungen. Teile mir ihre wahre Auslegung mit."
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "Was lehrt der Midrasch hinsichtlich der Zukunft aller Feste?",
+        "options": [
+          {
+            "text": "Alle Feste werden mit doppelter Intensität gefeiert werden",
+            "correct": false
+          },
+          {
+            "text": "Alle Feste werden buchstäblich für immer aufgehoben",
+            "correct": false
+          },
+          {
+            "text": "Im Vergleich zur Freude der zukünftigen Ge’ula wird die Freude der Feste ihre Bedeutung verlieren – außer Purim",
+            "correct": true
+          },
+          {
+            "text": "Die Feste werden unverbindlich werden",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "question": "Wie erklärt der Rebbe den Ausdruck „die Feste werden aufgehoben“?",
+        "options": [
+          {
+            "text": "Sie werden aus der Tora entfernt",
+            "correct": false
+          },
+          {
+            "text": "Ihre Mizwot verlieren ihre Gültigkeit",
+            "correct": false
+          },
+          {
+            "text": "Ihre Freude wird im Vergleich zur unendlichen Freude der Tage des Maschiach kaum wahrnehmbar sein",
+            "correct": true
+          },
+          {
+            "text": "Sie werden durch neue Feste ersetzt",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "question": "Warum wird die Freude von Purim auch in den Tagen des Maschiach ihre Bedeutung bewahren?",
+        "options": [
+          {
+            "text": "Weil Purim von den Propheten eingesetzt wurde",
+            "correct": false
+          },
+          {
+            "text": "Weil seine Freude eine Qualität besitzt, die die Begrenztheit gewöhnlicher Feste übersteigt",
+            "correct": true
+          },
+          {
+            "text": "Weil es zwei Tage gefeiert wird",
+            "correct": false
+          },
+          {
+            "text": "Weil es in der Tora nicht erwähnt wird",
+            "correct": false
+          }
+        ]
+      }
+    ]
+  }
+}

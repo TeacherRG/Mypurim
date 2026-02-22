@@ -46,17 +46,44 @@ function init() {
 
 function renderSidebar() {
 
-    // Блокировка только начиная со второго учебного раздела
-if (section.id !== "intro") {
+    sidebarMenu.innerHTML = "";
 
-    const prevIndex = sectionsList.findIndex(s => s.id === section.id) - 1;
-    const prevSection = sectionsList[prevIndex];
+    sectionsList.forEach((section, index) => {
 
-    if (prevSection && prevSection.id !== "intro" && 
-        !state.completedSections.includes(prevSection.id)) {
-        li.classList.add("locked");
-    }
-}
+        const li = document.createElement("li");
+        li.textContent = section.title;
+
+        // ===== ЛОГИКА БЛОКИРОВКИ =====
+
+        if (section.id !== "intro" && section.id !== "section_a") {
+
+            const prevSection = sectionsList[index - 1];
+
+            if (!state.completedSections.includes(prevSection.id)) {
+                li.classList.add("locked");
+            }
+        }
+
+        // ===== ЗАВЕРШЁН =====
+
+        if (state.completedSections.includes(section.id)) {
+            li.classList.add("completed");
+        }
+
+        // ===== АКТИВНЫЙ =====
+
+        if (section.id === currentSectionId) {
+            li.classList.add("active");
+        }
+
+        li.addEventListener("click", () => {
+            if (!li.classList.contains("locked")) {
+                loadSection(section.id);
+            }
+        });
+
+        sidebarMenu.appendChild(li);
+    });
 }
 
 // =============================

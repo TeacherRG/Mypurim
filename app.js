@@ -174,6 +174,7 @@ function renderQuiz(section) {
 
     const body = document.createElement("div");
     body.classList.add("quiz-body");
+    body.classList.add("open");
 
     header.addEventListener("click", () => {
         body.classList.toggle("open");

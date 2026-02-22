@@ -361,3 +361,22 @@ function loadProgress() {
 function saveProgress() {
     localStorage.setItem("lessonProgress", JSON.stringify(state));
                     }
+function renderContentBlocks(container, data) {
+
+  data.content.forEach(block => {
+
+    if (block.type === "paragraph") {
+      const p = document.createElement("p");
+      p.textContent = block.text;
+      container.appendChild(p);
+    }
+
+    if (block.type === "quote") {
+      const q = document.createElement("blockquote");
+      q.textContent = block.text;
+      container.appendChild(q);
+    }
+
+  });
+
+}

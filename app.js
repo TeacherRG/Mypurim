@@ -1,98 +1,70 @@
-// =============================
-// CONFIG
-// =============================
+// ===== CONFIG =====
 
-const sectionsList = [
-    { id: "intro", title: "Введение" },
-    { id: "section_a", title: "Раздел 1" },
-    { id: "section_b", title: "Раздел 2" },
-    { id: "section_c", title: "Раздел 3" }
+const SECTIONS = [
+    { id: 'intro',     title: 'Введение' },
+    { id: 'section_a', title: 'Раздел 1' },
+    { id: 'section_b', title: 'Раздел 2' },
+    { id: 'section_c', title: 'Раздел 3' }
 ];
 
-let langMode = localStorage.getItem("langMode") || "ru";
-const langSelect = document.getElementById("langMode");
-const container = document.getElementById("lesson-container");
+// ===== STATE =====
 
-langSelect.addEventListener("change", function () {
-    langMode = this.value;
-    localStorage.setItem("langMode", langMode);
-    if (currentSectionId) {
-        loadSection(currentSectionId);
-    }
+let currentId = null;
+let langMode = localStorage.getItem('langMode') || 'ru';
+let state = { completedSections: [] };
+
+// ===== DOM REFS =====
+
+const sidebarMenu   = document.getElementById('sidebar-menu');
+const contentArea   = document.getElementById('content');
+const progressFill  = document.getElementById('progress-fill');
+const progressPct   = document.getElementById('progress-percent');
+const langSelect    = document.getElementById('lang-select');
+
+// ===== INIT =====
+
+document.addEventListener('DOMContentLoaded', function () {
+    loadProgress();
+    langSelect.value = langMode;
+    renderSidebar();
+    loadSection('intro');
+    updateProgressBar();
+
+    langSelect.addEventListener('change', function () {
+        langMode = this.value;
+        localStorage.setItem('langMode', langMode);
+        if (currentId) loadSection(currentId);
+    });
 });
 
-
-// =============================
-// STATE
-// =============================
-
-let currentSectionId = null;
-
-let state = {
-    completedSections: []
-};
-
-// =============================
-// DOM
-// =============================
-
-const contentContainer = container;
-const sidebarMenu = document.getElementById("sidebar-menu");
-const progressFill = document.getElementById("progress-fill");
-const progressPercent = document.getElementById("progress-percent");
-
-// =============================
-// INIT
-// =============================
-
-document.addEventListener("DOMContentLoaded", init);
-
-function init() {
-    langSelect.value = langMode;
-    loadProgress();
-    renderSidebar();
-    loadSection("intro");
-    updateProgressBar();
-}
-
-// =============================
-// SIDEBAR
-// =============================
+// ===== SIDEBAR =====
 
 function renderSidebar() {
+    sidebarMenu.innerHTML = '';
 
-    sidebarMenu.innerHTML = "";
-
-    sectionsList.forEach((section, index) => {
-
-        const li = document.createElement("li");
+    SECTIONS.forEach(function (section, index) {
+        const li = document.createElement('li');
         li.textContent = section.title;
 
-        // ===== ЛОГИКА БЛОКИРОВКИ =====
-
-        if (section.id !== "intro" && section.id !== "section_a") {
-
-            const prevSection = sectionsList[index - 1];
-
-            if (!state.completedSections.includes(prevSection.id)) {
-                li.classList.add("locked");
+        // Locking: intro and section_a are always accessible.
+        // Each subsequent section requires the previous one to be completed.
+        if (index >= 2) {
+            const prevId = SECTIONS[index - 1].id;
+            if (!state.completedSections.includes(prevId)) {
+                li.classList.add('locked');
             }
         }
 
-        // ===== ЗАВЕРШЁН =====
-
         if (state.completedSections.includes(section.id)) {
-            li.classList.add("completed");
+            li.classList.add('completed');
         }
 
-        // ===== АКТИВНЫЙ =====
-
-        if (section.id === currentSectionId) {
-            li.classList.add("active");
+        if (section.id === currentId) {
+            li.classList.add('active');
         }
 
-        li.addEventListener("click", () => {
-            if (!li.classList.contains("locked")) {
+        li.addEventListener('click', function () {
+            if (!li.classList.contains('locked')) {
                 loadSection(section.id);
             }
         });
@@ -101,224 +73,241 @@ function renderSidebar() {
     });
 }
 
-// =============================
-// LOAD SECTION
-// =============================
+// ===== LOAD SECTION =====
 
 async function loadSection(id) {
+    currentId = id;
 
-  currentSectionId = id;
+    // Determine translation language folder
+    const transFolder = langMode === 'uk' || langMode === 'ru-uk' ? 'uk'
+                      : langMode === 'de' || langMode === 'ru-de' ? 'de'
+                      : null;
 
-  let basePath = "sections/";
-  let translationPath = "";
+    // Always load base (Russian)
+    const baseData = await fetch('sections/' + id + '.json').then(function (r) {
+        return r.json();
+    });
 
-  if (langMode === "uk" || langMode === "ru-uk") {
-    translationPath = "translations/uk/";
-  }
-
-  if (langMode === "de" || langMode === "ru-de") {
-    translationPath = "translations/de/";
-  }
-
-  const baseData = await fetch(`${basePath}${id}.json`).then(res => res.json());
-
-  let translatedData = null;
-
-  if (translationPath) {
-    try {
-      translatedData = await fetch(`${translationPath}${id}.json`).then(res => res.json());
-    } catch {
-      translatedData = null;
+    // Try to load translation if needed
+    let transData = null;
+    if (transFolder) {
+        try {
+            transData = await fetch('translations/' + transFolder + '/' + id + '.json')
+                .then(function (r) { return r.json(); });
+        } catch (e) {
+            transData = null;
+        }
     }
-  }
 
-  renderSection(baseData, translatedData);
+    renderSection(baseData, transData);
+    renderSidebar();
+    updateProgressBar();
 }
 
-// =============================
-// RENDER SECTION
-// =============================
-function renderSection(baseData, translatedData) {
+// ===== RENDER SECTION =====
 
-  container.innerHTML = "";
+function renderSection(baseData, transData) {
+    contentArea.innerHTML = '';
 
-  const wrapper = document.createElement("div");
-  wrapper.classList.add("multilang-container");
+    const isDual = langMode.includes('-');
 
-  if (langMode.includes("-")) {
-    wrapper.classList.add("two-cols");
-  }
+    if (isDual) {
+        // Two-column: Russian on left, translation on right
+        const wrapper = document.createElement('div');
+        wrapper.className = 'lang-dual';
 
-  const primaryCol = document.createElement("div");
-  primaryCol.classList.add("lang-column");
+        const leftCol = document.createElement('div');
+        leftCol.className = 'lang-col';
+        renderTitle(leftCol, baseData.title);
+        renderContentBlocks(leftCol, baseData.content);
 
-  renderContentBlocks(primaryCol, baseData);
+        const rightCol = document.createElement('div');
+        rightCol.className = 'lang-col lang-col-right';
+        const rightData = transData || baseData;
+        renderTitle(rightCol, rightData.title);
+        renderContentBlocks(rightCol, rightData.content);
 
-  wrapper.appendChild(primaryCol);
+        wrapper.appendChild(leftCol);
+        wrapper.appendChild(rightCol);
+        contentArea.appendChild(wrapper);
 
-  if (langMode !== "ru" && translatedData) {
+        // Sources and quiz from base (Russian) in dual mode
+        if (baseData.sources) renderSources(baseData.sources);
+        if (baseData.quiz)    renderQuiz(baseData);
 
-    const secondaryCol = document.createElement("div");
-    secondaryCol.classList.add("lang-column", "secondary");
+    } else {
+        // Single column
+        // For non-Russian modes: use translation if available, else fall back to base
+        const displayData = (langMode !== 'ru' && transData) ? transData : baseData;
 
-    renderContentBlocks(secondaryCol, translatedData);
+        const col = document.createElement('div');
+        col.className = 'lang-col';
+        renderTitle(col, displayData.title);
+        renderContentBlocks(col, displayData.content);
+        contentArea.appendChild(col);
 
-    wrapper.appendChild(secondaryCol);
-  }
-
-  container.appendChild(wrapper);
-
-  if (baseData.sources) {
-    renderSources(baseData.sources);
-  }
-
-  if (baseData.quiz) {
-    renderQuiz(baseData);
-  }
+        if (displayData.sources) renderSources(displayData.sources);
+        if (displayData.quiz)    renderQuiz(displayData);
+    }
 }
 
-// =============================
-// SOURCES
-// =============================
+// ===== RENDER TITLE =====
+
+function renderTitle(container, title) {
+    if (!title) return;
+    const h2 = document.createElement('h2');
+    h2.className = 'section-title';
+    h2.textContent = title;
+    container.appendChild(h2);
+}
+
+// ===== RENDER CONTENT BLOCKS =====
+
+function renderContentBlocks(container, blocks) {
+    if (!blocks) return;
+    blocks.forEach(function (block) {
+        if (block.type === 'paragraph') {
+            const p = document.createElement('p');
+            p.textContent = block.text;
+            container.appendChild(p);
+        } else if (block.type === 'quote') {
+            const bq = document.createElement('blockquote');
+            bq.textContent = block.text;
+            container.appendChild(bq);
+        }
+    });
+}
+
+// ===== RENDER SOURCES =====
 
 function renderSources(sources) {
+    sources.forEach(function (source) {
+        const block = document.createElement('div');
+        block.className = 'source-block';
 
-    sources.forEach(source => {
-
-        const block = document.createElement("div");
-        block.classList.add("source-block");
-
-        const header = document.createElement("div");
-        header.classList.add("source-header");
+        const header = document.createElement('div');
+        header.className = 'source-header';
         header.textContent = source.title;
 
-        const body = document.createElement("div");
-        body.classList.add("source-body");
+        const body = document.createElement('div');
+        body.className = 'source-body';
         body.textContent = source.text;
 
-        header.addEventListener("click", () => {
-            body.classList.toggle("open");
+        header.addEventListener('click', function () {
+            body.classList.toggle('open');
+            block.classList.toggle('open');
         });
 
         block.appendChild(header);
         block.appendChild(body);
-
-        contentContainer.appendChild(block);
+        contentArea.appendChild(block);
     });
 }
 
-// =============================
-// QUIZ
-// =============================
+// ===== RENDER QUIZ =====
 
-function renderQuiz(section) {
+function renderQuiz(sectionData) {
+    const card = document.createElement('section');
+    card.className = 'quiz-card';
 
-    const quizCard = document.createElement("section");
-    quizCard.classList.add("quiz-card");
+    const header = document.createElement('div');
+    header.className = 'quiz-header';
+    header.textContent = 'Проверь понимание';
 
-    const header = document.createElement("div");
-    header.classList.add("quiz-header");
-    header.textContent = "Проверь понимание";
+    const body = document.createElement('div');
+    body.className = 'quiz-body open';
 
-    const body = document.createElement("div");
-    body.classList.add("quiz-body", "open");
-
-    header.addEventListener("click", () => {
-        body.classList.toggle("open");
+    header.addEventListener('click', function () {
+        body.classList.toggle('open');
     });
 
-    quizCard.appendChild(header);
-    quizCard.appendChild(body);
+    card.appendChild(header);
+    card.appendChild(body);
 
-    section.quiz.questions.forEach((q, qIndex) => {
+    // Render each question
+    sectionData.quiz.questions.forEach(function (q, qIndex) {
+        const qDiv = document.createElement('div');
+        qDiv.className = 'question';
 
-        const questionDiv = document.createElement("div");
-        questionDiv.classList.add("question");
-
-        const p = document.createElement("p");
+        const p = document.createElement('p');
         p.textContent = q.question;
-        questionDiv.appendChild(p);
+        qDiv.appendChild(p);
 
-        q.options.forEach(option => {
-
-            const label = document.createElement("label");
-
-            const input = document.createElement("input");
-            input.type = "radio";
-            input.name = "question_" + qIndex;
-            input.dataset.correct = option.correct;
-
+        q.options.forEach(function (option) {
+            const label = document.createElement('label');
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.name = 'q_' + qIndex;
+            input.dataset.correct = option.correct ? 'true' : 'false';
             label.appendChild(input);
-            label.appendChild(document.createTextNode(option.text));
-
-            questionDiv.appendChild(label);
+            label.appendChild(document.createTextNode(' ' + option.text));
+            qDiv.appendChild(label);
         });
 
-        body.appendChild(questionDiv);
+        body.appendChild(qDiv);
     });
 
-    const result = document.createElement("div");
-    result.classList.add("quiz-result");
+    // Result message
+    const result = document.createElement('div');
+    result.className = 'quiz-result';
     body.appendChild(result);
 
-    const button = document.createElement("button");
-    button.classList.add("quiz-button");
-    button.textContent = "Ответить";
+    // Submit button
+    const btn = document.createElement('button');
+    btn.className = 'quiz-submit';
+    btn.textContent = 'Ответить';
+    btn.addEventListener('click', function () {
+        checkQuiz(sectionData.id, card);
+    });
+    body.appendChild(btn);
 
-    button.addEventListener("click", () => checkQuiz(section.id, quizCard));
+    contentArea.appendChild(card);
 
-    body.appendChild(button);
-
-    contentContainer.appendChild(quizCard);
-
-    if (state.completedSections.includes(section.id)) {
-        body.classList.remove("open");
-        result.textContent = "Раздел уже завершён.";
-        result.style.color = "green";
+    // If section already completed — collapse and show message
+    if (state.completedSections.includes(sectionData.id)) {
+        body.classList.remove('open');
+        result.textContent = 'Раздел уже завершён.';
+        result.style.color = 'green';
     }
 }
 
-// =============================
-// CHECK QUIZ
-// =============================
+// ===== CHECK QUIZ =====
 
-function checkQuiz(sectionId, quizCard) {
-
-    const questions = quizCard.querySelectorAll(".question");
-    const result = quizCard.querySelector(".quiz-result");
-
+function checkQuiz(sectionId, card) {
+    const questions = card.querySelectorAll('.question');
+    const result = card.querySelector('.quiz-result');
     let allCorrect = true;
 
-    questions.forEach(question => {
+    questions.forEach(function (qDiv) {
+        const inputs = qDiv.querySelectorAll('input');
 
-        const inputs = question.querySelectorAll("input");
-
-        inputs.forEach(input => {
-            input.parentElement.style.color = "";
+        // Reset colors
+        inputs.forEach(function (inp) {
+            inp.parentElement.style.color = '';
         });
 
-        const checked = question.querySelector("input:checked");
+        const checked = qDiv.querySelector('input:checked');
 
-        if (!checked || checked.dataset.correct !== "true") {
+        if (!checked || checked.dataset.correct !== 'true') {
             allCorrect = false;
         }
 
-        inputs.forEach(input => {
-            if (input.dataset.correct === "true") {
-                input.parentElement.style.color = "green";
+        // Highlight correct answer green
+        inputs.forEach(function (inp) {
+            if (inp.dataset.correct === 'true') {
+                inp.parentElement.style.color = 'green';
             }
         });
 
-        if (checked && checked.dataset.correct !== "true") {
-            checked.parentElement.style.color = "red";
+        // Highlight wrong selection red
+        if (checked && checked.dataset.correct !== 'true') {
+            checked.parentElement.style.color = 'red';
         }
-
     });
 
     if (allCorrect) {
-
-        result.textContent = "Все ответы верны. Раздел завершён.";
-        result.style.color = "green";
+        result.textContent = 'Все ответы верны. Раздел завершён.';
+        result.style.color = 'green';
 
         if (!state.completedSections.includes(sectionId)) {
             state.completedSections.push(sectionId);
@@ -328,63 +317,34 @@ function checkQuiz(sectionId, quizCard) {
         updateProgressBar();
         renderSidebar();
 
-        const body = quizCard.querySelector(".quiz-body");
-        body.classList.remove("open");
+        card.querySelector('.quiz-body').classList.remove('open');
 
     } else {
-        result.textContent = "Есть ошибки. Попробуйте снова.";
-        result.style.color = "red";
+        result.textContent = 'Есть ошибки. Попробуйте снова.';
+        result.style.color = 'red';
     }
 }
 
-// =============================
-// PROGRESS
-// =============================
+// ===== PROGRESS BAR =====
 
 function updateProgressBar() {
-
-    // Считаем только разделы, где есть квиз
-    const quizSections = sectionsList.filter(section => section.id !== "intro");
-
+    const quizSections = SECTIONS.filter(function (s) { return s.id !== 'intro'; });
     const total = quizSections.length;
-    const completed = state.completedSections.length;
-
-    const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
-
-    progressFill.style.width = percent + "%";
-    progressPercent.textContent = percent + "%";
+    const done = state.completedSections.length;
+    const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+    progressFill.style.width = pct + '%';
+    progressPct.textContent = pct + '%';
 }
 
-// =============================
-// STORAGE
-// =============================
+// ===== STORAGE =====
 
 function loadProgress() {
-    const saved = localStorage.getItem("lessonProgress");
+    const saved = localStorage.getItem('lessonProgress');
     if (saved) {
         state = JSON.parse(saved);
     }
 }
 
 function saveProgress() {
-    localStorage.setItem("lessonProgress", JSON.stringify(state));
-                    }
-function renderContentBlocks(container, data) {
-
-  data.content.forEach(block => {
-
-    if (block.type === "paragraph") {
-      const p = document.createElement("p");
-      p.textContent = block.text;
-      container.appendChild(p);
-    }
-
-    if (block.type === "quote") {
-      const q = document.createElement("blockquote");
-      q.textContent = block.text;
-      container.appendChild(q);
-    }
-
-  });
-
+    localStorage.setItem('lessonProgress', JSON.stringify(state));
 }

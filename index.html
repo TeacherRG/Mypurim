@@ -4,35 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Праздник Пурим — Интерактивный урок</title>
-
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-    <!-- Main Styles -->
     <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
 
-    <!-- ================= HEADER ================= -->
-
-    <header class="main-header">
-
+    <!-- HEADER -->
+    <header class="site-header">
         <div class="header-left">
-            <h1 id="lesson-title">Праздник Пурим</h1>
-            <p id="lesson-subtitle">Интерактивный учебный модуль</p>
+            <h1>Праздник Пурим</h1>
+            <p>Интерактивный учебный модуль</p>
         </div>
-
         <div class="header-right">
-
-            <select id="langMode" class="lang-select">
+            <select id="lang-select" class="lang-select">
                 <option value="ru">Русский</option>
                 <option value="uk">Українська</option>
                 <option value="de">Deutsch</option>
                 <option value="ru-uk">RU + UA</option>
                 <option value="ru-de">RU + DE</option>
             </select>
-
             <div class="progress-wrapper">
                 <div class="progress-label">
                     <span id="progress-percent">0%</span> завершено
@@ -41,90 +31,40 @@
                     <div class="progress-fill" id="progress-fill"></div>
                 </div>
             </div>
-
         </div>
-
     </header>
 
-    <!-- ================= MAIN LAYOUT ================= -->
-
+    <!-- LAYOUT -->
     <div class="layout">
 
-        <!-- ========== SIDEBAR ========== -->
-
+        <!-- SIDEBAR -->
         <aside class="sidebar">
-            <div class="sidebar-title">
-                Структура урока
-            </div>
-            <ul id="sidebar-menu">
-                <!-- Заполняется через JS -->
-            </ul>
+            <div class="sidebar-title">Структура урока</div>
+            <ul id="sidebar-menu"></ul>
         </aside>
 
-        <!-- ========== CONTENT ========== -->
-
-        <main class="content">
-
-            <!-- ЯЗЫКОВОЙ КОНТЕЙНЕР -->
-            <div class="lesson-container single" id="lesson-container">
-
-                <!-- РУССКИЙ -->
-                <div class="lesson-column lang-ru active">
-                    <!-- Русский контент будет рендериться сюда -->
-                </div>
-
-                <!-- УКРАИНСКИЙ -->
-                <div class="lesson-column lang-uk">
-                    <!-- Український контент -->
-                </div>
-
-                <!-- НЕМЕЦКИЙ -->
-                <div class="lesson-column lang-de">
-                    <!-- Deutscher Inhalt -->
-                </div>
-
-            </div>
-
-        </main>
+        <!-- MAIN CONTENT -->
+        <main class="content" id="content"></main>
 
     </div>
 
-    <!-- ================= FOOTER ================= -->
-
-    <footer class="footer">
+    <!-- FOOTER -->
+    <footer class="site-footer">
         <div class="footer-inner">
-
             <p>
                 Перевод и адаптация на русском языке: <strong>Рав Реувен Гринберг</strong><br>
-                Электронная почта:
-                <a href="mailto:kosherletter@gmail.com">kosherletter@gmail.com</a><br>
+                Электронная почта: <a href="mailto:kosherletter@gmail.com">kosherletter@gmail.com</a><br>
                 При участии искусственного интеллекта ChatGPT (OpenAI)
             </p>
-
-            <br>
-
-            <p>
-                © 2026 Shluchim Office International. Все права защищены.
-            </p>
-
-            <p>
-                По дополнительным вопросам:
-                <a href="mailto:info@jewishinsights.org">info@jewishinsights.org</a>
-            </p>
-
+            <p>© 2026 Shluchim Office International. Все права защищены.</p>
+            <p>По дополнительным вопросам: <a href="mailto:info@jewishinsights.org">info@jewishinsights.org</a></p>
             <p>
                 Для загрузки дополнительных учебных материалов посетите сайт:<br>
-                <a href="https://www.jewishinsights.org" target="_blank">
-                    www.jewishinsights.org
-                </a>
+                <a href="https://www.jewishinsights.org" target="_blank">www.jewishinsights.org</a>
             </p>
-
         </div>
     </footer>
 
-    <!-- ================= SCRIPTS ================= -->
-
     <script src="app.js"></script>
-
 </body>
 </html>

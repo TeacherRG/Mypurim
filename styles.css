@@ -1,4 +1,4 @@
-/* ================= RESET ================= */
+/* ===== RESET ===== */
 
 * {
     margin: 0;
@@ -6,24 +6,24 @@
     box-sizing: border-box;
 }
 
-/* ================= GLOBAL ================= */
+/* ===== GLOBAL ===== */
 
 body {
     font-family: 'Inter', sans-serif;
     background: linear-gradient(135deg, #1e1f3a, #2c2f6a);
-    color: white;
+    color: #fff;
     min-height: 100vh;
 }
 
-/* ================= HEADER ================= */
+/* ===== HEADER ===== */
 
-.main-header {
+.site-header {
     display: flex;
     align-items: center;
-    padding: 30px 50px;
-    background: rgba(255,255,255,0.05);
+    padding: 28px 50px;
+    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .header-left {
@@ -42,27 +42,27 @@ body {
 }
 
 .header-right {
-    margin-left: auto;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 14px;
 }
 
-/* ================= LANGUAGE SELECT ================= */
+/* ===== LANGUAGE SELECT ===== */
 
 .lang-select {
     padding: 8px 14px;
     border-radius: 8px;
     border: none;
     font-size: 14px;
-    background: white;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    background: #fff;
     color: #333;
     cursor: pointer;
-    font-weight: 500;
 }
 
-/* ================= PROGRESS ================= */
+/* ===== PROGRESS BAR ===== */
 
 .progress-wrapper {
     width: 220px;
@@ -78,7 +78,7 @@ body {
 .progress-bar {
     width: 100%;
     height: 8px;
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     overflow: hidden;
 }
@@ -90,25 +90,26 @@ body {
     transition: width 0.4s ease;
 }
 
-/* ================= LAYOUT ================= */
+/* ===== LAYOUT ===== */
 
 .layout {
     display: flex;
     min-height: calc(100vh - 140px);
 }
 
-/* ================= SIDEBAR ================= */
+/* ===== SIDEBAR ===== */
 
 .sidebar {
     width: 260px;
-    background: rgba(0,0,0,0.25);
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.25);
     padding: 30px;
 }
 
 .sidebar-title {
+    font-size: 16px;
     font-weight: 600;
     margin-bottom: 20px;
-    font-size: 16px;
 }
 
 .sidebar ul {
@@ -119,7 +120,8 @@ body {
     margin-bottom: 12px;
     cursor: pointer;
     opacity: 0.85;
-    transition: 0.2s;
+    transition: opacity 0.2s, transform 0.2s;
+    font-size: 15px;
 }
 
 .sidebar li:hover {
@@ -127,59 +129,274 @@ body {
     transform: translateX(5px);
 }
 
-/* ================= CONTENT ================= */
+.sidebar li.active {
+    color: #ffcc00;
+    font-weight: 600;
+    opacity: 1;
+}
+
+.sidebar li.completed::after {
+    content: " ✓";
+    color: #ffcc00;
+}
+
+.sidebar li.locked {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.sidebar li.locked:hover {
+    opacity: 0.35;
+    transform: none;
+}
+
+/* ===== CONTENT AREA ===== */
 
 .content {
     flex: 1;
     padding: 50px;
-    background: white;
+    background: #fff;
     color: #333;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
+    min-width: 0;
 }
 
-/* ================= LANGUAGE SYSTEM ================= */
+/* ===== SECTION TITLE ===== */
 
-.lesson-container {
-    width: 100%;
+.section-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1e1f3a;
+    margin-bottom: 24px;
+    line-height: 1.4;
+}
+
+/* ===== DUAL LANGUAGE LAYOUT ===== */
+
+.lang-dual {
     display: flex;
     gap: 40px;
 }
 
-/* Одна колонка */
-.lesson-container.single .lesson-column {
-    width: 100%;
+.lang-col {
+    flex: 1;
+    min-width: 0;
 }
 
-/* Две колонки */
-.lesson-container.double .lesson-column {
-    width: 50%;
+.lang-col-right {
+    border-left: 2px solid #e0e4f0;
+    padding-left: 36px;
 }
 
-/* Все языки скрыты по умолчанию */
-.lesson-column {
+/* ===== PARAGRAPHS AND QUOTES ===== */
+
+.lang-col p {
+    margin-bottom: 16px;
+    font-size: 15px;
+    line-height: 1.75;
+    color: #333;
+}
+
+.lang-col blockquote {
+    margin: 20px 0;
+    padding: 14px 20px;
+    border-left: 4px solid #ffcc00;
+    background: #fffbee;
+    border-radius: 4px;
+    font-style: italic;
+    color: #444;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* ===== SOURCE BLOCKS ===== */
+
+.source-block {
+    margin-top: 18px;
+    border: 1px solid #e0e4f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.source-header {
+    padding: 12px 18px;
+    background: #f0f3fb;
+    color: #1e1f3a;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.source-header::after {
+    content: "▸";
+    font-size: 12px;
+    opacity: 0.5;
+    transition: transform 0.2s;
+}
+
+.source-block.open .source-header::after {
+    transform: rotate(90deg);
+}
+
+.source-body {
     display: none;
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #444;
+    border-top: 1px solid #e0e4f0;
 }
 
-/* Активные показываются */
-.lesson-column.active {
+.source-body.open {
     display: block;
 }
 
-/* ================= FOOTER ================= */
+/* ===== QUIZ CARD ===== */
 
-.footer {
+.quiz-card {
+    margin-top: 34px;
+    border: 1px solid #e0e4f0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.quiz-header {
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #1e1f3a, #2c2f6a);
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.quiz-body {
+    display: none;
+    padding: 22px;
+}
+
+.quiz-body.open {
+    display: block;
+}
+
+.question {
+    margin-bottom: 22px;
+}
+
+.question p {
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #1e1f3a;
+}
+
+.question label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #444;
+}
+
+.question label input {
+    margin-right: 8px;
+}
+
+.quiz-result {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    min-height: 20px;
+}
+
+.quiz-submit {
+    padding: 10px 26px;
+    background: linear-gradient(135deg, #ffcc00, #ff8800);
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #1e1f3a;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.quiz-submit:hover {
+    opacity: 0.85;
+}
+
+/* ===== FOOTER ===== */
+
+.site-footer {
     background: #11132a;
     padding: 40px 20px;
     text-align: center;
     font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
 }
 
-.footer a {
+.footer-inner p {
+    margin-bottom: 10px;
+}
+
+.site-footer a {
     color: #ffcc00;
     text-decoration: none;
 }
 
-.footer a:hover {
+.site-footer a:hover {
     text-decoration: underline;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+    .site-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 20px;
+    }
+
+    .header-right {
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .progress-wrapper {
+        width: 100%;
+        text-align: left;
+    }
+
+    .layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .content {
+        padding: 24px;
+        border-radius: 0;
+    }
+
+    .lang-dual {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .lang-col-right {
+        border-left: none;
+        padding-left: 0;
+        border-top: 2px solid #e0e4f0;
+        padding-top: 24px;
+    }
 }

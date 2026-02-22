@@ -14,44 +14,11 @@ const langSelect = document.getElementById("langMode");
 const container = document.getElementById("lesson-container");
 
 langSelect.addEventListener("change", function () {
-
-    const value = this.value;
-
-    const ru = document.querySelector(".lang-ru");
-    const uk = document.querySelector(".lang-uk");
-    const de = document.querySelector(".lang-de");
-
-    ru.classList.remove("active");
-    uk.classList.remove("active");
-    de.classList.remove("active");
-
-    if (value === "ru") {
-        container.className = "lesson-container single";
-        ru.classList.add("active");
+    langMode = this.value;
+    localStorage.setItem("langMode", langMode);
+    if (currentSectionId) {
+        loadSection(currentSectionId);
     }
-
-    if (value === "uk") {
-        container.className = "lesson-container single";
-        uk.classList.add("active");
-    }
-
-    if (value === "de") {
-        container.className = "lesson-container single";
-        de.classList.add("active");
-    }
-
-    if (value === "ru-uk") {
-        container.className = "lesson-container double";
-        ru.classList.add("active");
-        uk.classList.add("active");
-    }
-
-    if (value === "ru-de") {
-        container.className = "lesson-container double";
-        ru.classList.add("active");
-        de.classList.add("active");
-    }
-
 });
 
 
@@ -69,7 +36,7 @@ let state = {
 // DOM
 // =============================
 
-const contentContainer = document.getElementById("content");
+const contentContainer = container;
 const sidebarMenu = document.getElementById("sidebar-menu");
 const progressFill = document.getElementById("progress-fill");
 const progressPercent = document.getElementById("progress-percent");
@@ -81,6 +48,7 @@ const progressPercent = document.getElementById("progress-percent");
 document.addEventListener("DOMContentLoaded", init);
 
 function init() {
+    langSelect.value = langMode;
     loadProgress();
     renderSidebar();
     loadSection("intro");
@@ -172,7 +140,7 @@ async function loadSection(id) {
 // =============================
 function renderSection(baseData, translatedData) {
 
-  content.innerHTML = "";
+  container.innerHTML = "";
 
   const wrapper = document.createElement("div");
   wrapper.classList.add("multilang-container");
@@ -198,7 +166,15 @@ function renderSection(baseData, translatedData) {
     wrapper.appendChild(secondaryCol);
   }
 
-  content.appendChild(wrapper);
+  container.appendChild(wrapper);
+
+  if (baseData.sources) {
+    renderSources(baseData.sources);
+  }
+
+  if (baseData.quiz) {
+    renderQuiz(baseData);
+  }
 }
 
 // =============================

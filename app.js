@@ -138,43 +138,35 @@ async function loadSection(id) {
 // =============================
 // RENDER SECTION
 // =============================
+function renderSection(baseData, translatedData) {
 
-function renderSection(section) {
+  content.innerHTML = "";
 
-    contentContainer.innerHTML = "";
+  const wrapper = document.createElement("div");
+  wrapper.classList.add("multilang-container");
 
-    const card = document.createElement("section");
-    card.classList.add("lesson-card");
+  if (langMode.includes("-")) {
+    wrapper.classList.add("two-cols");
+  }
 
-    const title = document.createElement("h2");
-    title.textContent = section.title;
-    card.appendChild(title);
+  const primaryCol = document.createElement("div");
+  primaryCol.classList.add("lang-column");
 
-    section.content.forEach(block => {
+  renderContentBlocks(primaryCol, baseData);
 
-        if (block.type === "paragraph") {
-            const p = document.createElement("p");
-            p.textContent = block.text;
-            card.appendChild(p);
-        }
+  wrapper.appendChild(primaryCol);
 
-        if (block.type === "quote") {
-            const q = document.createElement("blockquote");
-            q.textContent = block.text;
-            card.appendChild(q);
-        }
+  if (langMode !== "ru" && translatedData) {
 
-    });
+    const secondaryCol = document.createElement("div");
+    secondaryCol.classList.add("lang-column", "secondary");
 
-    contentContainer.appendChild(card);
+    renderContentBlocks(secondaryCol, translatedData);
 
-    if (section.sources) {
-        renderSources(section.sources);
-    }
+    wrapper.appendChild(secondaryCol);
+  }
 
-    if (section.quiz) {
-        renderQuiz(section);
-    }
+  content.appendChild(wrapper);
 }
 
 // =============================

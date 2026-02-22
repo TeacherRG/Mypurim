@@ -12,7 +12,7 @@
     <!-- HEADER -->
     <header class="site-header">
         <div class="header-top-row">
-            <h1 class="header-main-title">Пурим — праздник еврейского народа, семьи и детей</h1>
+            <h1 class="header-main-title" data-i18n="headerTitle">Пурим — праздник еврейского народа, семьи и детей</h1>
             <div class="header-controls">
                 <select id="lang-select" class="lang-select">
                     <option value="ru">Русский</option>
@@ -23,7 +23,7 @@
                 </select>
                 <div class="progress-wrapper">
                     <div class="progress-label">
-                        <span id="progress-percent">0%</span> завершено
+                        <span id="progress-percent">0%</span> <span data-i18n="progressLabel">завершено</span>
                     </div>
                     <div class="progress-bar">
                         <div class="progress-fill" id="progress-fill"></div>
@@ -33,7 +33,7 @@
         </div>
         <div class="header-dedication-bar">
             <span class="dedication-ornament">✦</span>
-            <p class="header-dedication">Посвящается юбилею семьи Гринберг и её детям — Йосеф Ицхаку, Шейне, Аарону и Рахель</p>
+            <p class="header-dedication" data-i18n="dedication">Посвящается юбилею семьи Гринберг и её детям — Йосеф Ицхаку, Шейне, Аарону и Рахель</p>
             <span class="dedication-ornament">✦</span>
         </div>
     </header>
@@ -43,7 +43,7 @@
 
         <!-- SIDEBAR -->
         <aside class="sidebar">
-            <div class="sidebar-title">Структура урока</div>
+            <div class="sidebar-title" data-i18n="sidebarTitle">Структура урока</div>
             <ul id="sidebar-menu"></ul>
         </aside>
 
@@ -56,19 +56,20 @@
     <footer class="site-footer">
         <div class="footer-inner">
             <p>
-                Перевод и адаптация на русском языке: <strong>Рав Реувен Гринберг</strong><br>
+                <span data-i18n="footerTranslation">Перевод и адаптация на русском языке:</span> <strong>Рав Реувен Гринберг</strong><br>
                 Электронная почта: <a href="mailto:kosherletter@gmail.com">kosherletter@gmail.com</a><br>
-                При участии искусственного интеллекта ChatGPT (OpenAI)
+                <span data-i18n="footerAI">При участии искусственного интеллекта ChatGPT (OpenAI)</span>
             </p>
-            <p>© 2026 Shluchim Office International. Все права защищены.</p>
-            <p>По дополнительным вопросам: <a href="mailto:info@jewishinsights.org">info@jewishinsights.org</a></p>
+            <p data-i18n="footerCopyright">© 2026 Shluchim Office International. Все права защищены.</p>
+            <p><span data-i18n="footerContact">По дополнительным вопросам:</span> <a href="mailto:info@jewishinsights.org">info@jewishinsights.org</a></p>
             <p>
-                Для загрузки дополнительных учебных материалов посетите сайт:<br>
+                <span data-i18n="footerMaterials">Для загрузки дополнительных учебных материалов посетите сайт:</span><br>
                 <a href="https://www.jewishinsights.org" target="_blank">www.jewishinsights.org</a>
             </p>
         </div>
     </footer>
 
+    <script src="i18n.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

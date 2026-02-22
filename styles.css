@@ -1,29 +1,4 @@
-/* =============================
-   ROOT VARIABLES
-============================= */
-
-:root {
-    --primary: #5e2b97;
-    --primary-light: #8e5cc2;
-    --primary-soft: #f3e9fb;
-
-    --background: #f7f8fc;
-    --card-bg: #ffffff;
-
-    --text-main: #1f1f1f;
-    --text-muted: #6b7280;
-
-    --border: #e6e8f0;
-
-    --success: #2e7d32;
-    --danger: #c62828;
-
-    --shadow-soft: 0 6px 20px rgba(0, 0, 0, 0.05);
-}
-
-/* =============================
-   GLOBAL RESET
-============================= */
+/* ================= RESET ================= */
 
 * {
     margin: 0;
@@ -31,93 +6,111 @@
     box-sizing: border-box;
 }
 
+/* ================= GLOBAL ================= */
+
 body {
     font-family: 'Inter', sans-serif;
-    background: var(--background);
-    color: var(--text-main);
-    line-height: 1.6;
-}
-
-/* =============================
-   HEADER
-============================= */
-
-.header {
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    background: linear-gradient(135deg, #1e1f3a, #2c2f6a);
     color: white;
-    padding: 28px 40px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    box-shadow: var(--shadow-soft);
+    min-height: 100vh;
 }
 
-.header h1 {
-    font-size: 22px;
+/* ================= HEADER ================= */
+
+.main-header {
+    display: flex;
+    align-items: center;
+    padding: 30px 50px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Левый блок занимает всё свободное место */
+.header-left {
+    flex: 1;
+}
+
+.header-left h1 {
+    font-size: 28px;
     font-weight: 600;
 }
 
-.header p {
+.header-left p {
+    margin-top: 6px;
     font-size: 14px;
-    opacity: 0.9;
+    opacity: 0.85;
 }
 
-/* Progress */
+/* Правый блок ЖЁСТКО вправо */
+.header-right {
+    margin-left: auto; /* ← ключевой момент */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 14px;
+}
+
+/* ================= LANGUAGE SELECT ================= */
+
+.lang-select {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* ================= PROGRESS ================= */
 
 .progress-wrapper {
     width: 220px;
+    text-align: right;
 }
 
 .progress-label {
-    font-size: 13px;
+    font-size: 12px;
     margin-bottom: 6px;
-    text-align: right;
+    opacity: 0.9;
 }
 
 .progress-bar {
     width: 100%;
     height: 8px;
-    background: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.2);
     border-radius: 10px;
     overflow: hidden;
 }
 
 .progress-fill {
-    height: 100%;
     width: 0%;
-    background: white;
+    height: 100%;
+    background: linear-gradient(90deg, #ffcc00, #ff8800);
     transition: width 0.4s ease;
 }
 
-/* =============================
-   LAYOUT
-============================= */
+/* ================= LAYOUT ================= */
 
 .layout {
     display: flex;
-    min-height: calc(100vh - 120px);
+    min-height: calc(100vh - 140px);
 }
 
-/* =============================
-   SIDEBAR
-============================= */
+/* ================= SIDEBAR ================= */
 
 .sidebar {
-    width: 250px;
-    background: white;
-    border-right: 1px solid var(--border);
-    padding: 30px 20px;
+    width: 260px;
+    background: rgba(0,0,0,0.25);
+    padding: 30px;
 }
 
 .sidebar-title {
-    font-size: 14px;
     font-weight: 600;
     margin-bottom: 20px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-size: 16px;
 }
 
 .sidebar ul {
@@ -125,261 +118,42 @@ body {
 }
 
 .sidebar li {
-    padding: 12px 14px;
-    border-radius: 8px;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 14px;
+    opacity: 0.85;
+    transition: 0.2s;
 }
 
 .sidebar li:hover {
-    background: #f2f4fa;
+    opacity: 1;
+    transform: translateX(5px);
 }
 
-.sidebar li.active {
-    background: var(--primary);
-    color: white;
-}
-
-.sidebar li.locked {
-    color: var(--text-muted);
-    cursor: not-allowed;
-}
-
-.sidebar li.completed {
-    background: var(--primary-soft);
-    color: var(--primary);
-    font-weight: 500;
-}
-
-/* =============================
-   CONTENT
-============================= */
+/* ================= CONTENT ================= */
 
 .content {
     flex: 1;
-    padding: 40px 60px;
-}
-
-.lesson-card,
-.quiz-card {
-    background: var(--card-bg);
-    padding: 35px;
-    border-radius: 16px;
-    box-shadow: var(--shadow-soft);
-    margin-bottom: 30px;
-}
-
-.lesson-card h2 {
-    margin-bottom: 20px;
-    font-weight: 600;
-}
-
-.lesson-card p {
-    margin-bottom: 18px;
-}
-
-/* Quote block */
-
-blockquote {
-    background: var(--primary-soft);
-    border-left: 4px solid var(--primary);
-    padding: 18px;
-    border-radius: 8px;
-    font-style: italic;
-    margin: 20px 0;
-}
-
-/* =============================
-   SOURCES ACCORDION
-============================= */
-
-.source-block {
-    margin-top: 18px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    overflow: hidden;
-}
-
-.source-header {
-    background: #faf7ff;
-    padding: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-
-.source-header:hover {
-    background: #efe4ff;
-}
-
-.source-body {
-    max-height: 0;
-    overflow: hidden;
+    padding: 50px;
     background: white;
-    padding: 0 14px;
-    transition: all 0.3s ease;
-    font-size: 14px;
+    color: #333;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
 
-.source-body.open {
-    max-height: 500px;
-    padding: 14px;
-}
-
-/* =============================
-   QUIZ
-============================= */
-
-.quiz-card h3 {
-    margin-bottom: 20px;
-    font-weight: 600;
-}
-
-.question {
-    margin-bottom: 20px;
-}
-
-.question p {
-    font-weight: 500;
-    margin-bottom: 10px;
-}
-
-.question label {
-    display: block;
-    margin-bottom: 8px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.question input {
-    margin-right: 8px;
-}
-
-/* Quiz Button */
-
-.quiz-button {
-    margin-top: 10px;
-    padding: 12px 24px;
-    background: var(--primary);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.quiz-button:hover {
-    background: #4a1f7a;
-}
-
-/* Success / Error feedback */
-
-.quiz-success {
-    color: var(--success);
-    font-weight: 500;
-    margin-top: 10px;
-}
-
-.quiz-error {
-    color: var(--danger);
-    font-weight: 500;
-    margin-top: 10px;
-}
-
-/* =============================
-   FOOTER
-============================= */
+/* ================= FOOTER ================= */
 
 .footer {
-    background: white;
-    border-top: 1px solid var(--border);
-    padding: 15px;
+    background: #11132a;
+    padding: 40px 20px;
     text-align: center;
-    font-size: 13px;
-    color: var(--text-muted);
+    font-size: 14px;
 }
 
-/* =============================
-   RESPONSIVE
-============================= */
-
-@media (max-width: 1000px) {
-
-    .layout {
-        flex-direction: column;
-    }
-
-    .sidebar {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .content {
-        padding: 30px 20px;
-    }
-
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    .progress-wrapper {
-        width: 100%;
-    }
-
-    .progress-label {
-        text-align: left;
-    }
-}
-/* =============================
-   QUIZ ACCORDION
-============================= */
-
-.quiz-header {
-    background: #f3e9fb;
-    padding: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    border-radius: 8px;
+.footer a {
+    color: #ffcc00;
+    text-decoration: none;
 }
 
-.quiz-body:not(.open) {
-    max-height: 0;
-    padding-top: 0;
-    overflow: hidden;
-}
-
-.quiz-result {
-    margin-top: 10px;
-    font-weight: 500;
-}
-.multilang-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 30px;
-}
-
-.multilang-container.two-cols {
-  grid-template-columns: 1fr 1fr;
-}
-
-.lang-column {
-  line-height: 1.7;
-}
-
-.lang-column.secondary {
-  border-left: 2px solid #eee;
-  padding-left: 20px;
-  color: #444;
-}
-
-@media (max-width: 900px) {
-  .multilang-container.two-cols {
-    grid-template-columns: 1fr;
-  }
+.footer a:hover {
+    text-decoration: underline;
 }

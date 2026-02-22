@@ -122,6 +122,51 @@
         </div>
     </footer>
 
+    <!-- ================= CHAT ================= -->
+
+    <!-- Кнопка чата -->
+    <button class="chat-toggle-btn" id="chat-toggle-btn" title="Открыть чат">
+        <svg id="chat-icon-open" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <svg id="chat-icon-close" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+    </button>
+
+    <!-- Панель чата -->
+    <div class="chat-panel" id="chat-panel">
+
+        <div class="chat-header">
+            <span class="chat-title">Задай вопрос об уроке</span>
+            <button class="chat-close-btn" id="chat-close-btn" title="Закрыть">&#x2715;</button>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+            <div class="chat-message bot">
+                <div class="chat-bubble">
+                    Привет! Я помогу тебе разобраться с материалами урока о Пуриме. Задай любой вопрос!
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input-area">
+            <input
+                type="text"
+                id="chat-input"
+                class="chat-input"
+                placeholder="Введите вопрос..."
+                autocomplete="off"
+            />
+            <button class="chat-send-btn" id="chat-send-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+            </button>
+        </div>
+
+    </div>
+
     <!-- ================= SCRIPTS ================= -->
 
     <script src="app.js"></script>

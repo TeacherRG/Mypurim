@@ -53,6 +53,7 @@ function init() {
     renderSidebar();
     loadSection("intro");
     updateProgressBar();
+    initChat();
 }
 
 // =============================
@@ -369,6 +370,127 @@ function loadProgress() {
 function saveProgress() {
     localStorage.setItem("lessonProgress", JSON.stringify(state));
                     }
+// =============================
+// CHAT
+// =============================
+
+const CHAT_QA = [
+    {
+        keywords: ["пурим", "праздник", "purim"],
+        answer: "Пурим — еврейский праздник, отмечаемый в память о спасении евреев в Персии в эпоху царя Ахашвероша. Основные заповеди: чтение Мегилат Эстер, трапеза, подарки бедным и подарки друзьям."
+    },
+    {
+        keywords: ["эстер", "эсфирь"],
+        answer: "Эстер (Эсфирь) — еврейская девушка, ставшая царицей Персии и спасшая свой народ от злодея Амана. Её история описана в Свитке Эстер (Мегилат Эстер)."
+    },
+    {
+        keywords: ["аман"],
+        answer: "Аман — главный злодей истории Пурима. Он был министром при дворе царя Ахашвероша и задумал уничтожить всех евреев Персии. Его злой умысел был раскрыт благодаря Эстер и Мордехаю."
+    },
+    {
+        keywords: ["мордехай", "мордехей"],
+        answer: "Мордехай — двоюродный брат и воспитатель Эстер. Он отказался кланяться Аману, что послужило поводом для ненависти Амана к евреям. Именно Мордехай убедил Эстер обратиться к царю."
+    },
+    {
+        keywords: ["мегила", "свиток"],
+        answer: "Мегилат Эстер (Свиток Эстер) — книга ТаНаХа, рассказывающая историю Пурима. Её читают вслух в ночь Пурима и утром. При упоминании имени Амана принято создавать шум."
+    },
+    {
+        keywords: ["квиз", "вопрос", "тест", "задание"],
+        answer: "Чтобы перейти к следующему разделу, нужно правильно ответить на вопросы теста в конце каждого раздела. Выбери правильный ответ и нажми 'Ответить'."
+    },
+    {
+        keywords: ["раздел", "урок", "тема"],
+        answer: "Урок состоит из 4 разделов: Введение, Раздел 1, Раздел 2 и Раздел 3. Разделы открываются последовательно по мере прохождения тестов."
+    },
+    {
+        keywords: ["язык", "перевод", "украинский", "немецкий"],
+        answer: "Урок доступен на русском, украинском и немецком языках. Выбери нужный язык в выпадающем меню вверху страницы. Также можно включить двухколоночный режим для сравнения двух языков."
+    }
+];
+
+function getChatAnswer(userText) {
+    const text = userText.toLowerCase();
+    for (const item of CHAT_QA) {
+        if (item.keywords.some(kw => text.includes(kw))) {
+            return item.answer;
+        }
+    }
+    return "Это интересный вопрос! К сожалению, я пока не знаю точного ответа. Попробуй внимательно перечитать соответствующий раздел урока или задай вопрос своему учителю.";
+}
+
+function appendChatMessage(text, role) {
+    const messages = document.getElementById("chat-messages");
+    const msg = document.createElement("div");
+    msg.classList.add("chat-message", role);
+    const bubble = document.createElement("div");
+    bubble.classList.add("chat-bubble");
+    bubble.textContent = text;
+    msg.appendChild(bubble);
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+function sendChatMessage() {
+    const input = document.getElementById("chat-input");
+    const text = input.value.trim();
+    if (!text) return;
+    appendChatMessage(text, "user");
+    input.value = "";
+
+    // Typing indicator
+    const messages = document.getElementById("chat-messages");
+    const typing = document.createElement("div");
+    typing.classList.add("chat-message", "bot", "chat-typing");
+    typing.innerHTML = '<div class="chat-bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
+    messages.appendChild(typing);
+    messages.scrollTop = messages.scrollHeight;
+
+    setTimeout(() => {
+        typing.remove();
+        appendChatMessage(getChatAnswer(text), "bot");
+    }, 700);
+}
+
+function initChat() {
+    const toggleBtn = document.getElementById("chat-toggle-btn");
+    const closeBtn = document.getElementById("chat-close-btn");
+    const panel = document.getElementById("chat-panel");
+    const sendBtn = document.getElementById("chat-send-btn");
+    const input = document.getElementById("chat-input");
+    const iconOpen = document.getElementById("chat-icon-open");
+    const iconClose = document.getElementById("chat-icon-close");
+
+    function openChat() {
+        panel.classList.add("open");
+        iconOpen.style.display = "none";
+        iconClose.style.display = "block";
+        input.focus();
+    }
+
+    function closeChat() {
+        panel.classList.remove("open");
+        iconOpen.style.display = "block";
+        iconClose.style.display = "none";
+    }
+
+    toggleBtn.addEventListener("click", () => {
+        panel.classList.contains("open") ? closeChat() : openChat();
+    });
+
+    closeBtn.addEventListener("click", closeChat);
+
+    sendBtn.addEventListener("click", sendChatMessage);
+
+    input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") sendChatMessage();
+    });
+}
+
+// =============================
+// RENDER CONTENT BLOCKS
+// =============================
+
 function renderContentBlocks(container, data) {
 
   data.content.forEach(block => {

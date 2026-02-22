@@ -348,13 +348,6 @@ blockquote {
     border-radius: 8px;
 }
 
-.quiz-body {
-    max-height: 1000px;
-    overflow: hidden;
-    transition: 0.3s ease;
-    padding-top: 15px;
-}
-
 .quiz-body:not(.open) {
     max-height: 0;
     padding-top: 0;

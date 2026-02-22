@@ -16,14 +16,15 @@
 <body>
 
     <!-- ================= HEADER ================= -->
-
 <header class="main-header">
 
     <div class="header-left">
-        <h1>Праздник Пурим — Интерактивный урок</h1>
+        <h1 id="lesson-title">Праздник Пурим</h1>
+        <p id="lesson-subtitle">Интерактивный учебный модуль</p>
     </div>
 
     <div class="header-right">
+        
         <select id="langMode" class="lang-select">
             <option value="ru">Русский</option>
             <option value="uk">Українська</option>
@@ -31,26 +32,20 @@
             <option value="ru-uk">RU + UA</option>
             <option value="ru-de">RU + DE</option>
         </select>
-    </div>
 
-        <div class="header-left">
-            <h1 id="lesson-title">Праздник Пурим</h1>
-            <p id="lesson-subtitle">Интерактивный учебный модуль</p>
-        </div>
+        <div class="progress-wrapper">
+            <div class="progress-label">
+                <span id="progress-percent">0%</span> завершено
+            </div>
 
-        <div class="header-right">
-            <div class="progress-wrapper">
-                <div class="progress-label">
-                    <span id="progress-percent">0%</span> завершено
-                </div>
-
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill"></div>
-                </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
             </div>
         </div>
 
-    </header>
+    </div>
+
+</header>
 
     <!-- ================= MAIN LAYOUT ================= -->
 

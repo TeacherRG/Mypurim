@@ -4,8 +4,9 @@
 
 const sectionsList = [
     { id: "intro", title: "Введение" },
-    { id: "section_a", title: "Раздел А" },
-    { id: "section_b", title: "Раздел Б" }
+    { id: "section_a", title: "Раздел 1" },
+    { id: "section_b", title: "Раздел 2" },
+    { id: "section_c", title: "Раздел 3" }
 ];
 
 // =============================

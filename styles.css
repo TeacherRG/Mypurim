@@ -336,3 +336,32 @@ blockquote {
         text-align: left;
     }
 }
+/* =============================
+   QUIZ ACCORDION
+============================= */
+
+.quiz-header {
+    background: #f3e9fb;
+    padding: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.quiz-body {
+    max-height: 1000px;
+    overflow: hidden;
+    transition: 0.3s ease;
+    padding-top: 15px;
+}
+
+.quiz-body:not(.open) {
+    max-height: 0;
+    padding-top: 0;
+    overflow: hidden;
+}
+
+.quiz-result {
+    margin-top: 10px;
+    font-weight: 500;
+}

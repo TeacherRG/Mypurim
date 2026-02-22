@@ -10,7 +10,9 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #1e1f3a, #2c2f6a);
+    background:
+        url("data:image/svg+xml,%3Csvg width='90' height='90' viewBox='0 0 90 90' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='45,7 83,73 7,73' fill='none' stroke='rgba(255,204,0,0.06)' stroke-width='1'/%3E%3Cpolygon points='45,83 7,17 83,17' fill='none' stroke='rgba(255,204,0,0.06)' stroke-width='1'/%3E%3C/svg%3E"),
+        linear-gradient(135deg, #1e1f3a, #2c2f6a);
     color: #fff;
     min-height: 100vh;
 }
@@ -19,12 +21,17 @@ body {
 
 .site-header {
     display: flex;
-    align-items: center;
-    padding: 36px 50px;
+    flex-direction: column;
     background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(14px);
-    border-bottom: 2px solid rgba(255, 204, 0, 0.3);
-    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3);
+    border-bottom: 2px solid rgba(255, 204, 0, 0.35);
+    box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    padding: 32px 50px 26px;
 }
 
 .header-left {
@@ -33,25 +40,40 @@ body {
 
 .header-main-title {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 42px;
+    font-size: 44px;
     font-weight: 900;
-    line-height: 1.15;
+    line-height: 1.18;
     background: linear-gradient(135deg, #ffe066, #ffcc00, #ff8800);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: none;
     letter-spacing: 0.01em;
 }
 
+.header-dedication-band {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 13px 50px;
+    background: rgba(0, 0, 0, 0.22);
+    border-top: 1px solid rgba(255, 204, 0, 0.2);
+}
+
+.dedication-ornament {
+    color: rgba(255, 204, 0, 0.55);
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
 .header-dedication {
-    margin-top: 12px;
-    font-family: 'Cormorant Garamond', 'Georgia', serif;
-    font-size: 19px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
     font-style: italic;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.88);
-    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0.03em;
+    text-align: center;
 }
 
 .header-right {
@@ -207,8 +229,9 @@ body {
 .lang-col p {
     margin-bottom: 16px;
     font-size: 15px;
-    line-height: 1.75;
+    line-height: 1.85;
     color: #333;
+    text-align: justify;
 }
 
 .lang-col blockquote {
@@ -370,11 +393,24 @@ body {
 /* ===== RESPONSIVE ===== */
 
 @media (max-width: 768px) {
-    .site-header {
+    .header-top {
         flex-direction: column;
         align-items: flex-start;
         gap: 16px;
-        padding: 20px;
+        padding: 20px 20px 14px;
+    }
+
+    .header-main-title {
+        font-size: 26px;
+    }
+
+    .header-dedication-band {
+        padding: 10px 20px;
+        gap: 10px;
+    }
+
+    .header-dedication {
+        font-size: 15px;
     }
 
     .header-right {

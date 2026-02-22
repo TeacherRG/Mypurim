@@ -163,15 +163,24 @@ function renderSection(index) {
 // =============================
 // RENDER QUIZ
 // =============================
-
 function renderQuiz(section) {
 
     const quizCard = document.createElement("section");
     quizCard.classList.add("quiz-card");
 
-    const title = document.createElement("h3");
-    title.textContent = "Проверь понимание";
-    quizCard.appendChild(title);
+    const header = document.createElement("div");
+    header.classList.add("quiz-header");
+    header.textContent = "Проверь понимание";
+
+    const body = document.createElement("div");
+    body.classList.add("quiz-body");
+
+    header.addEventListener("click", () => {
+        body.classList.toggle("open");
+    });
+
+    quizCard.appendChild(header);
+    quizCard.appendChild(body);
 
     section.quiz.questions.forEach((q, qIndex) => {
 
@@ -197,55 +206,89 @@ function renderQuiz(section) {
             questionDiv.appendChild(label);
         });
 
-        quizCard.appendChild(questionDiv);
+        body.appendChild(questionDiv);
     });
+
+    const resultMessage = document.createElement("div");
+    resultMessage.classList.add("quiz-result");
+    body.appendChild(resultMessage);
 
     const button = document.createElement("button");
     button.classList.add("quiz-button");
     button.textContent = "Ответить";
 
-    button.addEventListener("click", () => checkQuiz(section.id));
+    button.addEventListener("click", () => checkQuiz(section.id, quizCard));
 
-    quizCard.appendChild(button);
+    body.appendChild(button);
+
     contentContainer.appendChild(quizCard);
 }
 
 // =============================
 // CHECK QUIZ
 // =============================
+function checkQuiz(sectionId, quizCard) {
 
-function checkQuiz(sectionId) {
-
-    const selected = document.querySelectorAll("input[type='radio']:checked");
+    const selected = quizCard.querySelectorAll("input[type='radio']:checked");
+    const allQuestions = quizCard.querySelectorAll(".question");
+    const resultMessage = quizCard.querySelector(".quiz-result");
 
     if (selected.length === 0) {
-        alert("Выберите ответ");
+        resultMessage.textContent = "Выберите ответы перед проверкой.";
+        resultMessage.style.color = "red";
         return;
     }
 
-    let correct = 0;
+    let correctCount = 0;
 
-    selected.forEach(input => {
-        if (input.dataset.correct === "true") {
-            correct++;
+    allQuestions.forEach(question => {
+
+        const inputs = question.querySelectorAll("input");
+
+        inputs.forEach(input => {
+            const label = input.parentElement;
+            label.style.color = "";
+        });
+
+        const checked = question.querySelector("input:checked");
+
+        if (checked) {
+            if (checked.dataset.correct === "true") {
+                correctCount++;
+                checked.parentElement.style.color = "green";
+            } else {
+                checked.parentElement.style.color = "red";
+
+                // подсветить правильный
+                inputs.forEach(input => {
+                    if (input.dataset.correct === "true") {
+                        input.parentElement.style.color = "green";
+                    }
+                });
+            }
         }
     });
 
-    if (correct >= 1) {
+    if (correctCount === allQuestions.length) {
+
+        resultMessage.textContent = "Все ответы верны. Раздел завершён.";
+        resultMessage.style.color = "green";
 
         if (!state.completedSections.includes(sectionId)) {
             state.completedSections.push(sectionId);
             saveProgress();
         }
 
-        renderSidebar();
-        renderSection(currentSectionIndex);
         updateProgressBar();
+        renderSidebar();
 
-        alert("Раздел завершён!");
+        // свернуть квиз
+        const body = quizCard.querySelector(".quiz-body");
+        body.classList.remove("open");
 
     } else {
-        alert("Есть ошибки. Попробуйте снова.");
+        resultMessage.textContent = "Есть ошибки. Попробуйте снова.";
+        resultMessage.style.color = "red";
     }
 }
 

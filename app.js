@@ -1,16 +1,25 @@
 // =============================
-// GLOBAL STATE
+// CONFIG
 // =============================
 
-let lessonData = null;
-let currentSectionIndex = 0;
+const sectionsList = [
+    { id: "intro", title: "Введение" },
+    { id: "section_a", title: "Раздел А" },
+    { id: "section_b", title: "Раздел Б" }
+];
+
+// =============================
+// STATE
+// =============================
+
+let currentSectionId = null;
 
 let state = {
     completedSections: []
 };
 
 // =============================
-// DOM ELEMENTS
+// DOM
 // =============================
 
 const contentContainer = document.getElementById("content");
@@ -24,33 +33,11 @@ const progressPercent = document.getElementById("progress-percent");
 
 document.addEventListener("DOMContentLoaded", init);
 
-async function init() {
+function init() {
     loadProgress();
-    await loadLesson();
+    renderSidebar();
+    loadSection("intro");
     updateProgressBar();
-}
-
-// =============================
-// LOAD JSON
-// =============================
-
-async function loadLesson() {
-    try {
-        const response = await fetch("lessonData.json");
-
-        if (!response.ok) {
-            throw new Error("Ошибка загрузки JSON");
-        }
-
-        lessonData = await response.json();
-
-        renderSidebar();
-        renderSection(0);
-
-    } catch (error) {
-        console.error("Ошибка:", error);
-        contentContainer.innerHTML = "<p>Ошибка загрузки данных урока.</p>";
-    }
 }
 
 // =============================
@@ -58,33 +45,29 @@ async function loadLesson() {
 // =============================
 
 function renderSidebar() {
+
     sidebarMenu.innerHTML = "";
 
-    lessonData.sections.forEach((section, index) => {
+    sectionsList.forEach((section, index) => {
 
         const li = document.createElement("li");
         li.textContent = section.title;
 
-        // Блокировка
-        if (index > 0 && !state.completedSections.includes(lessonData.sections[index - 1].id)) {
+        if (index > 0 && !state.completedSections.includes(sectionsList[index - 1].id)) {
             li.classList.add("locked");
         }
 
-        // Завершён
         if (state.completedSections.includes(section.id)) {
             li.classList.add("completed");
         }
 
-        // Активный
-        if (index === currentSectionIndex) {
+        if (section.id === currentSectionId) {
             li.classList.add("active");
         }
 
         li.addEventListener("click", () => {
             if (!li.classList.contains("locked")) {
-                currentSectionIndex = index;
-                renderSidebar();
-                renderSection(index);
+                loadSection(section.id);
             }
         });
 
@@ -93,12 +76,31 @@ function renderSidebar() {
 }
 
 // =============================
+// LOAD SECTION
+// =============================
+
+async function loadSection(sectionId) {
+
+    try {
+        const response = await fetch(`sections/${sectionId}.json`);
+        const section = await response.json();
+
+        currentSectionId = sectionId;
+        renderSidebar();
+        renderSection(section);
+
+    } catch (error) {
+        contentContainer.innerHTML = "Ошибка загрузки раздела.";
+        console.error(error);
+    }
+}
+
+// =============================
 // RENDER SECTION
 // =============================
 
-function renderSection(index) {
+function renderSection(section) {
 
-    const section = lessonData.sections[index];
     contentContainer.innerHTML = "";
 
     const card = document.createElement("section");
@@ -108,7 +110,6 @@ function renderSection(index) {
     title.textContent = section.title;
     card.appendChild(title);
 
-    // Контент
     section.content.forEach(block => {
 
         if (block.type === "paragraph") {
@@ -118,51 +119,58 @@ function renderSection(index) {
         }
 
         if (block.type === "quote") {
-            const quote = document.createElement("blockquote");
-            quote.textContent = block.text;
-            card.appendChild(quote);
+            const q = document.createElement("blockquote");
+            q.textContent = block.text;
+            card.appendChild(q);
         }
 
     });
 
-    // Источники
-    if (section.sources) {
-
-        section.sources.forEach(source => {
-
-            const sourceBlock = document.createElement("div");
-            sourceBlock.classList.add("source-block");
-
-            const header = document.createElement("div");
-            header.classList.add("source-header");
-            header.textContent = source.title;
-
-            const body = document.createElement("div");
-            body.classList.add("source-body");
-            body.textContent = source.text;
-
-            header.addEventListener("click", () => {
-                body.classList.toggle("open");
-            });
-
-            sourceBlock.appendChild(header);
-            sourceBlock.appendChild(body);
-
-            card.appendChild(sourceBlock);
-        });
-    }
-
     contentContainer.appendChild(card);
 
-    // Квиз
-    if (section.quiz && !state.completedSections.includes(section.id)) {
+    if (section.sources) {
+        renderSources(section.sources);
+    }
+
+    if (section.quiz) {
         renderQuiz(section);
     }
 }
 
 // =============================
-// RENDER QUIZ
+// SOURCES
 // =============================
+
+function renderSources(sources) {
+
+    sources.forEach(source => {
+
+        const block = document.createElement("div");
+        block.classList.add("source-block");
+
+        const header = document.createElement("div");
+        header.classList.add("source-header");
+        header.textContent = source.title;
+
+        const body = document.createElement("div");
+        body.classList.add("source-body");
+        body.textContent = source.text;
+
+        header.addEventListener("click", () => {
+            body.classList.toggle("open");
+        });
+
+        block.appendChild(header);
+        block.appendChild(body);
+
+        contentContainer.appendChild(block);
+    });
+}
+
+// =============================
+// QUIZ
+// =============================
+
 function renderQuiz(section) {
 
     const quizCard = document.createElement("section");
@@ -173,8 +181,7 @@ function renderQuiz(section) {
     header.textContent = "Проверь понимание";
 
     const body = document.createElement("div");
-    body.classList.add("quiz-body");
-    body.classList.add("open");
+    body.classList.add("quiz-body", "open");
 
     header.addEventListener("click", () => {
         body.classList.toggle("open");
@@ -188,9 +195,9 @@ function renderQuiz(section) {
         const questionDiv = document.createElement("div");
         questionDiv.classList.add("question");
 
-        const questionText = document.createElement("p");
-        questionText.textContent = q.question;
-        questionDiv.appendChild(questionText);
+        const p = document.createElement("p");
+        p.textContent = q.question;
+        questionDiv.appendChild(p);
 
         q.options.forEach(option => {
 
@@ -210,9 +217,9 @@ function renderQuiz(section) {
         body.appendChild(questionDiv);
     });
 
-    const resultMessage = document.createElement("div");
-    resultMessage.classList.add("quiz-result");
-    body.appendChild(resultMessage);
+    const result = document.createElement("div");
+    result.classList.add("quiz-result");
+    body.appendChild(result);
 
     const button = document.createElement("button");
     button.classList.add("quiz-button");
@@ -223,57 +230,55 @@ function renderQuiz(section) {
     body.appendChild(button);
 
     contentContainer.appendChild(quizCard);
+
+    if (state.completedSections.includes(section.id)) {
+        body.classList.remove("open");
+        result.textContent = "Раздел уже завершён.";
+        result.style.color = "green";
+    }
 }
 
 // =============================
 // CHECK QUIZ
 // =============================
+
 function checkQuiz(sectionId, quizCard) {
 
-    const selected = quizCard.querySelectorAll("input[type='radio']:checked");
-    const allQuestions = quizCard.querySelectorAll(".question");
-    const resultMessage = quizCard.querySelector(".quiz-result");
+    const questions = quizCard.querySelectorAll(".question");
+    const result = quizCard.querySelector(".quiz-result");
 
-    if (selected.length === 0) {
-        resultMessage.textContent = "Выберите ответы перед проверкой.";
-        resultMessage.style.color = "red";
-        return;
-    }
+    let allCorrect = true;
 
-    let correctCount = 0;
-
-    allQuestions.forEach(question => {
+    questions.forEach(question => {
 
         const inputs = question.querySelectorAll("input");
 
         inputs.forEach(input => {
-            const label = input.parentElement;
-            label.style.color = "";
+            input.parentElement.style.color = "";
         });
 
         const checked = question.querySelector("input:checked");
 
-        if (checked) {
-            if (checked.dataset.correct === "true") {
-                correctCount++;
-                checked.parentElement.style.color = "green";
-            } else {
-                checked.parentElement.style.color = "red";
-
-                // подсветить правильный
-                inputs.forEach(input => {
-                    if (input.dataset.correct === "true") {
-                        input.parentElement.style.color = "green";
-                    }
-                });
-            }
+        if (!checked || checked.dataset.correct !== "true") {
+            allCorrect = false;
         }
+
+        inputs.forEach(input => {
+            if (input.dataset.correct === "true") {
+                input.parentElement.style.color = "green";
+            }
+        });
+
+        if (checked && checked.dataset.correct !== "true") {
+            checked.parentElement.style.color = "red";
+        }
+
     });
 
-    if (correctCount === allQuestions.length) {
+    if (allCorrect) {
 
-        resultMessage.textContent = "Все ответы верны. Раздел завершён.";
-        resultMessage.style.color = "green";
+        result.textContent = "Все ответы верны. Раздел завершён.";
+        result.style.color = "green";
 
         if (!state.completedSections.includes(sectionId)) {
             state.completedSections.push(sectionId);
@@ -283,13 +288,12 @@ function checkQuiz(sectionId, quizCard) {
         updateProgressBar();
         renderSidebar();
 
-        // свернуть квиз
         const body = quizCard.querySelector(".quiz-body");
         body.classList.remove("open");
 
     } else {
-        resultMessage.textContent = "Есть ошибки. Попробуйте снова.";
-        resultMessage.style.color = "red";
+        result.textContent = "Есть ошибки. Попробуйте снова.";
+        result.style.color = "red";
     }
 }
 
@@ -299,26 +303,26 @@ function checkQuiz(sectionId, quizCard) {
 
 function updateProgressBar() {
 
-    const total = lessonData.sections.filter(s => s.quiz).length;
+    const total = sectionsList.length - 1;
     const completed = state.completedSections.length;
 
-    const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+    const percent = Math.round((completed / total) * 100);
 
     progressFill.style.width = percent + "%";
     progressPercent.textContent = percent + "%";
 }
 
 // =============================
-// LOCAL STORAGE
+// STORAGE
 // =============================
 
 function loadProgress() {
-    const saved = localStorage.getItem("purimLessonProgress");
+    const saved = localStorage.getItem("lessonProgress");
     if (saved) {
         state = JSON.parse(saved);
     }
 }
 
 function saveProgress() {
-    localStorage.setItem("purimLessonProgress", JSON.stringify(state));
-              }
+    localStorage.setItem("lessonProgress", JSON.stringify(state));
+                    }

@@ -1,0 +1,118 @@
+{
+  "id": "section_a",
+  "title": "Abschnitt A — „Und ihr Andenken wird aus ihrem Samen nicht vergehen“",
+
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "In der Megillat Ester wird die Ewigkeit der Einsetzung von Purim ausdrücklich betont: „Und diese Tage von Purim werden unter den Juden nicht vergehen, und ihr Andenken wird aus ihrem Samen nicht verschwinden“."
+    },
+    {
+      "type": "quote",
+      "text": "„Und diese Tage von Purim werden unter den Juden nicht vergehen, und ihr Andenken wird aus ihrem Samen nicht verschwinden“ (Ester 9,28)."
+    },
+    {
+      "type": "paragraph",
+      "text": "Der Rebbe stellt eine grundlegende Frage: Worin besteht die Neuheit dieser Aussage? Jeder Aspekt der Tora – sei es eine am Sinai gegebene Mizwa oder eine spätere Verordnung der Weisen – besitzt doch ewige Gültigkeit. Einer der dreizehn Glaubensgrundsätze des Rambam besagt, dass die Tora nicht verändert und nicht ersetzt werden wird."
+    },
+    {
+      "type": "paragraph",
+      "text": "Warum also betont die Megilla die Ewigkeit von Purim in besonderer Weise? Ist dies nicht selbstverständlich?"
+    },
+    {
+      "type": "paragraph",
+      "text": "Mehr noch: Der Text der Megilla selbst zeigt, dass die Einsetzung von Purim nicht von Anfang an unumstritten und endgültig war. Dies bedarf einer vertieften Klärung."
+    }
+  ],
+
+  "sources": [
+
+    {
+      "title": "Quelle 1 — Megillat Ester 9,20–22; 27–28",
+      "text": "Und Mordechai schrieb diese Worte und sandte Briefe an alle Juden in allen Provinzen des Königs Achaschwerosch, den Nahen und den Fernen, um für sie festzusetzen, dass sie jährlich den vierzehnten Tag des Monats Adar und den fünfzehnten Tag desselben begehen sollen – als Tage, an denen die Juden Ruhe fanden vor ihren Feinden, und als Monat, der ihnen von Kummer zur Freude und von Trauer zum Festtag gewandelt wurde – um sie zu Tagen des Festmahls und der Freude zu machen, des Sendens von Speisen einer dem anderen und der Gaben an die Armen. Und die Juden nahmen es auf sich und auf ihren Samen und auf alle, die sich ihnen anschlossen, es nicht zu übertreten – diese beiden Tage gemäß ihrer Vorschrift und zu ihrer festgesetzten Zeit Jahr für Jahr zu begehen. Und diese Tage von Purim werden unter den Juden nicht vergehen, und ihr Andenken wird aus ihrem Samen nicht verschwinden."
+    },
+
+    {
+      "title": "Quelle 2 — Talmud Bavli, Traktat Megilla 7a",
+      "text": "Ester sandte an die Weisen: „Setzt mich für die Generationen fest“, das heißt: macht das Purim-Fest und das Lesen der Megilla zu einer verbindlichen Ordnung für alle Generationen. Die Weisen antworteten ihr: „Du erweckst gegen uns den Neid der Völker“, denn in der Megilla wird der Sieg der Juden über die Nationen beschrieben, und man solle ihre Feindschaft nicht provozieren. Sie sprach zu ihnen: „Ich bin bereits in den Chroniken der Könige von Medien und Persien niedergeschrieben“, das heißt, das Ereignis ist ohnehin bekannt geworden – daher ist es angemessen, es auch in Israel festzusetzen."
+    },
+
+    {
+      "title": "Quelle 3 — Megillat Ester 9,29–32",
+      "text": "Und Ester, die Königin, die Tochter Avichajils, und Mordechai, der Jude, schrieben mit voller Autorität, um dieses zweite Schreiben über Purim zu bestätigen. Und man sandte Briefe an alle Juden – an die hundert siebenundzwanzig Provinzen des Königreiches Achaschwerosch – Worte des Friedens und der Wahrheit, um die Tage von Purim zu ihren festgesetzten Zeiten zu bestätigen, so wie Mordechai, der Jude, und Ester, die Königin, sie für sich festgesetzt hatten und wie sie es auf sich und auf ihren Samen hinsichtlich der Anordnungen der Fasten und Klagerufe angenommen hatten. Und das Wort Esters bestätigte die Ordnung von Purim, und es wurde im Buch niedergeschrieben."
+    },
+
+    {
+      "title": "Quelle 4 — Ibn Esra (zweite Redaktion) zu Ester 9,29",
+      "text": "„Und sie schrieb“ – der Grund ist, dass Israel die Ordnung von Purim nur einige Jahre einhielt und dann in der Einhaltung nachließ. Deshalb bat Mordechai die Königin, dass sie ein zweites Schreiben an die Juden verfassen und versenden möge, da ihre Autorität größeren Einfluss ausüben würde. Der Beweis dafür ist, dass gesagt wird: „Und das Wort Esters bestätigte die Ordnung von Purim“ – denn ohne ihr Wort hätte die Ordnung in Vergessenheit geraten können."
+    }
+
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "Worin besteht die grundlegende Frage des Rebbe hinsichtlich des Verses „Und ihr Andenken wird aus ihrem Samen nicht vergehen“?",
+        "options": [
+          {
+            "text": "Warum wurde Purim nur für die Juden der Diaspora eingesetzt",
+            "correct": false
+          },
+          {
+            "text": "Warum es überhaupt erforderlich ist, Purim zu feiern",
+            "correct": false
+          },
+          {
+            "text": "Worin die Neuheit der besonderen Betonung der Ewigkeit von Purim liegt, wenn doch die gesamte Tora und die Anordnungen der Weisen ewige Gültigkeit besitzen",
+            "correct": true
+          },
+          {
+            "text": "Warum Ester ein zweites Schreiben verfasste",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "question": "Welche Episode im Talmud (Megilla 7a) zeigt, dass die Einsetzung von Purim nicht von Anfang an unumstritten war?",
+        "options": [
+          {
+            "text": "Die Weisen weigerten sich, die Megilla öffentlich zu lesen",
+            "correct": false
+          },
+          {
+            "text": "Ester bat die Weisen: „Setzt mich für die Generationen fest“",
+            "correct": true
+          },
+          {
+            "text": "Mordechai zweifelte am Wunder",
+            "correct": false
+          },
+          {
+            "text": "Purim wurde zunächst nur einen Tag lang gefeiert",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "question": "Warum war nach Ibn Esra ein zweites Schreiben Esters notwendig?",
+        "options": [
+          {
+            "text": "Um das Datum des Festes zu ändern",
+            "correct": false
+          },
+          {
+            "text": "Weil die Einhaltung von Purim nachließ und in Vergessenheit geraten konnte",
+            "correct": true
+          },
+          {
+            "text": "Um neue Mizwot hinzuzufügen",
+            "correct": false
+          },
+          {
+            "text": "Um Mordechais ursprüngliche Anordnung aufzuheben",
+            "correct": false
+          }
+        ]
+      }
+    ]
+  }
+}

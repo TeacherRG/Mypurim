@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "title": "Праздник Пурим",
+    "subtitle": "Интерактивный урок"
+  },
+  "sections": [
+    {
+      "id": "intro",
+      "title": "Введение",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Тестовая загрузка JSON работает."
+        }
+      ],
+      "quiz": null
+    }
+  ]
+}

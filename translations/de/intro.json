@@ -1,0 +1,19 @@
+{
+  "id": "intro",
+  "title": "Einführung",
+
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Diese interaktive Lektion ist dem vertieften Verständnis des Festes Purim gewidmet."
+    },
+    {
+      "type": "paragraph",
+      "text": "Wir werden die Texte der Megillat Ester, die Worte unserer Weisen seligen Andenkens sowie die Erklärung des Rebbe analysieren, um den inneren Sinn der Ewigkeit von Purim zu erschließen."
+    },
+    {
+      "type": "paragraph",
+      "text": "Jeder folgende Abschnitt wird erst nach dem erfolgreichen Bestehen des jeweiligen Quiz freigeschaltet."
+    }
+  ]
+}

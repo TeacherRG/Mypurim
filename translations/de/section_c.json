@@ -1,0 +1,114 @@
+{
+  "id": "section_c",
+  "title": "Abschnitt C — Das Geheimnis der Ewigkeit: das Verdienst der Kinder Israels",
+
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Nachdem wir die Worte des Midrasch und die halachische Festlegung des Rambam betrachtet haben, dass die Tage von Purim selbst in den Tagen des Maschiach nicht aufgehoben werden, offenbart der Rebbe den inneren Grund dieser Einzigartigkeit."
+    },
+    {
+      "type": "paragraph",
+      "text": "Die Rettung in den Tagen Mordechais und Esters wurde nicht durch politische Mittel, militärische Stärke oder diplomatisches Geschick erreicht. Sie wurde durch das Tora-Lernen jüdischer Kinder bewirkt."
+    },
+    {
+      "type": "paragraph",
+      "text": "Als der Frevler Haman beschloss, alle Juden zu vernichten – vom Jüngling bis zum Greis, Kinder und Frauen –, verlor Mordechai nicht den Mut. Er versammelte zweiundzwanzigtausend Kinder und lehrte sie Worte der Tora."
+    },
+    {
+      "type": "paragraph",
+      "text": "Gerade das Verdienst ihres reinen Atems, ihres selbstlosen Tora-Lernens ohne Berechnung und ohne Ego, war es, das das himmlische Urteil aufhob."
+    },
+    {
+      "type": "paragraph",
+      "text": "Darin liegt das tiefere Geheimnis der Ewigkeit von Purim: Die Verbindung des Volkes Israel mit dem Ewigen durch die Reinheit der kindlichen Tora besitzt eine Qualität der Unendlichkeit."
+    },
+    {
+      "type": "paragraph",
+      "text": "Deshalb wird selbst dann, wenn sich in der Zukunft die unendliche Freude der Ge’ula offenbaren wird, die Freude von Purim nicht an Bedeutung verlieren, denn sie wurzelt im innersten Wesen der jüdischen Seele."
+    }
+  ],
+
+  "sources": [
+    {
+      "title": "Quelle 8 — Midrasch Ester Rabba 8:7",
+      "text": "Als Haman Mordechai sah, wie er mit zweiundzwanzigtausend Kindern saß und sie Tora lehrte, fragte er sie: Was lernt ihr? Sie antworteten ihm: Die Gebote der Opfergaben. Er sagte: Mögen eure Opfergaben meine zehntausend Talente Silber aufheben. Und Haman sprach: Wäre es nicht wegen dieser Kinder, hätte ich Israel überwunden; doch nun, ihretwegen, vermag ich ihnen keinen Schaden zuzufügen."
+    },
+    {
+      "title": "Quelle 9 — Talmud Bavli, Traktat Schabbat 119b",
+      "text": "Resch Lakisch sagte im Namen von Rabbi Jehuda Nesia: Die Welt besteht nur durch den Atem der Kinder, die Tora lernen. Die Weisen fragten ihn: Und was ist mit dem Atem der Erwachsenen, die Tora lernen? Er antwortete ihnen: Der Atem der Kinder, in dem keine Sünde ist, gleicht nicht dem Atem der Erwachsenen, in dem Sünde ist."
+    },
+    {
+      "title": "Quelle 10 — Jeschajahu 35,10",
+      "text": "Und die Erlösten des Ewigen werden zurückkehren und nach Zion kommen mit Jubel; ewige Freude wird auf ihren Häuptern sein; Wonne und Freude werden sie erreichen, und Kummer und Seufzen werden entfliehen."
+    }
+  ],
+
+  "quiz": {
+    "questions": [
+      {
+        "question": "Worin liegt nach der Erklärung des Rebbe der innere Grund für die Ewigkeit von Purim?",
+        "options": [
+          {
+            "text": "In der politischen Klugheit Mordechais und Esters",
+            "correct": false
+          },
+          {
+            "text": "Im militärischen Sieg und der Selbstverteidigung der Juden",
+            "correct": false
+          },
+          {
+            "text": "Im Verdienst des reinen Tora-Lernens jüdischer Kinder, das eine Qualität der Unendlichkeit besitzt",
+            "correct": true
+          },
+          {
+            "text": "Darin, dass Purim von Propheten eingesetzt wurde",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "question": "Wie erklärt der Talmud (Schabbat 119b) die besondere Kraft des Tora-Lernens von Kindern?",
+        "options": [
+          {
+            "text": "Weil Kinder mehr Seiten lernen als Erwachsene",
+            "correct": false
+          },
+          {
+            "text": "Weil ihr sündloser Atem die Existenz der Welt aufrechterhält",
+            "correct": true
+          },
+          {
+            "text": "Weil Kinder sich Texte besser merken können",
+            "correct": false
+          },
+          {
+            "text": "Weil Kinder von den Mizwot befreit sind",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "question": "Warum wird die Freude von Purim selbst in den Tagen des Maschiach ihre Bedeutung nicht verlieren?",
+        "options": [
+          {
+            "text": "Weil sie mit dem historischen Sieg über die Feinde verbunden ist",
+            "correct": false
+          },
+          {
+            "text": "Weil sie in der wesentlichen Verbindung Israels mit dem Ewigen durch die Reinheit der kindlichen Tora verwurzelt ist",
+            "correct": true
+          },
+          {
+            "text": "Weil Purim zwei Tage gefeiert wird",
+            "correct": false
+          },
+          {
+            "text": "Weil es im Fünfbuch Mose nicht erwähnt wird",
+            "correct": false
+          }
+        ]
+      }
+    ]
+  }
+}

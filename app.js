@@ -9,6 +9,20 @@ const sectionsList = [
     { id: "section_c", title: "Раздел 3" }
 ];
 
+let langMode = localStorage.getItem("langMode") || "ru";
+const langSelect = document.getElementById("langMode");
+
+if (langSelect) {
+  langSelect.value = langMode;
+
+  langSelect.addEventListener("change", (e) => {
+    langMode = e.target.value;
+    localStorage.setItem("langMode", langMode);
+    loadSection(currentSectionId);
+  });
+}
+
+
 // =============================
 // STATE
 // =============================

@@ -11,16 +11,48 @@ const sectionsList = [
 
 let langMode = localStorage.getItem("langMode") || "ru";
 const langSelect = document.getElementById("langMode");
+const container = document.getElementById("lesson-container");
 
-if (langSelect) {
-  langSelect.value = langMode;
+langSelect.addEventListener("change", function () {
 
-  langSelect.addEventListener("change", (e) => {
-    langMode = e.target.value;
-    localStorage.setItem("langMode", langMode);
-    loadSection(currentSectionId);
-  });
-}
+    const value = this.value;
+
+    const ru = document.querySelector(".lang-ru");
+    const uk = document.querySelector(".lang-uk");
+    const de = document.querySelector(".lang-de");
+
+    ru.classList.remove("active");
+    uk.classList.remove("active");
+    de.classList.remove("active");
+
+    if (value === "ru") {
+        container.className = "lesson-container single";
+        ru.classList.add("active");
+    }
+
+    if (value === "uk") {
+        container.className = "lesson-container single";
+        uk.classList.add("active");
+    }
+
+    if (value === "de") {
+        container.className = "lesson-container single";
+        de.classList.add("active");
+    }
+
+    if (value === "ru-uk") {
+        container.className = "lesson-container double";
+        ru.classList.add("active");
+        uk.classList.add("active");
+    }
+
+    if (value === "ru-de") {
+        container.className = "lesson-container double";
+        ru.classList.add("active");
+        de.classList.add("active");
+    }
+
+});
 
 
 // =============================

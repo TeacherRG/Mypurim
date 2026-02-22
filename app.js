@@ -1,10 +1,10 @@
 // ===== CONFIG =====
 
 const SECTIONS = [
-    { id: 'intro',     title: 'Введение' },
-    { id: 'section_a', title: 'Раздел 1' },
-    { id: 'section_b', title: 'Раздел 2' },
-    { id: 'section_c', title: 'Раздел 3' }
+    { id: 'intro'     },
+    { id: 'section_a' },
+    { id: 'section_b' },
+    { id: 'section_c' }
 ];
 
 // ===== STATE =====
@@ -26,6 +26,7 @@ const langSelect    = document.getElementById('lang-select');
 document.addEventListener('DOMContentLoaded', function () {
     loadProgress();
     langSelect.value = langMode;
+    I18N.applyTranslations(langMode);
     renderSidebar();
     loadSection('intro');
     updateProgressBar();
@@ -33,6 +34,8 @@ document.addEventListener('DOMContentLoaded', function () {
     langSelect.addEventListener('change', function () {
         langMode = this.value;
         localStorage.setItem('langMode', langMode);
+        I18N.applyTranslations(langMode);
+        renderSidebar();
         if (currentId) loadSection(currentId);
     });
 });
@@ -44,7 +47,7 @@ function renderSidebar() {
 
     SECTIONS.forEach(function (section, index) {
         const li = document.createElement('li');
-        li.textContent = section.title;
+        li.textContent = I18N.sectionTitle(section.id, langMode);
 
         // Locking: intro and section_a are always accessible.
         // Each subsequent section requires the previous one to be completed.
@@ -212,7 +215,7 @@ function renderQuiz(sectionData) {
 
     const header = document.createElement('div');
     header.className = 'quiz-header';
-    header.textContent = 'Проверь понимание';
+    header.textContent = I18N.t('quizHeader', langMode);
 
     const body = document.createElement('div');
     body.className = 'quiz-body open';
@@ -255,7 +258,7 @@ function renderQuiz(sectionData) {
     // Submit button
     const btn = document.createElement('button');
     btn.className = 'quiz-submit';
-    btn.textContent = 'Ответить';
+    btn.textContent = I18N.t('quizSubmit', langMode);
     btn.addEventListener('click', function () {
         checkQuiz(sectionData.id, card);
     });
@@ -266,7 +269,7 @@ function renderQuiz(sectionData) {
     // If section already completed — collapse and show message
     if (state.completedSections.includes(sectionData.id)) {
         body.classList.remove('open');
-        result.textContent = 'Раздел уже завершён.';
+        result.textContent = I18N.t('quizAlreadyDone', langMode);
         result.style.color = 'green';
     }
 }
@@ -306,7 +309,7 @@ function checkQuiz(sectionId, card) {
     });
 
     if (allCorrect) {
-        result.textContent = 'Все ответы верны. Раздел завершён.';
+        result.textContent = I18N.t('quizAllCorrect', langMode);
         result.style.color = 'green';
 
         if (!state.completedSections.includes(sectionId)) {
@@ -320,7 +323,7 @@ function checkQuiz(sectionId, card) {
         card.querySelector('.quiz-body').classList.remove('open');
 
     } else {
-        result.textContent = 'Есть ошибки. Попробуйте снова.';
+        result.textContent = I18N.t('quizHasErrors', langMode);
         result.style.color = 'red';
     }
 }

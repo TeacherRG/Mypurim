@@ -26,7 +26,6 @@ body {
     border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-/* Левый блок занимает всё свободное место */
 .header-left {
     flex: 1;
 }
@@ -42,9 +41,8 @@ body {
     opacity: 0.85;
 }
 
-/* Правый блок ЖЁСТКО вправо */
 .header-right {
-    margin-left: auto; /* ← ключевой момент */
+    margin-left: auto;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -138,6 +136,34 @@ body {
     color: #333;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
+}
+
+/* ================= LANGUAGE SYSTEM ================= */
+
+.lesson-container {
+    width: 100%;
+    display: flex;
+    gap: 40px;
+}
+
+/* Одна колонка */
+.lesson-container.single .lesson-column {
+    width: 100%;
+}
+
+/* Две колонки */
+.lesson-container.double .lesson-column {
+    width: 50%;
+}
+
+/* Все языки скрыты по умолчанию */
+.lesson-column {
+    display: none;
+}
+
+/* Активные показываются */
+.lesson-column.active {
+    display: block;
 }
 
 /* ================= FOOTER ================= */

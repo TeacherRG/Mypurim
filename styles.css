@@ -143,6 +143,7 @@ body {
 .lesson-container {
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     gap: 40px;
 }
 
@@ -153,7 +154,8 @@ body {
 
 /* Две колонки */
 .lesson-container.double .lesson-column {
-    width: 50%;
+    flex: 1;
+    min-width: 0;
 }
 
 /* Все языки скрыты по умолчанию */
@@ -164,6 +166,12 @@ body {
 /* Активные показываются */
 .lesson-column.active {
     display: block;
+}
+
+/* Sources и Quiz — на всю ширину под колонками */
+.source-block,
+.quiz-card {
+    width: 100%;
 }
 
 /* ================= FOOTER ================= */

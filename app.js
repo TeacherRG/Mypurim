@@ -142,31 +142,24 @@ function renderSection(baseData, translatedData) {
 
   container.innerHTML = "";
 
-  const wrapper = document.createElement("div");
-  wrapper.classList.add("multilang-container");
+  const isDual = langMode.includes("-");
+  container.className = "lesson-container " + (isDual ? "double" : "single");
 
-  if (langMode.includes("-")) {
-    wrapper.classList.add("two-cols");
-  }
+  const primaryData = (langMode === "uk" || langMode === "de")
+    ? (translatedData || baseData)
+    : baseData;
 
   const primaryCol = document.createElement("div");
-  primaryCol.classList.add("lang-column");
+  primaryCol.classList.add("lesson-column", "active");
+  renderContentBlocks(primaryCol, primaryData);
+  container.appendChild(primaryCol);
 
-  renderContentBlocks(primaryCol, baseData);
-
-  wrapper.appendChild(primaryCol);
-
-  if (langMode !== "ru" && translatedData) {
-
+  if (isDual && translatedData) {
     const secondaryCol = document.createElement("div");
-    secondaryCol.classList.add("lang-column", "secondary");
-
+    secondaryCol.classList.add("lesson-column", "active");
     renderContentBlocks(secondaryCol, translatedData);
-
-    wrapper.appendChild(secondaryCol);
+    container.appendChild(secondaryCol);
   }
-
-  container.appendChild(wrapper);
 
   if (baseData.sources) {
     renderSources(baseData.sources);

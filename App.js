@@ -1,202 +1,280 @@
+// =============================
+// GLOBAL STATE
+// =============================
+
 let lessonData = null;
 let currentSectionIndex = 0;
 
-const contentContainer = document.getElementById("content");
-const sidebar = document.querySelector(".sidebar ul");
-const progressFill = document.querySelector(".progress-fill");
-const progressLabel = document.querySelector(".progress-label");
-
 let state = {
-  completedSections: []
+    completedSections: []
 };
 
-// ===== ЗАГРУЗКА ПРОГРЕССА =====
+// =============================
+// DOM ELEMENTS
+// =============================
 
-function loadProgress() {
-  const saved = localStorage.getItem("purimLessonProgress");
-  if (saved) {
-    state = JSON.parse(saved);
-  }
+const contentContainer = document.getElementById("content");
+const sidebarMenu = document.getElementById("sidebar-menu");
+const progressFill = document.getElementById("progress-fill");
+const progressPercent = document.getElementById("progress-percent");
+
+// =============================
+// INIT
+// =============================
+
+document.addEventListener("DOMContentLoaded", init);
+
+async function init() {
+    loadProgress();
+    await loadLesson();
+    updateProgressBar();
 }
 
-// ===== СОХРАНЕНИЕ =====
-
-function saveProgress() {
-  localStorage.setItem("purimLessonProgress", JSON.stringify(state));
-}
-
-// ===== ОБНОВЛЕНИЕ ПРОГРЕСС-БАРА =====
-
-function updateProgressBar() {
-  const totalLessons = lessonData.sections.filter(s => s.quiz).length;
-  const completed = state.completedSections.length;
-
-  const percent = Math.round((completed / totalLessons) * 100);
-
-  progressFill.style.width = percent + "%";
-  progressLabel.textContent = "Прогресс: " + percent + "%";
-}
-
-// ===== ЗАГРУЗКА JSON =====
+// =============================
+// LOAD JSON
+// =============================
 
 async function loadLesson() {
-  const response = await fetch("lessonData.json");
-  lessonData = await response.json();
+    try {
+        const response = await fetch("lessonData.json");
 
-  loadProgress();
-  renderSidebar();
-  renderSection(0);
-  updateProgressBar();
+        if (!response.ok) {
+            throw new Error("Ошибка загрузки JSON");
+        }
+
+        lessonData = await response.json();
+
+        renderSidebar();
+        renderSection(0);
+
+    } catch (error) {
+        console.error("Ошибка:", error);
+        contentContainer.innerHTML = "<p>Ошибка загрузки данных урока.</p>";
+    }
 }
 
-// ===== SIDEBAR =====
+// =============================
+// SIDEBAR
+// =============================
 
 function renderSidebar() {
-  sidebar.innerHTML = "";
+    sidebarMenu.innerHTML = "";
 
-  lessonData.sections.forEach((section, index) => {
+    lessonData.sections.forEach((section, index) => {
 
-    const li = document.createElement("li");
-    li.textContent = section.title;
+        const li = document.createElement("li");
+        li.textContent = section.title;
 
-    if (index !== 0 && !state.completedSections.includes(lessonData.sections[index - 1]?.id)) {
-      li.classList.add("locked");
-    }
+        // Блокировка
+        if (index > 0 && !state.completedSections.includes(lessonData.sections[index - 1].id)) {
+            li.classList.add("locked");
+        }
 
-    if (state.completedSections.includes(section.id)) {
-      li.classList.add("completed");
-    }
+        // Завершён
+        if (state.completedSections.includes(section.id)) {
+            li.classList.add("completed");
+        }
 
-    li.addEventListener("click", () => {
-      if (!li.classList.contains("locked")) {
-        renderSection(index);
-      }
+        // Активный
+        if (index === currentSectionIndex) {
+            li.classList.add("active");
+        }
+
+        li.addEventListener("click", () => {
+            if (!li.classList.contains("locked")) {
+                currentSectionIndex = index;
+                renderSidebar();
+                renderSection(index);
+            }
+        });
+
+        sidebarMenu.appendChild(li);
     });
-
-    sidebar.appendChild(li);
-  });
 }
 
-// ===== РЕНДЕР РАЗДЕЛА =====
+// =============================
+// RENDER SECTION
+// =============================
 
 function renderSection(index) {
 
-  currentSectionIndex = index;
-  const section = lessonData.sections[index];
+    const section = lessonData.sections[index];
+    contentContainer.innerHTML = "";
 
-  contentContainer.innerHTML = "";
+    const card = document.createElement("section");
+    card.classList.add("lesson-card");
 
-  const card = document.createElement("section");
-  card.classList.add("lesson-card");
+    const title = document.createElement("h2");
+    title.textContent = section.title;
+    card.appendChild(title);
 
-  const title = document.createElement("h2");
-  title.textContent = section.title;
-  card.appendChild(title);
+    // Контент
+    section.content.forEach(block => {
 
-  section.content.forEach(block => {
+        if (block.type === "paragraph") {
+            const p = document.createElement("p");
+            p.textContent = block.text;
+            card.appendChild(p);
+        }
 
-    if (block.type === "paragraph") {
-      const p = document.createElement("p");
-      p.textContent = block.text;
-      card.appendChild(p);
+        if (block.type === "quote") {
+            const quote = document.createElement("blockquote");
+            quote.textContent = block.text;
+            card.appendChild(quote);
+        }
+
+    });
+
+    // Источники
+    if (section.sources) {
+
+        section.sources.forEach(source => {
+
+            const sourceBlock = document.createElement("div");
+            sourceBlock.classList.add("source-block");
+
+            const header = document.createElement("div");
+            header.classList.add("source-header");
+            header.textContent = source.title;
+
+            const body = document.createElement("div");
+            body.classList.add("source-body");
+            body.textContent = source.text;
+
+            header.addEventListener("click", () => {
+                body.classList.toggle("open");
+            });
+
+            sourceBlock.appendChild(header);
+            sourceBlock.appendChild(body);
+
+            card.appendChild(sourceBlock);
+        });
     }
 
-    if (block.type === "quote") {
-      const q = document.createElement("blockquote");
-      q.textContent = block.text;
-      card.appendChild(q);
+    contentContainer.appendChild(card);
+
+    // Квиз
+    if (section.quiz && !state.completedSections.includes(section.id)) {
+        renderQuiz(section);
     }
-  });
-
-  contentContainer.appendChild(card);
-
-  if (section.quiz && !state.completedSections.includes(section.id)) {
-    renderQuiz(section);
-  }
 }
 
-// ===== РЕНДЕР КВИЗА =====
+// =============================
+// RENDER QUIZ
+// =============================
 
 function renderQuiz(section) {
 
-  const quizData = section.quiz;
+    const quizCard = document.createElement("section");
+    quizCard.classList.add("quiz-card");
 
-  const quizCard = document.createElement("section");
-  quizCard.classList.add("quiz-card");
+    const title = document.createElement("h3");
+    title.textContent = "Проверь понимание";
+    quizCard.appendChild(title);
 
-  const title = document.createElement("h3");
-  title.textContent = "Проверь понимание";
-  quizCard.appendChild(title);
+    section.quiz.questions.forEach((q, qIndex) => {
 
-  quizData.questions.forEach((q, qIndex) => {
+        const questionDiv = document.createElement("div");
+        questionDiv.classList.add("question");
 
-    const questionDiv = document.createElement("div");
-    questionDiv.classList.add("question");
+        const questionText = document.createElement("p");
+        questionText.textContent = q.question;
+        questionDiv.appendChild(questionText);
 
-    const questionText = document.createElement("p");
-    questionText.textContent = q.question;
-    questionDiv.appendChild(questionText);
+        q.options.forEach(option => {
 
-    q.options.forEach(option => {
-      const label = document.createElement("label");
+            const label = document.createElement("label");
 
-      const input = document.createElement("input");
-      input.type = "radio";
-      input.name = "question_" + qIndex;
-      input.dataset.correct = option.correct;
+            const input = document.createElement("input");
+            input.type = "radio";
+            input.name = "question_" + qIndex;
+            input.dataset.correct = option.correct;
 
-      label.appendChild(input);
-      label.appendChild(document.createTextNode(option.text));
+            label.appendChild(input);
+            label.appendChild(document.createTextNode(option.text));
 
-      questionDiv.appendChild(label);
+            questionDiv.appendChild(label);
+        });
+
+        quizCard.appendChild(questionDiv);
     });
 
-    quizCard.appendChild(questionDiv);
-  });
+    const button = document.createElement("button");
+    button.classList.add("quiz-button");
+    button.textContent = "Ответить";
 
-  const button = document.createElement("button");
-  button.classList.add("quiz-button");
-  button.textContent = "Ответить";
+    button.addEventListener("click", () => checkQuiz(section.id));
 
-  button.addEventListener("click", () => checkQuiz(section.id));
-
-  quizCard.appendChild(button);
-  contentContainer.appendChild(quizCard);
+    quizCard.appendChild(button);
+    contentContainer.appendChild(quizCard);
 }
 
-// ===== ПРОВЕРКА КВИЗА =====
+// =============================
+// CHECK QUIZ
+// =============================
 
 function checkQuiz(sectionId) {
 
-  const selected = document.querySelectorAll("input[type='radio']:checked");
+    const selected = document.querySelectorAll("input[type='radio']:checked");
 
-  if (selected.length === 0) {
-    alert("Выберите ответ");
-    return;
-  }
-
-  let correctCount = 0;
-
-  selected.forEach(input => {
-    if (input.dataset.correct === "true") {
-      correctCount++;
+    if (selected.length === 0) {
+        alert("Выберите ответ");
+        return;
     }
-  });
 
-  if (correctCount >= 1) {
+    let correct = 0;
 
-    state.completedSections.push(sectionId);
-    saveProgress();
+    selected.forEach(input => {
+        if (input.dataset.correct === "true") {
+            correct++;
+        }
+    });
 
-    renderSidebar();
-    updateProgressBar();
+    if (correct >= 1) {
 
-    alert("Раздел завершён!");
-    renderSection(currentSectionIndex);
+        if (!state.completedSections.includes(sectionId)) {
+            state.completedSections.push(sectionId);
+            saveProgress();
+        }
 
-  } else {
-    alert("Попробуйте снова");
-  }
+        renderSidebar();
+        renderSection(currentSectionIndex);
+        updateProgressBar();
+
+        alert("Раздел завершён!");
+
+    } else {
+        alert("Есть ошибки. Попробуйте снова.");
+    }
 }
 
-loadLesson();
+// =============================
+// PROGRESS
+// =============================
+
+function updateProgressBar() {
+
+    const total = lessonData.sections.filter(s => s.quiz).length;
+    const completed = state.completedSections.length;
+
+    const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+    progressFill.style.width = percent + "%";
+    progressPercent.textContent = percent + "%";
+}
+
+// =============================
+// LOCAL STORAGE
+// =============================
+
+function loadProgress() {
+    const saved = localStorage.getItem("purimLessonProgress");
+    if (saved) {
+        state = JSON.parse(saved);
+    }
+}
+
+function saveProgress() {
+    localStorage.setItem("purimLessonProgress", JSON.stringify(state));
+              }

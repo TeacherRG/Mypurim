@@ -174,6 +174,153 @@ body {
     width: 100%;
 }
 
+/* ================= CONTENT TEXT ================= */
+
+.lesson-column p {
+    margin-bottom: 16px;
+    line-height: 1.75;
+}
+
+.lesson-column blockquote {
+    border-left: 4px solid #7b5ea7;
+    padding: 10px 16px;
+    margin: 20px 0;
+    font-style: italic;
+    color: #555;
+    background: #f9f6ff;
+    border-radius: 0 8px 8px 0;
+}
+
+/* ================= SOURCES ================= */
+
+.source-block {
+    margin-top: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.source-header {
+    padding: 12px 18px;
+    background: #f5f3ff;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    user-select: none;
+}
+
+.source-header:hover {
+    background: #ede8ff;
+}
+
+.source-body {
+    display: none;
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.75;
+    color: #444;
+}
+
+.source-body.open {
+    display: block;
+}
+
+/* ================= QUIZ ================= */
+
+.quiz-card {
+    margin-top: 32px;
+    border: 1px solid #c8b8e8;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.quiz-header {
+    padding: 16px 20px;
+    background: #7b5ea7;
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.quiz-header:hover {
+    background: #6a4f96;
+}
+
+.quiz-body {
+    display: none;
+    padding: 20px;
+}
+
+.quiz-body.open {
+    display: block;
+}
+
+.question {
+    margin-bottom: 24px;
+}
+
+.question p {
+    font-weight: 500;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.question label {
+    display: block;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    line-height: 1.5;
+}
+
+.question label:hover {
+    background: #f5f3ff;
+}
+
+.quiz-result {
+    margin: 12px 0 8px;
+    font-weight: 500;
+    font-size: 14px;
+    min-height: 20px;
+}
+
+.quiz-button {
+    padding: 10px 24px;
+    background: #7b5ea7;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    transition: background 0.2s;
+}
+
+.quiz-button:hover {
+    background: #6a4f96;
+}
+
+/* ================= SIDEBAR STATES ================= */
+
+.sidebar li.active {
+    color: #ffcc00;
+    font-weight: 600;
+    opacity: 1;
+}
+
+.sidebar li.completed {
+    opacity: 1;
+    color: #7fff7f;
+}
+
+.sidebar li.completed::before {
+    content: "✓ ";
+}
+
 /* ================= FOOTER ================= */
 
 .footer {

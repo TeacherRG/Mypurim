@@ -68,17 +68,6 @@ function renderSidebar() {
         const li = document.createElement("li");
         li.textContent = section.title;
 
-        // ===== ЛОГИКА БЛОКИРОВКИ =====
-
-        if (section.id !== "intro" && section.id !== "section_a") {
-
-            const prevSection = sectionsList[index - 1];
-
-            if (!state.completedSections.includes(prevSection.id)) {
-                li.classList.add("locked");
-            }
-        }
-
         // ===== ЗАВЕРШЁН =====
 
         if (state.completedSections.includes(section.id)) {
@@ -92,9 +81,7 @@ function renderSidebar() {
         }
 
         li.addEventListener("click", () => {
-            if (!li.classList.contains("locked")) {
-                loadSection(section.id);
-            }
+            loadSection(section.id);
         });
 
         sidebarMenu.appendChild(li);

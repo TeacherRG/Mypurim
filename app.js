@@ -315,10 +315,13 @@ function checkQuiz(sectionId, quizCard) {
 
 function updateProgressBar() {
 
-    const total = sectionsList.length - 1;
+    // Считаем только разделы, где есть квиз
+    const quizSections = sectionsList.filter(section => section.id !== "intro");
+
+    const total = quizSections.length;
     const completed = state.completedSections.length;
 
-    const percent = Math.round((completed / total) * 100);
+    const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
 
     progressFill.style.width = percent + "%";
     progressPercent.textContent = percent + "%";

@@ -10,104 +10,118 @@
 
     <!-- Main Styles -->
     <link rel="stylesheet" href="styles.css" />
-    
 </head>
 
 <body>
 
     <!-- ================= HEADER ================= -->
-<header class="main-header">
 
-    <div class="header-left">
-        <h1 id="lesson-title">Праздник Пурим</h1>
-        <p id="lesson-subtitle">Интерактивный учебный модуль</p>
-    </div>
+    <header class="main-header">
 
-    <div class="header-right">
-        
-        <select id="langMode" class="lang-select">
-            <option value="ru">Русский</option>
-            <option value="uk">Українська</option>
-            <option value="de">Deutsch</option>
-            <option value="ru-uk">RU + UA</option>
-            <option value="ru-de">RU + DE</option>
-        </select>
-
-        <div class="progress-wrapper">
-            <div class="progress-label">
-                <span id="progress-percent">0%</span> завершено
-            </div>
-
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
-            </div>
+        <div class="header-left">
+            <h1 id="lesson-title">Праздник Пурим</h1>
+            <p id="lesson-subtitle">Интерактивный учебный модуль</p>
         </div>
 
-    </div>
+        <div class="header-right">
 
-</header>
+            <select id="langMode" class="lang-select">
+                <option value="ru">Русский</option>
+                <option value="uk">Українська</option>
+                <option value="de">Deutsch</option>
+                <option value="ru-uk">RU + UA</option>
+                <option value="ru-de">RU + DE</option>
+            </select>
+
+            <div class="progress-wrapper">
+                <div class="progress-label">
+                    <span id="progress-percent">0%</span> завершено
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </header>
 
     <!-- ================= MAIN LAYOUT ================= -->
 
     <div class="layout">
 
-        <!-- ========== SIDEBAR NAVIGATION ========== -->
+        <!-- ========== SIDEBAR ========== -->
 
         <aside class="sidebar">
-
             <div class="sidebar-title">
                 Структура урока
             </div>
-
             <ul id="sidebar-menu">
-                <!-- Sections will be rendered dynamically -->
+                <!-- Заполняется через JS -->
             </ul>
-
         </aside>
 
+        <!-- ========== CONTENT ========== -->
 
-        <!-- ========== CONTENT AREA ========== -->
+        <main class="content">
 
-        <main class="content" id="content">
+            <!-- ЯЗЫКОВОЙ КОНТЕЙНЕР -->
+            <div class="lesson-container single" id="lesson-container">
 
-            <!-- Lesson content will be rendered dynamically -->
+                <!-- РУССКИЙ -->
+                <div class="lesson-column lang-ru active">
+                    <!-- Русский контент будет рендериться сюда -->
+                </div>
+
+                <!-- УКРАИНСКИЙ -->
+                <div class="lesson-column lang-uk">
+                    <!-- Український контент -->
+                </div>
+
+                <!-- НЕМЕЦКИЙ -->
+                <div class="lesson-column lang-de">
+                    <!-- Deutscher Inhalt -->
+                </div>
+
+            </div>
 
         </main>
 
     </div>
 
-
     <!-- ================= FOOTER ================= -->
-<footer class="footer">
-    <div class="footer-inner">
 
-        <p>
-            Перевод и адаптация на русском языке: <strong>Рав Реувен Гринберг</strong><br>
-            Электронная почта: 
-            <a href="mailto:kosherletter@gmail.com">kosherletter@gmail.com</a><br>
-            При участии искусственного интеллекта ChatGPT (OpenAI)
-        </p>
+    <footer class="footer">
+        <div class="footer-inner">
 
-        <br>
+            <p>
+                Перевод и адаптация на русском языке: <strong>Рав Реувен Гринберг</strong><br>
+                Электронная почта:
+                <a href="mailto:kosherletter@gmail.com">kosherletter@gmail.com</a><br>
+                При участии искусственного интеллекта ChatGPT (OpenAI)
+            </p>
 
-        <p>
-            © 2026 Shluchim Office International. Все права защищены.
-        </p>
+            <br>
 
-        <p>
-            По дополнительным вопросам: 
-            <a href="mailto:info@jewishinsights.org">info@jewishinsights.org</a>
-        </p>
+            <p>
+                © 2026 Shluchim Office International. Все права защищены.
+            </p>
 
-        <p>
-            Для загрузки дополнительных учебных материалов посетите сайт:<br>
-            <a href="https://www.jewishinsights.org" target="_blank">
-                www.jewishinsights.org
-            </a>
-        </p>
+            <p>
+                По дополнительным вопросам:
+                <a href="mailto:info@jewishinsights.org">info@jewishinsights.org</a>
+            </p>
 
-    </div>
-</footer>
+            <p>
+                Для загрузки дополнительных учебных материалов посетите сайт:<br>
+                <a href="https://www.jewishinsights.org" target="_blank">
+                    www.jewishinsights.org
+                </a>
+            </p>
+
+        </div>
+    </footer>
+
     <!-- ================= SCRIPTS ================= -->
 
     <script src="app.js"></script>

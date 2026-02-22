@@ -105,20 +105,34 @@ function renderSidebar() {
 // LOAD SECTION
 // =============================
 
-async function loadSection(sectionId) {
+async function loadSection(id) {
 
+  currentSectionId = id;
+
+  let basePath = "sections/";
+  let translationPath = "";
+
+  if (langMode === "uk" || langMode === "ru-uk") {
+    translationPath = "translations/uk/";
+  }
+
+  if (langMode === "de" || langMode === "ru-de") {
+    translationPath = "translations/de/";
+  }
+
+  const baseData = await fetch(`${basePath}${id}.json`).then(res => res.json());
+
+  let translatedData = null;
+
+  if (translationPath) {
     try {
-        const response = await fetch(`sections/${sectionId}.json`);
-        const section = await response.json();
-
-        currentSectionId = sectionId;
-        renderSidebar();
-        renderSection(section);
-
-    } catch (error) {
-        contentContainer.innerHTML = "Ошибка загрузки раздела.";
-        console.error(error);
+      translatedData = await fetch(`${translationPath}${id}.json`).then(res => res.json());
+    } catch {
+      translatedData = null;
     }
+  }
+
+  renderSection(baseData, translatedData);
 }
 
 // =============================

@@ -1,0 +1,51 @@
+[
+  {
+    "id": 1,
+    "title": "",
+    "artist": "Songs for Purim",
+    "duration": 0,
+    "url": "https://github.com/TeacherRG/Purim/releases/download/v1.0/-.mp3"
+  },
+  {
+    "id": 2,
+    "title": "1",
+    "artist": "Songs for Purim",
+    "duration": 0,
+    "url": "https://github.com/TeacherRG/Purim/releases/download/v1.0/1.mp3"
+  },
+  {
+    "id": 3,
+    "title": "1",
+    "artist": "Songs for Purim",
+    "duration": 0,
+    "url": "https://github.com/TeacherRG/Purim/releases/download/v1.0/2025.1.mp3"
+  },
+  {
+    "id": 4,
+    "title": "2",
+    "artist": "Songs for Purim",
+    "duration": 0,
+    "url": "https://github.com/TeacherRG/Purim/releases/download/v1.0/2025.2.mp3"
+  },
+  {
+    "id": 5,
+    "title": "3",
+    "artist": "Songs for Purim",
+    "duration": 0,
+    "url": "https://github.com/TeacherRG/Purim/releases/download/v1.0/2025.3.mp3"
+  },
+  {
+    "id": 6,
+    "title": "2025",
+    "artist": "Songs for Purim",
+    "duration": 0,
+    "url": "https://github.com/TeacherRG/Purim/releases/download/v1.0/2025.mp3"
+  },
+  {
+    "id": 7,
+    "title": "Default",
+    "artist": "Songs for Purim",
+    "duration": 0,
+    "url": "https://github.com/TeacherRG/Purim/releases/download/v1.0/default.mp3"
+  }
+]

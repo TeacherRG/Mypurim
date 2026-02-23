@@ -380,6 +380,95 @@ body::before {
     opacity: 0.85;
 }
 
+/* ===== SIDEBAR PDF SECTION ===== */
+
+.sidebar li.pdf-section {
+    border-top: 1px solid rgba(255, 204, 0, 0.3);
+    margin-top: 16px;
+    padding-top: 14px;
+    color: #ffcc00;
+    opacity: 0.9;
+}
+
+.sidebar li.pdf-section:hover {
+    opacity: 1;
+}
+
+.sidebar li.pdf-section.active {
+    color: #fff;
+    font-weight: 700;
+}
+
+/* ===== ESTHER SCROLL MODULE ===== */
+
+.esther-desc {
+    font-size: 15px;
+    line-height: 1.75;
+    color: #555;
+    margin-bottom: 28px;
+}
+
+.esther-pdf-block {
+    margin-bottom: 40px;
+    border: 1px solid #e0e4f0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.esther-pdf-label {
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #1e1f3a, #2c2f6a);
+    color: #ffcc00;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.esther-btn-row {
+    display: flex;
+    gap: 12px;
+    padding: 16px 20px;
+    background: #f8f9ff;
+    border-bottom: 1px solid #e0e4f0;
+    flex-wrap: wrap;
+}
+
+.esther-btn {
+    display: inline-block;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    cursor: pointer;
+}
+
+.esther-btn:hover {
+    opacity: 0.85;
+    text-decoration: none;
+}
+
+.esther-btn-open {
+    background: linear-gradient(135deg, #ffcc00, #ff8800);
+    color: #1e1f3a;
+}
+
+.esther-btn-download {
+    background: #fff;
+    color: #1e1f3a;
+    border: 2px solid #1e1f3a;
+}
+
+.esther-iframe {
+    display: block;
+    width: 100%;
+    height: 780px;
+    border: none;
+    background: #f5f5f5;
+}
+
 /* ===== FOOTER ===== */
 
 .site-footer {
@@ -464,5 +553,13 @@ body::before {
         padding-left: 0;
         border-top: 2px solid #e0e4f0;
         padding-top: 24px;
+    }
+
+    .esther-iframe {
+        height: 500px;
+    }
+
+    .esther-btn-row {
+        gap: 10px;
     }
 }

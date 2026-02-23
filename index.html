@@ -36,13 +36,14 @@
                     <option value="ru-uk">RU + UA</option>
                     <option value="ru-de">RU + DE</option>
                 </select>
-                <div class="progress-wrapper">
-                    <div class="progress-label">
-                        <span id="progress-percent">0%</span> <span data-i18n="progressLabel">завершено</span>
+                <div class="music-player" id="music-player">
+                    <div class="mp-title" id="mp-title">♪ Пурим</div>
+                    <div class="mp-controls">
+                        <button class="mp-btn" id="mp-prev" aria-label="Предыдущий трек">⏮</button>
+                        <button class="mp-btn mp-play" id="mp-play" aria-label="Воспроизвести">▶</button>
+                        <button class="mp-btn" id="mp-next" aria-label="Следующий трек">⏭</button>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progress-fill"></div>
-                    </div>
+                    <div class="mp-bar" id="mp-bar"><div class="mp-bar-fill" id="mp-bar-fill"></div></div>
                 </div>
             </div>
         </div>

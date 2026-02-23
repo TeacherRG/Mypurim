@@ -110,32 +110,78 @@ body::before {
     cursor: pointer;
 }
 
-/* ===== PROGRESS BAR ===== */
+/* ===== MUSIC PLAYER ===== */
 
-.progress-wrapper {
-    width: 220px;
+.music-player {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    width: 200px;
+}
+
+.mp-title {
+    font-size: 11px;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0.9;
+    color: #fff;
     text-align: right;
 }
 
-.progress-label {
-    font-size: 12px;
-    margin-bottom: 6px;
-    opacity: 0.9;
+.mp-controls {
+    display: flex;
+    gap: 5px;
+    align-items: center;
 }
 
-.progress-bar {
+.mp-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 204, 0, 0.35);
+    border-radius: 6px;
+    color: #ffcc00;
+    font-size: 13px;
+    width: 30px;
+    height: 26px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.1s;
+    padding: 0;
+    line-height: 1;
+}
+
+.mp-btn:hover {
+    background: rgba(255, 204, 0, 0.2);
+}
+
+.mp-btn:active {
+    transform: scale(0.9);
+}
+
+.mp-play {
+    width: 34px;
+    font-size: 15px;
+}
+
+.mp-bar {
     width: 100%;
-    height: 8px;
+    height: 4px;
     background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
+    border-radius: 4px;
     overflow: hidden;
+    cursor: pointer;
 }
 
-.progress-fill {
-    width: 0%;
+.mp-bar-fill {
     height: 100%;
+    width: 0%;
     background: linear-gradient(90deg, #ffcc00, #ff8800);
-    transition: width 0.4s ease;
+    border-radius: 4px;
+    transition: width 0.3s linear;
 }
 
 /* ===== NAV TOGGLE BUTTON ===== */
@@ -1312,8 +1358,12 @@ body::before {
         font-size: 14px;
     }
 
-    .progress-wrapper {
+    .music-player {
         width: 160px;
+    }
+
+    .mp-title {
+        max-width: 160px;
     }
 
     .nav-popup {

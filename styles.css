@@ -1507,3 +1507,63 @@ body::before {
     0%, 100% { opacity: 1; }
     50%       { opacity: 0.4; }
 }
+
+/* ===== SPIRAL / GOODNIGHT GAME ===== */
+
+.spiral-wrapper {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    min-height: 400px;
+    max-height: 720px;
+    background: #0a0010;
+    border-radius: 16px;
+    overflow: hidden;
+    margin: 24px 0;
+}
+
+.spiral-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.spiral-label {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 200, 0, 0.5);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    white-space: nowrap;
+    font-family: serif;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.spiral-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 2;
+}
+
+.spiral-btn {
+    background: rgba(255, 200, 0, 0.15);
+    border: 1px solid rgba(255, 200, 0, 0.4);
+    color: #ffd700;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    transition: background 0.2s;
+}
+
+.spiral-btn:hover {
+    background: rgba(255, 200, 0, 0.3);
+}

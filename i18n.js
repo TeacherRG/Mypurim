@@ -42,7 +42,8 @@ const I18N = (function () {
                 tzedaka:       'Дать Цдаку',
                 games:         'Игры',
                 dreidel:       'Игра в дрейдл 🎡',
-                hangman:       'Повесь Амана! 🪢'
+                hangman:       'Повесь Амана! 🪢',
+                spiral:        'Спокойной ночи 🌀'
             }
         },
 
@@ -81,7 +82,8 @@ const I18N = (function () {
                 tzedaka:       'Дати Цдаку',
                 games:         'Ігри',
                 dreidel:       'Гра в дрейдл 🎡',
-                hangman:       'Повіш Амана! 🪢'
+                hangman:       'Повіш Амана! 🪢',
+                spiral:        'На добраніч 🌀'
             }
         },
 
@@ -120,7 +122,8 @@ const I18N = (function () {
                 tzedaka:       'Zedaka geben',
                 games:         'Spiele',
                 dreidel:       'Dreidel-Spiel 🎡',
-                hangman:       'Häng Haman auf! 🪢'
+                hangman:       'Häng Haman auf! 🪢',
+                spiral:        'Gute Nacht 🌀'
             }
         }
 

@@ -1,31 +1,31 @@
 {
   "id": "intro",
-  "title": "Пурим — праздник, скрывающий бесконечный свет",
+  "title": "Purim — ein Fest, das unendliches Licht verbirgt",
 
   "content": [
     {
       "type": "paragraph",
-      "text": "Этот урок посвящается юбилею семьи Гринберг — с любовью и радостью."
+      "text": "Diese Lektion ist dem Jubiläum der Familie Grünberg gewidmet — mit Liebe und Freude."
     },
     {
       "type": "quote",
-      "text": "«Мегилат Эстер — единственная книга Танаха, в которой имя Б-га не упоминается ни разу. Это и есть главный урок Пурима: научиться видеть Б-га именно там, где Он скрыт.» — Ребе"
+      "text": "„Megillat Esther ist das einzige Buch des Tanach, in dem der Name G-ttes kein einziges Mal erwähnt wird. Genau das ist die zentrale Lehre von Purim: G-tt gerade dort zu erkennen, wo Er verborgen ist.“ — Der Rebbe"
     },
     {
       "type": "paragraph",
-      "text": "За случайностями — промысел, за маскарадом — истина, за смехом — самая глубокая вера. Пурим учит нас, что Б-г никогда не оставляет свой народ — даже когда Его присутствие не видно."
+      "text": "Hinter dem Zufall steht göttliche Vorsehung, hinter der Verkleidung die Wahrheit, hinter dem Lachen der tiefste Glaube. Purim lehrt uns, dass G-tt Sein Volk niemals verlässt — selbst dann nicht, wenn Seine Gegenwart nicht sichtbar ist."
     },
     {
       "type": "paragraph",
-      "text": "Здесь вы найдёте:"
+      "text": "Hier finden Sie:"
     },
     {
       "type": "list",
       "items": [
-        "Двар Малхут — сиха Ребе о Пуриме: объяснение внутреннего смысла праздника",
-        "Мегилат Эстер — слова, которые евреи читают во всех поколениях",
-        "Цдака — возможность совершить заповедь прямо сейчас",
-        "Поиграть — раздел для детей, полный пуримской радости"
+        "Dwar Malchut — eine Sicha des Rebbe zu Purim: die Erklärung der inneren Bedeutung des Festes",
+        "Megillat Esther — die Worte, die Juden in allen Generationen lesen",
+        "Zedaka — die Möglichkeit, jetzt sofort eine Mizwa zu erfüllen",
+        "Spielen — ein Bereich für Kinder, voller purimscher Freude"
       ]
     }
   ]

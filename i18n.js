@@ -33,7 +33,8 @@ const I18N = (function () {
                 section_a:     'Раздел 1',
                 section_b:     'Раздел 2',
                 section_c:     'Раздел 3',
-                esther_scroll: 'Чтение Свитка Эстер'
+                esther_scroll: 'Чтение Свитка Эстер',
+                tzedaka:       'Дать Цдаку'
             }
         },
 
@@ -63,7 +64,8 @@ const I18N = (function () {
                 section_a:     'Розділ 1',
                 section_b:     'Розділ 2',
                 section_c:     'Розділ 3',
-                esther_scroll: 'Читання Сувою Естер'
+                esther_scroll: 'Читання Сувою Естер',
+                tzedaka:       'Дати Цдаку'
             }
         },
 
@@ -93,7 +95,8 @@ const I18N = (function () {
                 section_a:     'Abschnitt 1',
                 section_b:     'Abschnitt 2',
                 section_c:     'Abschnitt 3',
-                esther_scroll: 'Lesen der Megillat Esther'
+                esther_scroll: 'Lesen der Megillat Esther',
+                tzedaka:       'Zedaka geben'
             }
         }
 

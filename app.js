@@ -471,11 +471,19 @@ function buildEstherPdfBlock(pdf) {
     btnRow.appendChild(downloadBtn);
     block.appendChild(btnRow);
 
-    const iframe = document.createElement('iframe');
-    iframe.src = pdf.file;
-    iframe.className = 'esther-iframe';
-    iframe.title = pdf.label || I18N.sectionTitle('esther_scroll', langMode);
-    block.appendChild(iframe);
+    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+        const notice = document.createElement('p');
+        notice.className = 'esther-mobile-notice';
+        notice.textContent = I18N.t('estherMobileNotice', langMode);
+        block.appendChild(notice);
+    } else {
+        const iframe = document.createElement('iframe');
+        iframe.src = pdf.file;
+        iframe.className = 'esther-iframe';
+        iframe.title = pdf.label || I18N.sectionTitle('esther_scroll', langMode);
+        block.appendChild(iframe);
+    }
 
     return block;
 }

@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "title": "",
+    "title": "0",
     "artist": "Songs for Purim",
     "duration": 0,
     "url": "https://github.com/TeacherRG/Purim/releases/download/v1.0/-.mp3"
@@ -49,3 +49,4 @@
     "url": "https://github.com/TeacherRG/Purim/releases/download/v1.0/default.mp3"
   }
 ]
+

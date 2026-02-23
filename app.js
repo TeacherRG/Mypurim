@@ -2027,7 +2027,7 @@ function initMusicPlayer() {
 function mpLoad(index) {
     mpIndex = index;
     var track = mpTracks[mpIndex];
-    mpAudio.src = track.src;
+    mpAudio.src = track.url;
     document.getElementById('mp-title').textContent = '\u266a ' + track.title;
     document.getElementById('mp-bar-fill').style.width = '0%';
     if (mpPlaying) { mpAudio.play(); }

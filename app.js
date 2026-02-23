@@ -7,7 +7,8 @@ const SECTIONS = [
     { id: 'section_b',     group: 'dvar_malchut'          },
     { id: 'section_c',     group: 'dvar_malchut'          },
     { id: 'esther_scroll', type: 'pdf'                    },
-    { id: 'tzedaka',       type: 'donate'                 }
+    { id: 'tzedaka',       type: 'donate'                 },
+    { id: 'dreidel',       type: 'game'                   }
 ];
 
 // ===== STATE =====
@@ -146,6 +147,12 @@ async function loadSection(id) {
     }
     if (sectionCfg && sectionCfg.type === 'donate') {
         renderTzedaka();
+        renderSidebar();
+        updateProgressBar();
+        return;
+    }
+    if (sectionCfg && sectionCfg.type === 'game') {
+        renderDreidelGame();
         renderSidebar();
         updateProgressBar();
         return;
@@ -624,6 +631,387 @@ function buildDonateCard(opts) {
     card.appendChild(body);
 
     return card;
+}
+
+// ===== DREIDEL GAME =====
+
+function renderDreidelGame() {
+    contentArea.innerHTML = '';
+
+    const uiLang = langMode === 'uk' ? 'uk' : (langMode === 'de' ? 'de' : 'ru');
+
+    const strings = {
+        ru: {
+            title:        'Игра в дрейдл',
+            intro:        'Дрейдл — четырёхгранный волчок, с которым дети играют в Хануку. На каждой грани написана еврейская буква: נ (Нун), ג (Гимель), ה (Хе), פ (Пей) — начальные буквы слов «Нес гадоль хайя по» — «Чудо великое было здесь».',
+            rulesTitle:   'Правила игры',
+            rules: [
+                'נ  Нун — ничего не происходит, передай ход',
+                'ג  Гимель — заберёшь весь банк!',
+                'ה  Хе — заберёшь половину банка',
+                'פ  Пей — положи монету в банк'
+            ],
+            spinBtn:      'Крутить дрейдл!',
+            restartBtn:   'Начать заново',
+            potLabel:     'Банк',
+            yourLabel:    'Ваши монеты',
+            compLabel:    'Компьютер',
+            yourTurn:     'Ваш ход — крутите дрейдл!',
+            compTurn:     'Ход компьютера...',
+            nunMsg:       'נ Нун — ничего не происходит',
+            gimelMsg:     'ג Гимель — вы забираете весь банк!',
+            heMsg:        'ה Хе — вы забираете половину банка',
+            peyMsg:       'פ Пей — вы кладёте монету в банк',
+            compNunMsg:   'נ Нун — компьютер пропускает',
+            compGimelMsg: 'ג Гимель — компьютер забирает весь банк!',
+            compHeMsg:    'ה Хе — компьютер забирает половину банка',
+            compPeyMsg:   'פ Пей — компьютер кладёт монету в банк',
+            youWin:       'Поздравляем! Вы победили! 🎉',
+            compWins:     'Компьютер победил. Попробуйте ещё раз!',
+            addedToPot:   'Банк пополнен — каждый добавил по монете',
+            videoTitle:   'А теперь потанцуем! ושמחת בחגך',
+            videoDesc:    'Авраам Фрид и Лиор Наркис — «И возрадуешься в праздник твой»'
+        },
+        uk: {
+            title:        'Гра в дрейдл',
+            intro:        'Дрейдл — чотиригранний дзига, з яким діти грають на Хануку. На кожній грані написана єврейська буква: נ (Нун), ג (Гімель), ה (Хе), פ (Пей) — початкові літери слів «Нес гадоль хая по» — «Чудо велике було тут».',
+            rulesTitle:   'Правила гри',
+            rules: [
+                'נ  Нун — нічого не відбувається, передай хід',
+                'ג  Гімель — забираєш весь банк!',
+                'ה  Хе — забираєш половину банку',
+                'פ  Пей — кладеш монету в банк'
+            ],
+            spinBtn:      'Крутити дрейдл!',
+            restartBtn:   'Почати знову',
+            potLabel:     'Банк',
+            yourLabel:    'Ваші монети',
+            compLabel:    'Комп\'ютер',
+            yourTurn:     'Ваш хід — крутіть дрейдл!',
+            compTurn:     'Хід комп\'ютера...',
+            nunMsg:       'נ Нун — нічого не відбувається',
+            gimelMsg:     'ג Гімель — ви забираєте весь банк!',
+            heMsg:        'ה Хе — ви забираєте половину банку',
+            peyMsg:       'פ Пей — ви кладете монету в банк',
+            compNunMsg:   'נ Нун — комп\'ютер пропускає',
+            compGimelMsg: 'ג Гімель — комп\'ютер забирає весь банк!',
+            compHeMsg:    'ה Хе — комп\'ютер забирає половину банку',
+            compPeyMsg:   'פ Пей — комп\'ютер кладе монету в банк',
+            youWin:       'Вітаємо! Ви перемогли! 🎉',
+            compWins:     'Комп\'ютер переміг. Спробуйте ще раз!',
+            addedToPot:   'Банк поповнено — кожен додав по монеті',
+            videoTitle:   'А тепер потанцюємо! ושמחת בחגך',
+            videoDesc:    'Авраам Фрід і Ліор Наркіс — «І зрадієш у свято твоє»'
+        },
+        de: {
+            title:        'Dreidel-Spiel',
+            intro:        'Der Dreidel ist ein vierseitiger Kreisel, mit dem Kinder zu Chanukka spielen. Auf jeder Seite steht ein hebräischer Buchstabe: נ (Nun), ג (Gimel), ה (He), פ (Pe) — Anfangsbuchstaben von „Nes gadol haja po" — „Ein großes Wunder geschah hier".',
+            rulesTitle:   'Spielregeln',
+            rules: [
+                'נ  Nun — nichts passiert, weitergeben',
+                'ג  Gimel — du nimmst den ganzen Topf!',
+                'ה  He — du nimmst die Hälfte des Topfes',
+                'פ  Pe — du legst eine Münze in den Topf'
+            ],
+            spinBtn:      'Dreidel drehen!',
+            restartBtn:   'Neu starten',
+            potLabel:     'Topf',
+            yourLabel:    'Ihre Münzen',
+            compLabel:    'Computer',
+            yourTurn:     'Ihr Zug — drehen Sie den Dreidel!',
+            compTurn:     'Zug des Computers...',
+            nunMsg:       'נ Nun — nichts passiert',
+            gimelMsg:     'ג Gimel — Sie nehmen den ganzen Topf!',
+            heMsg:        'ה He — Sie nehmen die Hälfte des Topfes',
+            peyMsg:       'פ Pe — Sie legen eine Münze in den Topf',
+            compNunMsg:   'נ Nun — Computer setzt aus',
+            compGimelMsg: 'ג Gimel — Computer nimmt den ganzen Topf!',
+            compHeMsg:    'ה He — Computer nimmt die Hälfte des Topfes',
+            compPeyMsg:   'פ Pe — Computer legt eine Münze in den Topf',
+            youWin:       'Herzlichen Glückwunsch! Sie haben gewonnen! 🎉',
+            compWins:     'Der Computer hat gewonnen. Versuchen Sie es nochmal!',
+            addedToPot:   'Topf aufgefüllt — jeder legte eine Münze hinein',
+            videoTitle:   'Und jetzt tanzen! ושמחת בחגך',
+            videoDesc:    'Avraham Fried und Lior Narkis — „Und du wirst fröhlich sein an deinem Fest"'
+        }
+    };
+
+    var s = strings[uiLang];
+
+    // --- Title ---
+    var h2 = document.createElement('h2');
+    h2.className = 'section-title';
+    h2.textContent = s.title;
+    contentArea.appendChild(h2);
+
+    // --- Intro paragraph ---
+    var intro = document.createElement('p');
+    intro.className = 'dreidel-intro-text';
+    intro.textContent = s.intro;
+    contentArea.appendChild(intro);
+
+    // --- Rules ---
+    var rulesBox = document.createElement('div');
+    rulesBox.className = 'dreidel-rules';
+    var rulesTitle = document.createElement('strong');
+    rulesTitle.textContent = s.rulesTitle + ':';
+    rulesBox.appendChild(rulesTitle);
+    var ul = document.createElement('ul');
+    s.rules.forEach(function (r) {
+        var li = document.createElement('li');
+        li.textContent = r;
+        ul.appendChild(li);
+    });
+    rulesBox.appendChild(ul);
+    contentArea.appendChild(rulesBox);
+
+    // --- Game container ---
+    var gameWrap = document.createElement('div');
+    gameWrap.className = 'dreidel-game';
+
+    // Scoreboard
+    var scoreboard = document.createElement('div');
+    scoreboard.className = 'dreidel-scoreboard';
+
+    function makeStatBox(label, id, value) {
+        var box = document.createElement('div');
+        box.className = 'dreidel-stat';
+        var lbl = document.createElement('div');
+        lbl.className = 'dreidel-stat-label';
+        lbl.textContent = label;
+        var val = document.createElement('div');
+        val.className = 'dreidel-stat-value';
+        val.id = id;
+        val.textContent = value;
+        box.appendChild(lbl);
+        box.appendChild(val);
+        return box;
+    }
+
+    scoreboard.appendChild(makeStatBox(s.yourLabel, 'dg-player-coins', '10'));
+    scoreboard.appendChild(makeStatBox(s.potLabel,   'dg-pot',          '2'));
+    scoreboard.appendChild(makeStatBox(s.compLabel,  'dg-comp-coins',   '10'));
+    gameWrap.appendChild(scoreboard);
+
+    // Dreidel visual + controls
+    var middle = document.createElement('div');
+    middle.className = 'dreidel-middle';
+
+    var dreidelWrap = document.createElement('div');
+    dreidelWrap.className = 'dreidel-wrap';
+    dreidelWrap.id = 'dreidel-wrap';
+
+    // Build the dreidel SVG-like shape with CSS
+    dreidelWrap.innerHTML =
+        '<div class="dreidel-figure" id="dreidel-figure">' +
+            '<div class="dreidel-handle"></div>' +
+            '<div class="dreidel-body"><span class="dreidel-letter" id="dreidel-letter">?</span></div>' +
+            '<div class="dreidel-tip"></div>' +
+        '</div>';
+
+    middle.appendChild(dreidelWrap);
+
+    var controls = document.createElement('div');
+    controls.className = 'dreidel-controls';
+
+    var statusMsg = document.createElement('div');
+    statusMsg.className = 'dreidel-status';
+    statusMsg.id = 'dreidel-status';
+    statusMsg.textContent = s.yourTurn;
+    controls.appendChild(statusMsg);
+
+    var spinBtn = document.createElement('button');
+    spinBtn.className = 'dreidel-spin-btn';
+    spinBtn.id = 'dreidel-spin-btn';
+    spinBtn.textContent = s.spinBtn;
+    controls.appendChild(spinBtn);
+
+    var restartBtn = document.createElement('button');
+    restartBtn.className = 'dreidel-restart-btn';
+    restartBtn.id = 'dreidel-restart-btn';
+    restartBtn.textContent = s.restartBtn;
+    controls.appendChild(restartBtn);
+
+    middle.appendChild(controls);
+    gameWrap.appendChild(middle);
+    contentArea.appendChild(gameWrap);
+
+    // --- Dance video section ---
+    var videoSection = document.createElement('div');
+    videoSection.className = 'dreidel-video-section';
+
+    var videoTitle = document.createElement('h3');
+    videoTitle.className = 'dreidel-video-title';
+    videoTitle.textContent = s.videoTitle;
+    videoSection.appendChild(videoTitle);
+
+    var videoDesc = document.createElement('p');
+    videoDesc.className = 'dreidel-video-desc';
+    videoDesc.textContent = s.videoDesc;
+    videoSection.appendChild(videoDesc);
+
+    var videoWrap = document.createElement('div');
+    videoWrap.className = 'dreidel-video-wrap';
+
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube.com/embed/eUbOLu3Up_o';
+    iframe.title = s.videoDesc;
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+    iframe.className = 'dreidel-video-iframe';
+    videoWrap.appendChild(iframe);
+    videoSection.appendChild(videoWrap);
+    contentArea.appendChild(videoSection);
+
+    // --- Game Logic ---
+    var gs = {
+        playerCoins: 10,
+        compCoins:   10,
+        pot:         2,
+        isPlayerTurn: true,
+        spinning:    false,
+        over:        false
+    };
+
+    var SIDES = [
+        { letter: 'נ', action: 'nun'   },
+        { letter: 'ג', action: 'gimel' },
+        { letter: 'ה', action: 'he'    },
+        { letter: 'פ', action: 'pey'   }
+    ];
+
+    function updateDisplay() {
+        document.getElementById('dg-player-coins').textContent = gs.playerCoins;
+        document.getElementById('dg-pot').textContent = gs.pot;
+        document.getElementById('dg-comp-coins').textContent = gs.compCoins;
+    }
+
+    function randomSide() {
+        return SIDES[Math.floor(Math.random() * 4)];
+    }
+
+    function ensurePot(actor) {
+        if (gs.pot === 0) {
+            if (gs.playerCoins > 0) { gs.playerCoins--; gs.pot++; }
+            if (gs.compCoins > 0)   { gs.compCoins--;   gs.pot++; }
+            document.getElementById('dreidel-status').textContent = s.addedToPot;
+        }
+    }
+
+    function applyResult(side, isPlayer) {
+        var statusEl = document.getElementById('dreidel-status');
+
+        if (isPlayer) {
+            if (side.action === 'nun') {
+                statusEl.textContent = s.nunMsg;
+            } else if (side.action === 'gimel') {
+                gs.playerCoins += gs.pot;
+                gs.pot = 0;
+                statusEl.textContent = s.gimelMsg;
+            } else if (side.action === 'he') {
+                var half = Math.ceil(gs.pot / 2);
+                gs.playerCoins += half;
+                gs.pot -= half;
+                statusEl.textContent = s.heMsg;
+            } else if (side.action === 'pey') {
+                if (gs.playerCoins > 0) { gs.playerCoins--; gs.pot++; }
+                statusEl.textContent = s.peyMsg;
+            }
+        } else {
+            if (side.action === 'nun') {
+                statusEl.textContent = s.compNunMsg;
+            } else if (side.action === 'gimel') {
+                gs.compCoins += gs.pot;
+                gs.pot = 0;
+                statusEl.textContent = s.compGimelMsg;
+            } else if (side.action === 'he') {
+                var half2 = Math.ceil(gs.pot / 2);
+                gs.compCoins += half2;
+                gs.pot -= half2;
+                statusEl.textContent = s.compHeMsg;
+            } else if (side.action === 'pey') {
+                if (gs.compCoins > 0) { gs.compCoins--; gs.pot++; }
+                statusEl.textContent = s.compPeyMsg;
+            }
+        }
+
+        updateDisplay();
+        ensurePot();
+
+        // Check win/lose
+        if (gs.compCoins <= 0) {
+            gs.over = true;
+            statusEl.textContent = s.youWin;
+            document.getElementById('dreidel-spin-btn').disabled = true;
+            return;
+        }
+        if (gs.playerCoins <= 0) {
+            gs.over = true;
+            statusEl.textContent = s.compWins;
+            document.getElementById('dreidel-spin-btn').disabled = true;
+            return;
+        }
+    }
+
+    function doSpin(isPlayer) {
+        if (gs.spinning || gs.over) return;
+        gs.spinning = true;
+
+        var btn = document.getElementById('dreidel-spin-btn');
+        btn.disabled = true;
+
+        var fig = document.getElementById('dreidel-figure');
+        var letterEl = document.getElementById('dreidel-letter');
+
+        // Start spin animation
+        fig.classList.add('spinning');
+
+        setTimeout(function () {
+            var result = randomSide();
+            letterEl.textContent = result.letter;
+            fig.classList.remove('spinning');
+            gs.spinning = false;
+
+            applyResult(result, isPlayer);
+
+            if (!gs.over) {
+                if (isPlayer) {
+                    // Computer's turn after short delay
+                    gs.isPlayerTurn = false;
+                    document.getElementById('dreidel-status').textContent = s.compTurn;
+                    setTimeout(function () { doSpin(false); }, 1200);
+                } else {
+                    // Back to player
+                    gs.isPlayerTurn = true;
+                    setTimeout(function () {
+                        if (!gs.over) {
+                            document.getElementById('dreidel-status').textContent = s.yourTurn;
+                            document.getElementById('dreidel-spin-btn').disabled = false;
+                        }
+                    }, 900);
+                }
+            }
+        }, 1800);
+    }
+
+    spinBtn.addEventListener('click', function () {
+        if (!gs.spinning && !gs.over && gs.isPlayerTurn) {
+            doSpin(true);
+        }
+    });
+
+    restartBtn.addEventListener('click', function () {
+        gs.playerCoins  = 10;
+        gs.compCoins    = 10;
+        gs.pot          = 2;
+        gs.isPlayerTurn = true;
+        gs.spinning     = false;
+        gs.over         = false;
+        document.getElementById('dreidel-letter').textContent = '?';
+        document.getElementById('dreidel-status').textContent = s.yourTurn;
+        document.getElementById('dreidel-spin-btn').disabled = false;
+        updateDisplay();
+    });
 }
 
 // ===== PROGRESS BAR =====

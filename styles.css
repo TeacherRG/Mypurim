@@ -408,6 +408,18 @@ body::before {
     margin-bottom: 28px;
 }
 
+.esther-dual-cols {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.esther-dual-cols .esther-pdf-block {
+    flex: 1;
+    min-width: 0;
+    margin-bottom: 0;
+}
+
 .esther-pdf-block {
     margin-bottom: 40px;
     border: 1px solid #e0e4f0;
@@ -553,6 +565,14 @@ body::before {
         padding-left: 0;
         border-top: 2px solid #e0e4f0;
         padding-top: 24px;
+    }
+
+    .esther-dual-cols {
+        flex-direction: column;
+    }
+
+    .esther-dual-cols .esther-pdf-block {
+        margin-bottom: 24px;
     }
 
     .esther-iframe {

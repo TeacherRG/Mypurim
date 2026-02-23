@@ -384,6 +384,11 @@ function renderEstherScroll() {
 
     const pdfs = getEstherPDFs();
 
+    // For dual-language modes (2 PDFs) — side-by-side columns
+    const container = pdfs.length === 2
+        ? (function () { const d = document.createElement('div'); d.className = 'esther-dual-cols'; return d; }())
+        : contentArea;
+
     pdfs.forEach(function (pdf) {
         const block = document.createElement('div');
         block.className = 'esther-pdf-block';
@@ -421,8 +426,12 @@ function renderEstherScroll() {
         iframe.title = pdf.label || I18N.sectionTitle('esther_scroll', langMode);
         block.appendChild(iframe);
 
-        contentArea.appendChild(block);
+        container.appendChild(block);
     });
+
+    if (pdfs.length === 2) {
+        contentArea.appendChild(container);
+    }
 }
 
 // ===== PROGRESS BAR =====

@@ -1243,6 +1243,116 @@ body::before {
     }
 }
 
+/* ── HALACHA SECTION ───────────────────────────────────── */
+
+.halacha-meta {
+    font-size: 13px;
+    color: #a0a8cc;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.halacha-day {
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 204, 0, 0.25);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.halacha-day-header {
+    padding: 13px 18px;
+    background: rgba(255, 204, 0, 0.1);
+    color: #ffcc00;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+    transition: background 0.2s;
+}
+
+.halacha-day-header::after {
+    content: "▾";
+    font-size: 14px;
+    opacity: 0.7;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+.halacha-day.collapsed .halacha-day-header::after {
+    transform: rotate(-90deg);
+}
+
+.halacha-day-header:hover {
+    background: rgba(255, 204, 0, 0.18);
+}
+
+.halacha-day-body {
+    display: none;
+    padding: 14px 18px 10px;
+}
+
+.halacha-day-body.open {
+    display: block;
+}
+
+.halacha-topic {
+    margin-bottom: 14px;
+}
+
+.halacha-topic-head {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #ffcc00;
+    opacity: 0.75;
+    margin: 0 0 8px;
+}
+
+.halacha-sub {
+    margin-bottom: 10px;
+    padding-left: 12px;
+    border-left: 2px solid rgba(255, 204, 0, 0.2);
+}
+
+.halacha-sub-head {
+    font-size: 13px;
+    font-weight: 600;
+    color: #c8cde8;
+    margin: 0 0 6px;
+    text-transform: capitalize;
+}
+
+.halacha-text {
+    font-size: 14px;
+    line-height: 1.75;
+    color: #d0d4ee;
+    margin: 0 0 8px;
+}
+
+.halacha-list {
+    margin: 4px 0 8px 0;
+    padding-left: 20px;
+}
+
+.halacha-list li {
+    font-size: 14px;
+    line-height: 1.75;
+    color: #d0d4ee;
+    margin-bottom: 6px;
+}
+
+.halacha-extras {
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: rgba(255, 204, 0, 0.06);
+    border-radius: 8px;
+    border-left: 3px solid rgba(255, 204, 0, 0.4);
+}
+
 /* ── PRELOADER ─────────────────────────────────────────── */
 .preloader {
     position: fixed;

@@ -545,7 +545,7 @@ body::before {
 
 .nav-popup li.group-header {
     padding: 14px 22px 6px;
-    cursor: default;
+    cursor: pointer;
     opacity: 1;
     font-size: 11px;
     font-weight: 700;
@@ -555,12 +555,23 @@ body::before {
     border-left: none;
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .nav-popup li.group-header:hover {
-    background: none;
+    background: rgba(255, 255, 255, 0.05);
     padding-left: 22px;
     opacity: 1;
+}
+
+.group-chevron {
+    font-size: 9px;
+    opacity: 0.7;
+    flex-shrink: 0;
+    margin-left: 8px;
+    transition: transform 0.15s ease;
 }
 
 .nav-popup li.sub-item {

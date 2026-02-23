@@ -9,7 +9,8 @@ const SECTIONS = [
     { id: 'halacha',       type: 'halacha'                },
     { id: 'esther_scroll', type: 'pdf'                    },
     { id: 'tzedaka',       type: 'donate'                 },
-    { id: 'dreidel',       type: 'game'                   }
+    { id: 'dreidel',       type: 'game'                   },
+    { id: 'hangman',       type: 'hangman'                }
 ];
 
 // ===== STATE =====
@@ -171,6 +172,12 @@ async function loadSection(id) {
     }
     if (sectionCfg && sectionCfg.type === 'game') {
         renderDreidelGame();
+        renderSidebar();
+        updateProgressBar();
+        return;
+    }
+    if (sectionCfg && sectionCfg.type === 'hangman') {
+        renderHangmanSection();
         renderSidebar();
         updateProgressBar();
         return;
@@ -1380,6 +1387,25 @@ function renderDreidelGame() {
         document.getElementById('dreidel-spin-btn').disabled = false;
         updateDisplay();
     });
+}
+
+// ===== HANGMAN GAME =====
+
+function renderHangmanSection() {
+    contentArea.innerHTML = '';
+
+    // Section title
+    const titleBar = document.createElement('div');
+    titleBar.className = 'section-title-bar';
+    titleBar.innerHTML = '<h1 class="section-title">' + I18N.sectionTitle('hangman', langMode) + '</h1>';
+    contentArea.appendChild(titleBar);
+
+    // Game container
+    const gameEl = document.createElement('div');
+    gameEl.id = 'hangman-game-root';
+    contentArea.appendChild(gameEl);
+
+    HangmanGame.render(gameEl, langMode);
 }
 
 // ===== PROGRESS BAR =====

@@ -453,6 +453,43 @@ function getEstherPDFs() {
     ];
 }
 
+function getEstherJSONs() {
+    if (langMode === 'ru-de') {
+        return ['pdfs/ester-ru.json', 'pdfs/ester-de.json'];
+    }
+    if (langMode === 'ru-uk') {
+        return ['pdfs/ester-ru.json', 'pdfs/ester-uk.json'];
+    }
+    if (langMode === 'uk') {
+        return ['pdfs/ester-uk.json'];
+    }
+    if (langMode === 'de') {
+        return ['pdfs/ester-de.json'];
+    }
+    return ['pdfs/ester-ru.json'];
+}
+
+function renderEstherJSON(data, container) {
+    data.pages.forEach(function (page) {
+        if (page.headings && page.headings.length) {
+            page.headings.forEach(function (h) {
+                const el = document.createElement('h' + Math.min(h.level + 1, 6));
+                el.className = 'esther-scroll-heading';
+                el.textContent = h.text;
+                container.appendChild(el);
+            });
+        }
+        if (page.paragraphs && page.paragraphs.length) {
+            page.paragraphs.forEach(function (text) {
+                const p = document.createElement('p');
+                p.className = 'esther-scroll-para';
+                p.textContent = text;
+                container.appendChild(p);
+            });
+        }
+    });
+}
+
 function buildEstherPdfBlock(pdf) {
     const block = document.createElement('div');
     block.className = 'esther-pdf-block';
@@ -484,20 +521,6 @@ function buildEstherPdfBlock(pdf) {
     btnRow.appendChild(downloadBtn);
     block.appendChild(btnRow);
 
-    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile) {
-        const notice = document.createElement('p');
-        notice.className = 'esther-mobile-notice';
-        notice.textContent = I18N.t('estherMobileNotice', langMode);
-        block.appendChild(notice);
-    } else {
-        const iframe = document.createElement('iframe');
-        iframe.src = pdf.file;
-        iframe.className = 'esther-iframe';
-        iframe.title = pdf.label || I18N.sectionTitle('esther_scroll', langMode);
-        block.appendChild(iframe);
-    }
-
     return block;
 }
 
@@ -515,10 +538,32 @@ function renderEstherScroll() {
     contentArea.appendChild(desc);
 
     const pdfs = getEstherPDFs();
-
     pdfs.forEach(function (pdf) {
         contentArea.appendChild(buildEstherPdfBlock(pdf));
     });
+
+    const jsonFiles = getEstherJSONs();
+
+    if (jsonFiles.length === 1) {
+        const container = document.createElement('div');
+        container.className = 'esther-text-container';
+        contentArea.appendChild(container);
+        fetch(jsonFiles[0])
+            .then(function (r) { return r.json(); })
+            .then(function (data) { renderEstherJSON(data, container); });
+    } else {
+        const dual = document.createElement('div');
+        dual.className = 'esther-dual-container';
+        contentArea.appendChild(dual);
+        jsonFiles.forEach(function (file) {
+            const col = document.createElement('div');
+            col.className = 'esther-text-container esther-text-col';
+            dual.appendChild(col);
+            fetch(file)
+                .then(function (r) { return r.json(); })
+                .then(function (data) { renderEstherJSON(data, col); });
+        });
+    }
 }
 
 // ===== TZEDAKA / DONATE SECTION =====

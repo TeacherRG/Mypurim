@@ -40,6 +40,7 @@ const I18N = (function () {
                 halacha:       'Алаха',
                 esther_scroll: 'Чтение Свитка Эстер',
                 tzedaka:       'Дать Цдаку',
+                games:         'Игры',
                 dreidel:       'Игра в дрейдл 🎡',
                 hangman:       'Повесь Амана! 🪢'
             }
@@ -78,6 +79,7 @@ const I18N = (function () {
                 halacha:       'Алаха',
                 esther_scroll: 'Читання Сувою Естер',
                 tzedaka:       'Дати Цдаку',
+                games:         'Ігри',
                 dreidel:       'Гра в дрейдл 🎡',
                 hangman:       'Повіш Амана! 🪢'
             }
@@ -116,6 +118,7 @@ const I18N = (function () {
                 halacha:       'Halacha',
                 esther_scroll: 'Lesen der Megillat Esther',
                 tzedaka:       'Zedaka geben',
+                games:         'Spiele',
                 dreidel:       'Dreidel-Spiel 🎡',
                 hangman:       'Häng Haman auf! 🪢'
             }

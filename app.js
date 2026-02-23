@@ -9,8 +9,9 @@ const SECTIONS = [
     { id: 'halacha',       type: 'halacha'                },
     { id: 'esther_scroll', type: 'pdf'                    },
     { id: 'tzedaka',       type: 'donate'                 },
-    { id: 'dreidel',       type: 'game'                   },
-    { id: 'hangman',       type: 'hangman'                }
+    { id: 'games',         type: 'group'                  },
+    { id: 'dreidel',       type: 'game',    group: 'games'},
+    { id: 'hangman',       type: 'hangman', group: 'games'}
 ];
 
 // ===== STATE =====
@@ -31,6 +32,7 @@ function detectBrowserLang() {
 let currentId = null;
 let langMode = localStorage.getItem('langMode') || detectBrowserLang();
 let state = { completedSections: [] };
+let collapsedGroups = new Set(['dvar_malchut', 'games']);
 
 // ===== DOM REFS =====
 
@@ -93,16 +95,39 @@ document.addEventListener('DOMContentLoaded', function () {
 function renderSidebar() {
     sidebarMenu.innerHTML = '';
 
+    // Auto-expand the group containing the currently active section
+    const currentSection = SECTIONS.find(function (s) { return s.id === currentId; });
+    if (currentSection && currentSection.group) {
+        collapsedGroups.delete(currentSection.group);
+    }
+
     // Quiz sections only (no type), in order — used for locking logic
     const quizSections = SECTIONS.filter(function (s) { return !s.type; });
 
     SECTIONS.forEach(function (section) {
+        // Skip sub-items whose group is currently collapsed
+        if (section.group && collapsedGroups.has(section.group)) {
+            return;
+        }
+
         const li = document.createElement('li');
 
-        // Group header — non-clickable label
+        // Group header — clickable accordion toggle
         if (section.type === 'group') {
             li.className = 'group-header';
             li.textContent = I18N.sectionTitle(section.id, langMode);
+            const chevron = document.createElement('span');
+            chevron.className = 'group-chevron';
+            chevron.textContent = collapsedGroups.has(section.id) ? '▶' : '▼';
+            li.appendChild(chevron);
+            li.addEventListener('click', function () {
+                if (collapsedGroups.has(section.id)) {
+                    collapsedGroups.delete(section.id);
+                } else {
+                    collapsedGroups.add(section.id);
+                }
+                renderSidebar();
+            });
             sidebarMenu.appendChild(li);
             return;
         }

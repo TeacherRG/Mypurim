@@ -64,7 +64,9 @@ document.addEventListener('DOMContentLoaded', function () {
     langSelect.value = langMode;
     I18N.applyTranslations(langMode);
     renderSidebar();
-    loadSection('intro');
+    var initialHash = window.location.hash.slice(1);
+    var validInitial = SECTIONS.find(function (s) { return s.id === initialHash; });
+    loadSection(validInitial ? initialHash : 'intro');
     updateProgressBar();
 
     langSelect.addEventListener('change', function () {
@@ -220,13 +222,13 @@ function renderSection(baseData, transData) {
 
         const leftCol = document.createElement('div');
         leftCol.className = 'lang-col';
-        renderTitle(leftCol, baseData.title);
+        renderTitle(leftCol, baseData.title, true);
         renderContentBlocks(leftCol, baseData.content);
 
         const rightCol = document.createElement('div');
         rightCol.className = 'lang-col lang-col-right';
         const rightData = transData || baseData;
-        renderTitle(rightCol, rightData.title);
+        renderTitle(rightCol, rightData.title, false);
         renderContentBlocks(rightCol, rightData.content);
 
         wrapper.appendChild(leftCol);
@@ -244,7 +246,7 @@ function renderSection(baseData, transData) {
 
         const col = document.createElement('div');
         col.className = 'lang-col';
-        renderTitle(col, displayData.title);
+        renderTitle(col, displayData.title, true);
         renderContentBlocks(col, displayData.content);
         contentArea.appendChild(col);
 
@@ -255,12 +257,62 @@ function renderSection(baseData, transData) {
 
 // ===== RENDER TITLE =====
 
-function renderTitle(container, title) {
+function renderTitle(container, title, showShare) {
     if (!title) return;
-    const h2 = document.createElement('h2');
-    h2.className = 'section-title';
-    h2.textContent = title;
-    container.appendChild(h2);
+    if (showShare) {
+        const row = document.createElement('div');
+        row.className = 'section-title-row';
+
+        const h2 = document.createElement('h2');
+        h2.className = 'section-title';
+        h2.textContent = title;
+
+        const btn = document.createElement('button');
+        btn.className = 'share-btn';
+        btn.title = I18N.t('shareCopied', langMode);
+        btn.setAttribute('aria-label', 'Share');
+        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>';
+        btn.addEventListener('click', function () {
+            shareSection(currentId);
+        });
+
+        row.appendChild(h2);
+        row.appendChild(btn);
+        container.appendChild(row);
+    } else {
+        const h2 = document.createElement('h2');
+        h2.className = 'section-title';
+        h2.textContent = title;
+        container.appendChild(h2);
+    }
+}
+
+// ===== SHARE =====
+
+function shareSection(id) {
+    const url = window.location.origin + window.location.pathname + '#' + id;
+    if (navigator.share) {
+        navigator.share({ url: url }).catch(function () {});
+    } else {
+        navigator.clipboard.writeText(url).then(function () {
+            showShareToast();
+        }).catch(function () {
+            showShareToast();
+        });
+    }
+}
+
+function showShareToast() {
+    var existing = document.querySelector('.share-toast');
+    if (existing) existing.remove();
+    var toast = document.createElement('div');
+    toast.className = 'share-toast';
+    toast.textContent = I18N.t('shareCopied', langMode);
+    document.body.appendChild(toast);
+    setTimeout(function () {
+        toast.classList.add('fade-out');
+        setTimeout(function () { toast.remove(); }, 300);
+    }, 2000);
 }
 
 // ===== RENDER CONTENT BLOCKS =====

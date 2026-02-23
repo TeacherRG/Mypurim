@@ -29,6 +29,7 @@ const I18N = (function () {
             estherPart1:         'Часть 1',
             estherPart2:         'Часть 2',
             estherMobileNotice:  'На мобильных устройствах просмотр PDF внутри страницы недоступен. Используйте кнопки выше, чтобы открыть или скачать файл.',
+            shareCopied:         'Ссылка скопирована',
             sections: {
                 intro:         'О проекте',
                 dvar_malchut:  'Двар Малхут',
@@ -64,6 +65,7 @@ const I18N = (function () {
             estherPart1:         'Частина 1',
             estherPart2:         'Частина 2',
             estherMobileNotice:  'На мобільних пристроях перегляд PDF на сторінці недоступний. Використовуйте кнопки вище, щоб відкрити або завантажити файл.',
+            shareCopied:         'Посилання скопійовано',
             sections: {
                 intro:         'Про проєкт',
                 dvar_malchut:  'Двар Малхут',
@@ -99,6 +101,7 @@ const I18N = (function () {
             estherPart1:         'Teil 1',
             estherPart2:         'Teil 2',
             estherMobileNotice:  'Auf mobilen Geräten ist die PDF-Anzeige auf der Seite nicht verfügbar. Verwenden Sie die Schaltflächen oben, um die Datei zu öffnen oder herunterzuladen.',
+            shareCopied:         'Link kopiert',
             sections: {
                 intro:         'Über das Projekt',
                 dvar_malchut:  'Dvar Malchut',

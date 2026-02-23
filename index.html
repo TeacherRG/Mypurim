@@ -12,6 +12,13 @@
     <!-- HEADER -->
     <header class="site-header">
         <div class="header-top-row">
+            <button class="nav-toggle" id="nav-toggle" aria-label="Меню навигации">
+                <svg width="22" height="18" viewBox="0 0 22 18" fill="none" aria-hidden="true">
+                    <rect width="22" height="2.5" rx="1.25" fill="currentColor"/>
+                    <rect y="7.75" width="22" height="2.5" rx="1.25" fill="currentColor"/>
+                    <rect y="15.5" width="22" height="2.5" rx="1.25" fill="currentColor"/>
+                </svg>
+            </button>
             <h1 class="header-main-title" data-i18n="headerTitle">Пурим — праздник еврейского народа, семьи и детей</h1>
             <div class="header-controls">
                 <select id="lang-select" class="lang-select">
@@ -38,14 +45,20 @@
         </div>
     </header>
 
+    <!-- NAV OVERLAY -->
+    <div class="nav-overlay" id="nav-overlay"></div>
+
+    <!-- NAV POPUP -->
+    <nav class="nav-popup" id="nav-popup" aria-label="Навигация по урокам">
+        <div class="nav-popup-header">
+            <span class="nav-popup-title" data-i18n="sidebarTitle">Структура урока</span>
+            <button class="nav-close" id="nav-close" aria-label="Закрыть меню">✕</button>
+        </div>
+        <ul id="sidebar-menu"></ul>
+    </nav>
+
     <!-- LAYOUT -->
     <div class="layout">
-
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <div class="sidebar-title" data-i18n="sidebarTitle">Структура урока</div>
-            <ul id="sidebar-menu"></ul>
-        </aside>
 
         <!-- MAIN CONTENT -->
         <main class="content" id="content"></main>

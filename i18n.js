@@ -35,7 +35,8 @@ const I18N = (function () {
                 section_b:     'Раздел 2',
                 section_c:     'Раздел 3',
                 esther_scroll: 'Чтение Свитка Эстер',
-                tzedaka:       'Дать Цдаку'
+                tzedaka:       'Дать Цдаку',
+                dreidel:       'Игра в дрейдл 🎡'
             }
         },
 
@@ -67,7 +68,8 @@ const I18N = (function () {
                 section_b:     'Розділ 2',
                 section_c:     'Розділ 3',
                 esther_scroll: 'Читання Сувою Естер',
-                tzedaka:       'Дати Цдаку'
+                tzedaka:       'Дати Цдаку',
+                dreidel:       'Гра в дрейдл 🎡'
             }
         },
 
@@ -99,7 +101,8 @@ const I18N = (function () {
                 section_b:     'Abschnitt 2',
                 section_c:     'Abschnitt 3',
                 esther_scroll: 'Lesen der Megillat Esther',
-                tzedaka:       'Zedaka geben'
+                tzedaka:       'Zedaka geben',
+                dreidel:       'Dreidel-Spiel 🎡'
             }
         }
 

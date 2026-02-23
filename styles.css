@@ -567,14 +567,6 @@ body::before {
     background: #f5f5f5;
 }
 
-.esther-dual .lang-col {
-    min-width: 0;
-}
-
-.esther-dual .esther-pdf-block {
-    margin-bottom: 0;
-}
-
 /* ===== TZEDAKA / DONATE SECTION ===== */
 
 .donate-intro {
@@ -786,13 +778,6 @@ body::before {
 
     .esther-iframe {
         height: 500px;
-    }
-
-    .esther-dual .lang-col-right {
-        border-top: 2px solid #e0e4f0;
-        padding-top: 24px;
-        border-left: none;
-        padding-left: 0;
     }
 
     .esther-btn-row {

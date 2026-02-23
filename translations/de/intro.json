@@ -1,31 +1,33 @@
 {
   "id": "intro",
-  "title": "Purim – ein Fest, das unendliches Licht verbirgt",
-
+  "title": "Purim — das Fest, das unendliches Licht verbirgt",
   "content": [
     {
-      "type": "paragraph",
-      "text": "Diese Lektion ist dem Jubiläum der Familie Grinberg gewidmet – mit Liebe und Freude."
+      "type": "hero-text",
+      "text": "Diese Website ist dem Jubiläum der Familie Grinberg gewidmet — mit Liebe und Purim-Freude."
     },
     {
       "type": "quote",
-      "text": "„Megillat Ester ist das einzige Buch der Tanach, in dem der Name G-ttes kein einziges Mal erscheint. Darin liegt die tiefste Botschaft von Purim: G-tt auch dort zu sehen, wo Er verborgen ist. — Der Rebbe"
+      "text": "„Megillat Esther ist das einzige Buch der Thora, in dem der Name G-ttes kein einziges Mal erwähnt wird. Das ist die wichtigste Lektion von Purim: G-tt gerade dort zu sehen, wo Er verborgen ist." — Der Rebbe"
     },
     {
       "type": "paragraph",
-      "text": "Hinter dem Zufall steht göttliche Fürsorge, hinter der Maske die Wahrheit, hinter dem Lachen der tiefste Glaube. Purim lehrt uns: G-tt verlässt sein Volk niemals – auch wenn Sein Wirken unsichtbar bleibt."
+      "text": "Hinter dem Zufall — die Vorsehung. Hinter der Maske — die Wahrheit. Hinter dem Lachen — der tiefste Glaube. Purim lehrt uns, dass G-tt Sein Volk niemals verlässt — auch wenn Seine Gegenwart verborgen ist."
     },
     {
       "type": "paragraph",
-      "text": "Hier finden Sie:"
+      "text": "Auf dieser Website erwartet Sie:"
     },
     {
       "type": "list",
       "items": [
-        "Dvar Malchut – die Sicha des Rebbe über Purim: der innere Sinn des Festes",
-        "Megillat Ester – Worte, die Juden in allen Generationen lesen",
-        "Zedaka – die Möglichkeit, das Gebot gleich jetzt zu erfüllen",
-        "Spielen – ein Bereich für Kinder, voller Purim-Freude"
+        "🎵 Musik-Player — Purim-Melodien und Nigunim für festliche Stimmung",
+        "📜 Dwar Malchut — die Sicha des Rebbe über den inneren Sinn von Purim",
+        "📖 Megillat Esther — ewige Worte, die Juden in allen Generationen lesen",
+        "⚖️ Halacha — Gesetze von Purim: drei Bereiche zum Lernen und Testen",
+        "🎮 Spiele für Kinder — drei fröhliche Spiele im Purim-Geist",
+        "🥂 Alkohol-Tester für Erwachsene — interaktiver Purim-Spaß mit einem Lächeln",
+        "💛 Zedaka — die Möglichkeit, das Gebot jetzt sofort zu erfüllen"
       ]
     }
   ]

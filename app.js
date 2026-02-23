@@ -1139,3 +1139,16 @@ function loadProgress() {
 function saveProgress() {
     localStorage.setItem('lessonProgress', JSON.stringify(state));
 }
+
+// ── PRELOADER ────────────────────────────────────────────
+(function hidePreloader() {
+    const preloader = document.getElementById('preloader');
+    if (!preloader) return;
+    const hide = () => preloader.classList.add('hidden');
+    if (document.readyState === 'complete') {
+        // small delay so user sees the clown at least briefly
+        setTimeout(hide, 600);
+    } else {
+        window.addEventListener('load', () => setTimeout(hide, 600));
+    }
+})();

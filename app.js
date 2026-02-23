@@ -460,26 +460,10 @@ function renderEstherScroll() {
     contentArea.appendChild(desc);
 
     const pdfs = getEstherPDFs();
-    const isDual = langMode.includes('-') && pdfs.length === 2;
 
-    if (isDual) {
-        // Two-column layout: part 1 left, part 2 right
-        const wrapper = document.createElement('div');
-        wrapper.className = 'lang-dual esther-dual';
-
-        pdfs.forEach(function (pdf, idx) {
-            const col = document.createElement('div');
-            col.className = idx === 0 ? 'lang-col' : 'lang-col lang-col-right';
-            col.appendChild(buildEstherPdfBlock(pdf));
-            wrapper.appendChild(col);
-        });
-
-        contentArea.appendChild(wrapper);
-    } else {
-        pdfs.forEach(function (pdf) {
-            contentArea.appendChild(buildEstherPdfBlock(pdf));
-        });
-    }
+    pdfs.forEach(function (pdf) {
+        contentArea.appendChild(buildEstherPdfBlock(pdf));
+    });
 }
 
 // ===== TZEDAKA / DONATE SECTION =====

@@ -13,8 +13,21 @@ const SECTIONS = [
 
 // ===== STATE =====
 
+function detectBrowserLang() {
+    var langs = (navigator.languages && navigator.languages.length)
+        ? Array.from(navigator.languages)
+        : [navigator.language || 'ru'];
+    for (var i = 0; i < langs.length; i++) {
+        var l = langs[i].toLowerCase();
+        if (l.startsWith('uk')) return 'uk';
+        if (l.startsWith('de')) return 'de';
+        if (l.startsWith('ru')) return 'ru';
+    }
+    return 'ru';
+}
+
 let currentId = null;
-let langMode = localStorage.getItem('langMode') || 'ru';
+let langMode = localStorage.getItem('langMode') || detectBrowserLang();
 let state = { completedSections: [] };
 
 // ===== DOM REFS =====
@@ -471,11 +484,19 @@ function buildEstherPdfBlock(pdf) {
     btnRow.appendChild(downloadBtn);
     block.appendChild(btnRow);
 
-    const iframe = document.createElement('iframe');
-    iframe.src = pdf.file;
-    iframe.className = 'esther-iframe';
-    iframe.title = pdf.label || I18N.sectionTitle('esther_scroll', langMode);
-    block.appendChild(iframe);
+    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+        const notice = document.createElement('p');
+        notice.className = 'esther-mobile-notice';
+        notice.textContent = I18N.t('estherMobileNotice', langMode);
+        block.appendChild(notice);
+    } else {
+        const iframe = document.createElement('iframe');
+        iframe.src = pdf.file;
+        iframe.className = 'esther-iframe';
+        iframe.title = pdf.label || I18N.sectionTitle('esther_scroll', langMode);
+        block.appendChild(iframe);
+    }
 
     return block;
 }

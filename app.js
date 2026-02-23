@@ -599,13 +599,12 @@ function renderEstherScroll() {
     contentArea.appendChild(desc);
 
     const pdfs = getEstherPDFs();
-    pdfs.forEach(function (pdf) {
-        contentArea.appendChild(buildEstherPdfBlock(pdf));
-    });
-
     const jsonFiles = getEstherJSONs();
 
     if (jsonFiles.length === 1) {
+        pdfs.forEach(function (pdf) {
+            contentArea.appendChild(buildEstherPdfBlock(pdf));
+        });
         const container = document.createElement('div');
         container.className = 'esther-text-container';
         contentArea.appendChild(container);
@@ -616,13 +615,19 @@ function renderEstherScroll() {
         const dual = document.createElement('div');
         dual.className = 'esther-dual-container';
         contentArea.appendChild(dual);
-        jsonFiles.forEach(function (file) {
+        jsonFiles.forEach(function (file, i) {
             const col = document.createElement('div');
-            col.className = 'esther-text-container esther-text-col';
+            col.className = 'esther-col-wrapper';
             dual.appendChild(col);
+            const pdfBlock = buildEstherPdfBlock({ file: pdfs[i].file, label: '' });
+            pdfBlock.classList.add('esther-pdf-block--compact');
+            col.appendChild(pdfBlock);
+            const textContainer = document.createElement('div');
+            textContainer.className = 'esther-text-container esther-text-col';
+            col.appendChild(textContainer);
             fetch(file)
                 .then(function (r) { return r.json(); })
-                .then(function (data) { renderEstherJSON(data, col); });
+                .then(function (data) { renderEstherJSON(data, textContainer); });
         });
     }
 }

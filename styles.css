@@ -1234,6 +1234,23 @@ body::before {
     text-decoration: underline;
 }
 
+.visitor-counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 14px;
+}
+
+.visitor-count-num {
+    color: #ffcc00;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.03em;
+}
+
 /* ===== RESPONSIVE ===== */
 
 @media (max-width: 768px) {

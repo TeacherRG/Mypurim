@@ -670,7 +670,10 @@ function renderDreidelGame() {
             compWins:     'Компьютер победил. Попробуйте ещё раз!',
             addedToPot:   'Банк пополнен — каждый добавил по монете',
             videoTitle:   'А теперь потанцуем! ושמחת בחגך',
-            videoDesc:    'Авраам Фрид и Лиор Наркис — «И возрадуешься в праздник твой»'
+            videoDesc:    'Авраам Фрид и Лиор Наркис — «И возрадуешься в праздник твой»',
+            modeSpin:     'Просто крутить',
+            modeGame:     'Играть с компьютером',
+            spinPrompt:   'Нажмите кнопку, чтобы крутить дрейдл!'
         },
         uk: {
             title:        'Гра в дрейдл',
@@ -701,7 +704,10 @@ function renderDreidelGame() {
             compWins:     'Комп\'ютер переміг. Спробуйте ще раз!',
             addedToPot:   'Банк поповнено — кожен додав по монеті',
             videoTitle:   'А тепер потанцюємо! ושמחת בחגך',
-            videoDesc:    'Авраам Фрід і Ліор Наркіс — «І зрадієш у свято твоє»'
+            videoDesc:    'Авраам Фрід і Ліор Наркіс — «І зрадієш у свято твоє»',
+            modeSpin:     'Просто крутити',
+            modeGame:     'Грати з комп\'ютером',
+            spinPrompt:   'Натисніть кнопку, щоб покрутити дрейдл!'
         },
         de: {
             title:        'Dreidel-Spiel',
@@ -732,7 +738,10 @@ function renderDreidelGame() {
             compWins:     'Der Computer hat gewonnen. Versuchen Sie es nochmal!',
             addedToPot:   'Topf aufgefüllt — jeder legte eine Münze hinein',
             videoTitle:   'Und jetzt tanzen! ושמחת בחגך',
-            videoDesc:    'Avraham Fried und Lior Narkis — „Und du wirst fröhlich sein an deinem Fest"'
+            videoDesc:    'Avraham Fried und Lior Narkis — „Und du wirst fröhlich sein an deinem Fest"',
+            modeSpin:     'Nur drehen',
+            modeGame:     'Gegen den Computer spielen',
+            spinPrompt:   'Klicken Sie die Schaltfläche, um den Dreidel zu drehen!'
         }
     };
 
@@ -769,9 +778,26 @@ function renderDreidelGame() {
     var gameWrap = document.createElement('div');
     gameWrap.className = 'dreidel-game';
 
-    // Scoreboard
+    // Mode selector (default: spin)
+    var modeSel = document.createElement('div');
+    modeSel.className = 'dreidel-mode-selector';
+
+    var modeSpinBtn = document.createElement('button');
+    modeSpinBtn.className = 'dreidel-mode-btn active';
+    modeSpinBtn.textContent = s.modeSpin;
+
+    var modeGameBtn = document.createElement('button');
+    modeGameBtn.className = 'dreidel-mode-btn';
+    modeGameBtn.textContent = s.modeGame;
+
+    modeSel.appendChild(modeSpinBtn);
+    modeSel.appendChild(modeGameBtn);
+    gameWrap.appendChild(modeSel);
+
+    // Scoreboard (hidden in spin mode by default)
     var scoreboard = document.createElement('div');
     scoreboard.className = 'dreidel-scoreboard';
+    scoreboard.style.display = 'none';
 
     function makeStatBox(label, id, value) {
         var box = document.createElement('div');
@@ -801,7 +827,6 @@ function renderDreidelGame() {
     dreidelWrap.className = 'dreidel-wrap';
     dreidelWrap.id = 'dreidel-wrap';
 
-    // Build the dreidel SVG-like shape with CSS
     dreidelWrap.innerHTML =
         '<div class="dreidel-figure" id="dreidel-figure">' +
             '<div class="dreidel-handle"></div>' +
@@ -817,7 +842,7 @@ function renderDreidelGame() {
     var statusMsg = document.createElement('div');
     statusMsg.className = 'dreidel-status';
     statusMsg.id = 'dreidel-status';
-    statusMsg.textContent = s.yourTurn;
+    statusMsg.textContent = s.spinPrompt;
     controls.appendChild(statusMsg);
 
     var spinBtn = document.createElement('button');
@@ -830,6 +855,7 @@ function renderDreidelGame() {
     restartBtn.className = 'dreidel-restart-btn';
     restartBtn.id = 'dreidel-restart-btn';
     restartBtn.textContent = s.restartBtn;
+    restartBtn.style.display = 'none';
     controls.appendChild(restartBtn);
 
     middle.appendChild(controls);
@@ -864,6 +890,8 @@ function renderDreidelGame() {
     contentArea.appendChild(videoSection);
 
     // --- Game Logic ---
+    var gameMode = 'spin'; // 'spin' | 'game'
+
     var gs = {
         playerCoins: 10,
         compCoins:   10,
@@ -954,7 +982,8 @@ function renderDreidelGame() {
     }
 
     function doSpin(isPlayer) {
-        if (gs.spinning || gs.over) return;
+        if (gs.spinning) return;
+        if (gameMode === 'game' && gs.over) return;
         gs.spinning = true;
 
         var btn = document.getElementById('dreidel-spin-btn');
@@ -963,40 +992,53 @@ function renderDreidelGame() {
         var fig = document.getElementById('dreidel-figure');
         var letterEl = document.getElementById('dreidel-letter');
 
-        // Start spin animation
+        // Clear previous pop animation before new spin
+        letterEl.classList.remove('pop');
         fig.classList.add('spinning');
 
         setTimeout(function () {
             var result = randomSide();
-            letterEl.textContent = result.letter;
             fig.classList.remove('spinning');
             gs.spinning = false;
 
-            applyResult(result, isPlayer);
+            // Trigger letter pop-in reveal
+            void letterEl.offsetWidth; // reflow to restart animation
+            letterEl.textContent = result.letter;
+            letterEl.classList.add('pop');
 
-            if (!gs.over) {
-                if (isPlayer) {
-                    // Computer's turn after short delay
-                    gs.isPlayerTurn = false;
-                    document.getElementById('dreidel-status').textContent = s.compTurn;
-                    setTimeout(function () { doSpin(false); }, 1200);
-                } else {
-                    // Back to player
-                    gs.isPlayerTurn = true;
-                    setTimeout(function () {
-                        if (!gs.over) {
-                            document.getElementById('dreidel-status').textContent = s.yourTurn;
-                            document.getElementById('dreidel-spin-btn').disabled = false;
-                        }
-                    }, 900);
+            if (gameMode === 'spin') {
+                // Just-spin mode: show the matching rule, re-enable button immediately
+                var ruleIdx = { nun: 0, gimel: 1, he: 2, pey: 3 }[result.action];
+                document.getElementById('dreidel-status').textContent = s.rules[ruleIdx];
+                btn.disabled = false;
+            } else {
+                // Game mode: apply result and handle turns
+                applyResult(result, isPlayer);
+
+                if (!gs.over) {
+                    if (isPlayer) {
+                        gs.isPlayerTurn = false;
+                        document.getElementById('dreidel-status').textContent = s.compTurn;
+                        setTimeout(function () { doSpin(false); }, 1400);
+                    } else {
+                        gs.isPlayerTurn = true;
+                        setTimeout(function () {
+                            if (!gs.over) {
+                                document.getElementById('dreidel-status').textContent = s.yourTurn;
+                                btn.disabled = false;
+                            }
+                        }, 1000);
+                    }
                 }
             }
-        }, 1800);
+        }, 3000);
     }
 
     spinBtn.addEventListener('click', function () {
-        if (!gs.spinning && !gs.over && gs.isPlayerTurn) {
-            doSpin(true);
+        if (gameMode === 'spin') {
+            if (!gs.spinning) doSpin(true);
+        } else {
+            if (!gs.spinning && !gs.over && gs.isPlayerTurn) doSpin(true);
         }
     });
 
@@ -1008,6 +1050,45 @@ function renderDreidelGame() {
         gs.spinning     = false;
         gs.over         = false;
         document.getElementById('dreidel-letter').textContent = '?';
+        document.getElementById('dreidel-letter').classList.remove('pop');
+        document.getElementById('dreidel-figure').classList.remove('spinning');
+        document.getElementById('dreidel-status').textContent = s.yourTurn;
+        document.getElementById('dreidel-spin-btn').disabled = false;
+        updateDisplay();
+    });
+
+    // Mode switch handlers
+    modeSpinBtn.addEventListener('click', function () {
+        if (gameMode === 'spin') return;
+        gameMode = 'spin';
+        modeSpinBtn.classList.add('active');
+        modeGameBtn.classList.remove('active');
+        scoreboard.style.display = 'none';
+        restartBtn.style.display = 'none';
+        gs.spinning = false;
+        document.getElementById('dreidel-figure').classList.remove('spinning');
+        document.getElementById('dreidel-letter').textContent = '?';
+        document.getElementById('dreidel-letter').classList.remove('pop');
+        document.getElementById('dreidel-status').textContent = s.spinPrompt;
+        document.getElementById('dreidel-spin-btn').disabled = false;
+    });
+
+    modeGameBtn.addEventListener('click', function () {
+        if (gameMode === 'game') return;
+        gameMode = 'game';
+        modeGameBtn.classList.add('active');
+        modeSpinBtn.classList.remove('active');
+        scoreboard.style.display = '';
+        restartBtn.style.display = '';
+        gs.playerCoins  = 10;
+        gs.compCoins    = 10;
+        gs.pot          = 2;
+        gs.isPlayerTurn = true;
+        gs.spinning     = false;
+        gs.over         = false;
+        document.getElementById('dreidel-figure').classList.remove('spinning');
+        document.getElementById('dreidel-letter').textContent = '?';
+        document.getElementById('dreidel-letter').classList.remove('pop');
         document.getElementById('dreidel-status').textContent = s.yourTurn;
         document.getElementById('dreidel-spin-btn').disabled = false;
         updateDisplay();

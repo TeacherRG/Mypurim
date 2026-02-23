@@ -1234,6 +1234,19 @@ body::before {
     text-decoration: underline;
 }
 
+.visitor-counter {
+    margin-top: 14px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.03em;
+}
+
+#visitor-count {
+    font-weight: 600;
+    color: #ffcc00;
+    margin-left: 4px;
+}
+
 /* ===== RESPONSIVE ===== */
 
 @media (max-width: 768px) {

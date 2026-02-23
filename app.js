@@ -61,6 +61,7 @@ function closeNavPopup() {
 
 document.addEventListener('DOMContentLoaded', function () {
     loadProgress();
+    initVisitorCounter();
     langSelect.value = langMode;
     I18N.applyTranslations(langMode);
     renderSidebar();
@@ -1375,6 +1376,24 @@ function renderDreidelGame() {
         document.getElementById('dreidel-spin-btn').disabled = false;
         updateDisplay();
     });
+}
+
+// ===== VISITOR COUNTER =====
+
+function initVisitorCounter() {
+    var countEl = document.getElementById('visitor-count');
+    if (!countEl) return;
+
+    var count = parseInt(localStorage.getItem('visitCount') || '0', 10);
+
+    // Increment only once per browser session (not on every page refresh)
+    if (!sessionStorage.getItem('visited')) {
+        count += 1;
+        localStorage.setItem('visitCount', count);
+        sessionStorage.setItem('visited', '1');
+    }
+
+    countEl.textContent = count.toLocaleString();
 }
 
 // ===== PROGRESS BAR =====

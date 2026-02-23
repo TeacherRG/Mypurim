@@ -1401,6 +1401,20 @@ function saveProgress() {
     localStorage.setItem('lessonProgress', JSON.stringify(state));
 }
 
+// ── VISITOR COUNTER ──────────────────────────────────────
+(function trackVisitor() {
+    var el = document.getElementById('visitor-count');
+    if (!el) return;
+    fetch('https://api.counterapi.dev/v1/purim-jewishinsights/visits/up')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+            if (data && typeof data.count === 'number') {
+                el.textContent = data.count.toLocaleString();
+            }
+        })
+        .catch(function () { /* silently ignore errors */ });
+})();
+
 // ── PRELOADER ────────────────────────────────────────────
 (function hidePreloader() {
     const preloader = document.getElementById('preloader');

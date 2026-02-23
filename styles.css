@@ -685,8 +685,27 @@ body::before {
     margin-top: 24px;
 }
 
+.esther-col-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
 .esther-text-col {
     margin-top: 0;
+}
+
+.esther-pdf-block--compact {
+    margin-bottom: 8px;
+}
+
+.esther-pdf-block--compact .esther-btn-row {
+    padding: 10px 14px;
+    gap: 8px;
+}
+
+.esther-pdf-block--compact .esther-btn {
+    padding: 6px 12px;
+    font-size: 13px;
 }
 
 .esther-scroll-heading {

@@ -870,17 +870,24 @@ body::before {
 
 @keyframes dreidelSpin {
     0%   { transform: rotate(0deg)    scaleX(1);    }
-    15%  { transform: rotate(540deg)  scaleX(0.15); }
-    30%  { transform: rotate(1080deg) scaleX(1);    }
-    45%  { transform: rotate(1620deg) scaleX(0.15); }
-    60%  { transform: rotate(2160deg) scaleX(1);    }
-    75%  { transform: rotate(2700deg) scaleX(0.15); }
-    90%  { transform: rotate(3060deg) scaleX(1);    }
-    100% { transform: rotate(3240deg) scaleX(1);    }
+    5%   { transform: rotate(450deg)  scaleX(0.07); }
+    10%  { transform: rotate(900deg)  scaleX(1);    }
+    16%  { transform: rotate(1440deg) scaleX(0.07); }
+    22%  { transform: rotate(1980deg) scaleX(1);    }
+    29%  { transform: rotate(2610deg) scaleX(0.08); }
+    36%  { transform: rotate(3240deg) scaleX(1);    }
+    44%  { transform: rotate(3870deg) scaleX(0.12); }
+    52%  { transform: rotate(4500deg) scaleX(1);    }
+    61%  { transform: rotate(4950deg) scaleX(0.2);  }
+    70%  { transform: rotate(5310deg) scaleX(1);    }
+    80%  { transform: rotate(5580deg) scaleX(0.35); }
+    90%  { transform: rotate(5760deg) scaleX(1);    }
+    95%  { transform: rotate(5850deg) scaleX(0.82); }
+    100% { transform: rotate(5940deg) scaleX(1);    }
 }
 
 .dreidel-figure.spinning {
-    animation: dreidelSpin 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: dreidelSpin 3s cubic-bezier(0.05, 0.6, 0.5, 0.96) forwards;
 }
 
 .dreidel-handle {
@@ -924,6 +931,60 @@ body::before {
     border-top: 32px solid #0a3070;
     margin-top: -2px;
     filter: drop-shadow(0 6px 8px rgba(0,0,0,0.3));
+}
+
+/* Hide letter while spinning */
+.dreidel-figure.spinning .dreidel-letter {
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+
+/* Letter pop-in reveal animation */
+@keyframes letterPop {
+    0%   { transform: rotate(-45deg) scale(2.4); opacity: 0; }
+    55%  { transform: rotate(-45deg) scale(0.88); opacity: 1; }
+    80%  { transform: rotate(-45deg) scale(1.08); opacity: 1; }
+    100% { transform: rotate(-45deg) scale(1);   opacity: 1; }
+}
+
+.dreidel-letter.pop {
+    animation: letterPop 0.5s ease-out forwards;
+}
+
+/* Mode selector */
+.dreidel-mode-selector {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.dreidel-mode-btn {
+    padding: 9px 22px;
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.55);
+    cursor: pointer;
+    transition: background 0.22s, color 0.22s, border-color 0.22s;
+    letter-spacing: 0.01em;
+}
+
+.dreidel-mode-btn.active {
+    background: rgba(255,204,0,0.14);
+    border-color: #ffcc00;
+    color: #ffcc00;
+    font-weight: 700;
+}
+
+.dreidel-mode-btn:hover:not(.active) {
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.85);
+    border-color: rgba(255,255,255,0.4);
 }
 
 /* Controls */

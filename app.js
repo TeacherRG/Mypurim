@@ -397,6 +397,46 @@ function getEstherPDFs() {
     ];
 }
 
+function buildEstherPdfBlock(pdf) {
+    const block = document.createElement('div');
+    block.className = 'esther-pdf-block';
+
+    if (pdf.label) {
+        const label = document.createElement('h3');
+        label.className = 'esther-pdf-label';
+        label.textContent = pdf.label;
+        block.appendChild(label);
+    }
+
+    const btnRow = document.createElement('div');
+    btnRow.className = 'esther-btn-row';
+
+    const openBtn = document.createElement('a');
+    openBtn.href = pdf.file;
+    openBtn.target = '_blank';
+    openBtn.rel = 'noopener';
+    openBtn.className = 'esther-btn esther-btn-open';
+    openBtn.textContent = I18N.t('estherOpen', langMode);
+
+    const downloadBtn = document.createElement('a');
+    downloadBtn.href = pdf.file;
+    downloadBtn.download = '';
+    downloadBtn.className = 'esther-btn esther-btn-download';
+    downloadBtn.textContent = I18N.t('estherDownload', langMode);
+
+    btnRow.appendChild(openBtn);
+    btnRow.appendChild(downloadBtn);
+    block.appendChild(btnRow);
+
+    const iframe = document.createElement('iframe');
+    iframe.src = pdf.file;
+    iframe.className = 'esther-iframe';
+    iframe.title = pdf.label || I18N.sectionTitle('esther_scroll', langMode);
+    block.appendChild(iframe);
+
+    return block;
+}
+
 function renderEstherScroll() {
     contentArea.innerHTML = '';
 
@@ -411,46 +451,26 @@ function renderEstherScroll() {
     contentArea.appendChild(desc);
 
     const pdfs = getEstherPDFs();
+    const isDual = langMode.includes('-') && pdfs.length === 2;
 
-    pdfs.forEach(function (pdf) {
-        const block = document.createElement('div');
-        block.className = 'esther-pdf-block';
+    if (isDual) {
+        // Two-column layout: part 1 left, part 2 right
+        const wrapper = document.createElement('div');
+        wrapper.className = 'lang-dual esther-dual';
 
-        if (pdf.label) {
-            const label = document.createElement('h3');
-            label.className = 'esther-pdf-label';
-            label.textContent = pdf.label;
-            block.appendChild(label);
-        }
+        pdfs.forEach(function (pdf, idx) {
+            const col = document.createElement('div');
+            col.className = idx === 0 ? 'lang-col' : 'lang-col lang-col-right';
+            col.appendChild(buildEstherPdfBlock(pdf));
+            wrapper.appendChild(col);
+        });
 
-        const btnRow = document.createElement('div');
-        btnRow.className = 'esther-btn-row';
-
-        const openBtn = document.createElement('a');
-        openBtn.href = pdf.file;
-        openBtn.target = '_blank';
-        openBtn.rel = 'noopener';
-        openBtn.className = 'esther-btn esther-btn-open';
-        openBtn.textContent = I18N.t('estherOpen', langMode);
-
-        const downloadBtn = document.createElement('a');
-        downloadBtn.href = pdf.file;
-        downloadBtn.download = '';
-        downloadBtn.className = 'esther-btn esther-btn-download';
-        downloadBtn.textContent = I18N.t('estherDownload', langMode);
-
-        btnRow.appendChild(openBtn);
-        btnRow.appendChild(downloadBtn);
-        block.appendChild(btnRow);
-
-        const iframe = document.createElement('iframe');
-        iframe.src = pdf.file;
-        iframe.className = 'esther-iframe';
-        iframe.title = pdf.label || I18N.sectionTitle('esther_scroll', langMode);
-        block.appendChild(iframe);
-
-        contentArea.appendChild(block);
-    });
+        contentArea.appendChild(wrapper);
+    } else {
+        pdfs.forEach(function (pdf) {
+            contentArea.appendChild(buildEstherPdfBlock(pdf));
+        });
+    }
 }
 
 // ===== PROGRESS BAR =====

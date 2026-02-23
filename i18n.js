@@ -44,7 +44,7 @@ const I18N = (function () {
         },
 
         uk: {
-            pageTitle:        'Свято Пурим — Інтерактивний урок',
+            pageTitle:        'Свято Пурим',
             headerTitle:      'Пурим — свято єврейського народу, родини та дітей',
             progressLabel:    'завершено',
             dedication:       'Присвячується ювілею родини Грінберг та її дітям — Йосеф Іцхаку, Шейне, Аарону та Рахель   7 адара 5786 года',
@@ -80,7 +80,7 @@ const I18N = (function () {
         },
 
         de: {
-            pageTitle:        'Purim-Fest — Interaktive Lektion',
+            pageTitle:        'Purim-Fest',
             headerTitle:      'Purim — Fest des jüdischen Volkes, der Familie und der Kinder',
             progressLabel:    'abgeschlossen',
             dedication:       'Gewidmet dem Jubiläum der Familie Grinberg und ihren Kindern — Yosef Yitzchak, Sheina, Aharon und Rachel  7 Adar 5786',

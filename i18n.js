@@ -23,11 +23,17 @@ const I18N = (function () {
             footerCopyright:  '© 2026 Shluchim Office International. Все права защищены.',
             footerContact:    'По дополнительным вопросам:',
             footerMaterials:  'Для загрузки дополнительных учебных материалов посетите сайт:',
+            estherDesc:       'Выберите язык в верхнем меню, чтобы открыть Свиток на нужном языке. Вы можете читать текст прямо на странице или скачать файл.',
+            estherOpen:       'Открыть в новой вкладке',
+            estherDownload:   'Скачать PDF',
+            estherPart1:      'Часть 1',
+            estherPart2:      'Часть 2',
             sections: {
-                intro:     'Введение',
-                section_a: 'Раздел 1',
-                section_b: 'Раздел 2',
-                section_c: 'Раздел 3'
+                intro:         'Введение',
+                section_a:     'Раздел 1',
+                section_b:     'Раздел 2',
+                section_c:     'Раздел 3',
+                esther_scroll: 'Чтение Свитка Эстер'
             }
         },
 
@@ -47,11 +53,17 @@ const I18N = (function () {
             footerCopyright:  '© 2026 Shluchim Office International. Усі права захищені.',
             footerContact:    'З додаткових питань:',
             footerMaterials:  'Для завантаження додаткових навчальних матеріалів відвідайте сайт:',
+            estherDesc:       'Оберіть мову у верхньому меню, щоб відкрити Сувій потрібною мовою. Ви можете читати текст на сторінці або завантажити файл.',
+            estherOpen:       'Відкрити у новій вкладці',
+            estherDownload:   'Завантажити PDF',
+            estherPart1:      'Частина 1',
+            estherPart2:      'Частина 2',
             sections: {
-                intro:     'Вступ',
-                section_a: 'Розділ 1',
-                section_b: 'Розділ 2',
-                section_c: 'Розділ 3'
+                intro:         'Вступ',
+                section_a:     'Розділ 1',
+                section_b:     'Розділ 2',
+                section_c:     'Розділ 3',
+                esther_scroll: 'Читання Сувою Естер'
             }
         },
 
@@ -71,11 +83,17 @@ const I18N = (function () {
             footerCopyright:  '© 2026 Shluchim Office International. Alle Rechte vorbehalten.',
             footerContact:    'Für weitere Fragen:',
             footerMaterials:  'Um zusätzliche Lernmaterialien herunterzuladen, besuchen Sie die Website:',
+            estherDesc:       'Wählen Sie oben die Sprache aus, um die Megillat Esther in der gewünschten Sprache zu öffnen. Sie können den Text direkt auf der Seite lesen oder die Datei herunterladen.',
+            estherOpen:       'In neuem Tab öffnen',
+            estherDownload:   'PDF herunterladen',
+            estherPart1:      'Teil 1',
+            estherPart2:      'Teil 2',
             sections: {
-                intro:     'Einführung',
-                section_a: 'Abschnitt 1',
-                section_b: 'Abschnitt 2',
-                section_c: 'Abschnitt 3'
+                intro:         'Einführung',
+                section_a:     'Abschnitt 1',
+                section_b:     'Abschnitt 2',
+                section_c:     'Abschnitt 3',
+                esther_scroll: 'Lesen der Megillat Esther'
             }
         }
 

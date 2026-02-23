@@ -1,10 +1,11 @@
 // ===== CONFIG =====
 
 const SECTIONS = [
-    { id: 'intro'     },
-    { id: 'section_a' },
-    { id: 'section_b' },
-    { id: 'section_c' }
+    { id: 'intro'         },
+    { id: 'section_a'     },
+    { id: 'section_b'     },
+    { id: 'section_c'     },
+    { id: 'esther_scroll', type: 'pdf' }
 ];
 
 // ===== STATE =====
@@ -49,17 +50,22 @@ function renderSidebar() {
         const li = document.createElement('li');
         li.textContent = I18N.sectionTitle(section.id, langMode);
 
-        // Locking: intro and section_a are always accessible.
-        // Each subsequent section requires the previous one to be completed.
-        if (index >= 2) {
-            const prevId = SECTIONS[index - 1].id;
-            if (!state.completedSections.includes(prevId)) {
-                li.classList.add('locked');
+        // PDF sections are always accessible — no quiz, no locking
+        if (section.type === 'pdf') {
+            li.classList.add('pdf-section');
+        } else {
+            // Locking: intro and section_a are always accessible.
+            // Each subsequent quiz section requires the previous one to be completed.
+            if (index >= 2) {
+                const prevId = SECTIONS[index - 1].id;
+                if (!state.completedSections.includes(prevId)) {
+                    li.classList.add('locked');
+                }
             }
-        }
 
-        if (state.completedSections.includes(section.id)) {
-            li.classList.add('completed');
+            if (state.completedSections.includes(section.id)) {
+                li.classList.add('completed');
+            }
         }
 
         if (section.id === currentId) {
@@ -80,6 +86,15 @@ function renderSidebar() {
 
 async function loadSection(id) {
     currentId = id;
+
+    // PDF sections have special rendering
+    const sectionCfg = SECTIONS.find(function (s) { return s.id === id; });
+    if (sectionCfg && sectionCfg.type === 'pdf') {
+        renderEstherScroll();
+        renderSidebar();
+        updateProgressBar();
+        return;
+    }
 
     // Determine translation language folder
     const transFolder = langMode === 'uk' || langMode === 'ru-uk' ? 'uk'
@@ -328,10 +343,92 @@ function checkQuiz(sectionId, card) {
     }
 }
 
+// ===== ESTHER SCROLL =====
+
+function getEstherPDFs() {
+    if (langMode === 'ru-de') {
+        return [
+            { file: 'pdfs/esther-ru-de-1.pdf', label: I18N.t('estherPart1', langMode) },
+            { file: 'pdfs/esther-ru-de-2.pdf', label: I18N.t('estherPart2', langMode) }
+        ];
+    }
+    if (langMode === 'ru-uk' || langMode === 'uk') {
+        return [
+            { file: 'pdfs/esther-ru-uk-1.pdf', label: I18N.t('estherPart1', langMode) },
+            { file: 'pdfs/esther-ru-uk-2.pdf', label: I18N.t('estherPart2', langMode) }
+        ];
+    }
+    if (langMode === 'de') {
+        return [
+            { file: 'pdfs/esther-de.pdf', label: '' }
+        ];
+    }
+    // Default: Russian
+    return [
+        { file: 'pdfs/esther-ru.pdf', label: '' }
+    ];
+}
+
+function renderEstherScroll() {
+    contentArea.innerHTML = '';
+
+    const h2 = document.createElement('h2');
+    h2.className = 'section-title';
+    h2.textContent = I18N.sectionTitle('esther_scroll', langMode);
+    contentArea.appendChild(h2);
+
+    const desc = document.createElement('p');
+    desc.className = 'esther-desc';
+    desc.textContent = I18N.t('estherDesc', langMode);
+    contentArea.appendChild(desc);
+
+    const pdfs = getEstherPDFs();
+
+    pdfs.forEach(function (pdf) {
+        const block = document.createElement('div');
+        block.className = 'esther-pdf-block';
+
+        if (pdf.label) {
+            const label = document.createElement('h3');
+            label.className = 'esther-pdf-label';
+            label.textContent = pdf.label;
+            block.appendChild(label);
+        }
+
+        const btnRow = document.createElement('div');
+        btnRow.className = 'esther-btn-row';
+
+        const openBtn = document.createElement('a');
+        openBtn.href = pdf.file;
+        openBtn.target = '_blank';
+        openBtn.rel = 'noopener';
+        openBtn.className = 'esther-btn esther-btn-open';
+        openBtn.textContent = I18N.t('estherOpen', langMode);
+
+        const downloadBtn = document.createElement('a');
+        downloadBtn.href = pdf.file;
+        downloadBtn.download = '';
+        downloadBtn.className = 'esther-btn esther-btn-download';
+        downloadBtn.textContent = I18N.t('estherDownload', langMode);
+
+        btnRow.appendChild(openBtn);
+        btnRow.appendChild(downloadBtn);
+        block.appendChild(btnRow);
+
+        const iframe = document.createElement('iframe');
+        iframe.src = pdf.file;
+        iframe.className = 'esther-iframe';
+        iframe.title = pdf.label || I18N.sectionTitle('esther_scroll', langMode);
+        block.appendChild(iframe);
+
+        contentArea.appendChild(block);
+    });
+}
+
 // ===== PROGRESS BAR =====
 
 function updateProgressBar() {
-    const quizSections = SECTIONS.filter(function (s) { return s.id !== 'intro'; });
+    const quizSections = SECTIONS.filter(function (s) { return s.id !== 'intro' && s.type !== 'pdf'; });
     const total = quizSections.length;
     const done = state.completedSections.length;
     const pct = total === 0 ? 0 : Math.round((done / total) * 100);

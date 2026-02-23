@@ -13,8 +13,21 @@ const SECTIONS = [
 
 // ===== STATE =====
 
+function detectBrowserLang() {
+    var langs = (navigator.languages && navigator.languages.length)
+        ? Array.from(navigator.languages)
+        : [navigator.language || 'ru'];
+    for (var i = 0; i < langs.length; i++) {
+        var l = langs[i].toLowerCase();
+        if (l.startsWith('uk')) return 'uk';
+        if (l.startsWith('de')) return 'de';
+        if (l.startsWith('ru')) return 'ru';
+    }
+    return 'ru';
+}
+
 let currentId = null;
-let langMode = localStorage.getItem('langMode') || 'ru';
+let langMode = localStorage.getItem('langMode') || detectBrowserLang();
 let state = { completedSections: [] };
 
 // ===== DOM REFS =====

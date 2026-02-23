@@ -21,6 +21,24 @@ const contentArea   = document.getElementById('content');
 const progressFill  = document.getElementById('progress-fill');
 const progressPct   = document.getElementById('progress-percent');
 const langSelect    = document.getElementById('lang-select');
+const navToggle     = document.getElementById('nav-toggle');
+const navPopup      = document.getElementById('nav-popup');
+const navOverlay    = document.getElementById('nav-overlay');
+const navClose      = document.getElementById('nav-close');
+
+// ===== NAV POPUP =====
+
+function openNavPopup() {
+    navPopup.classList.add('open');
+    navOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeNavPopup() {
+    navPopup.classList.remove('open');
+    navOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+}
 
 // ===== INIT =====
 
@@ -38,6 +56,15 @@ document.addEventListener('DOMContentLoaded', function () {
         I18N.applyTranslations(langMode);
         renderSidebar();
         if (currentId) loadSection(currentId);
+    });
+
+    navToggle.addEventListener('click', openNavPopup);
+    navClose.addEventListener('click', closeNavPopup);
+    navOverlay.addEventListener('click', closeNavPopup);
+
+    // Close popup on Escape key
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeNavPopup();
     });
 });
 
@@ -86,6 +113,7 @@ function renderSidebar() {
 
 async function loadSection(id) {
     currentId = id;
+    closeNavPopup();
 
     // PDF sections have special rendering
     const sectionCfg = SECTIONS.find(function (s) { return s.id === id; });

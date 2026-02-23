@@ -29,7 +29,7 @@ const I18N = (function () {
             estherPart1:      'Часть 1',
             estherPart2:      'Часть 2',
             sections: {
-                intro:         'Введение',
+                intro:         'О проекте',
                 dvar_malchut:  'Двар Малхут',
                 section_a:     'Раздел 1',
                 section_b:     'Раздел 2',
@@ -61,7 +61,7 @@ const I18N = (function () {
             estherPart1:      'Частина 1',
             estherPart2:      'Частина 2',
             sections: {
-                intro:         'Вступ',
+                intro:         'Про проєкт',
                 dvar_malchut:  'Двар Малхут',
                 section_a:     'Розділ 1',
                 section_b:     'Розділ 2',
@@ -93,7 +93,7 @@ const I18N = (function () {
             estherPart1:      'Teil 1',
             estherPart2:      'Teil 2',
             sections: {
-                intro:         'Einführung',
+                intro:         'Über das Projekt',
                 dvar_malchut:  'Dvar Malchut',
                 section_a:     'Abschnitt 1',
                 section_b:     'Abschnitt 2',

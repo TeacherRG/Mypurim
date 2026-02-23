@@ -43,7 +43,8 @@ const I18N = (function () {
                 games:         'Игры',
                 dreidel:       'Игра в дрейдл 🎡',
                 hangman:       'Повесь Амана! 🪢',
-                spiral:        'Спокойной ночи 🌀'
+                spiral:        'Спокойной ночи 🌀',
+                alcohol:       'Алкогольный калькулятор 🍷'
             }
         },
 
@@ -83,7 +84,8 @@ const I18N = (function () {
                 games:         'Ігри',
                 dreidel:       'Гра в дрейдл 🎡',
                 hangman:       'Повіш Амана! 🪢',
-                spiral:        'На добраніч 🌀'
+                spiral:        'На добраніч 🌀',
+                alcohol:       'Алкогольний калькулятор 🍷'
             }
         },
 
@@ -123,7 +125,8 @@ const I18N = (function () {
                 games:         'Spiele',
                 dreidel:       'Dreidel-Spiel 🎡',
                 hangman:       'Häng Haman auf! 🪢',
-                spiral:        'Gute Nacht 🌀'
+                spiral:        'Gute Nacht 🌀',
+                alcohol:       'Alkohol-Kalkulator 🍷'
             }
         }
 

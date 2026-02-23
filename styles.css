@@ -477,6 +477,49 @@ body::before {
     opacity: 0.85;
 }
 
+/* ===== NAV POPUP GROUP HEADER ===== */
+
+.nav-popup li.group-header {
+    padding: 14px 22px 6px;
+    cursor: default;
+    opacity: 1;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #ffcc00;
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    margin-top: 8px;
+}
+
+.nav-popup li.group-header:hover {
+    background: none;
+    padding-left: 22px;
+    opacity: 1;
+}
+
+.nav-popup li.sub-item {
+    padding-left: 34px;
+    font-size: 14px;
+}
+
+.nav-popup li.sub-item:hover {
+    padding-left: 40px;
+}
+
+/* ===== INTRO LIST ===== */
+
+.intro-list {
+    margin: 0.5em 0 1em 1.4em;
+    padding: 0;
+    line-height: 1.9;
+}
+
+.intro-list li {
+    margin-bottom: 0.3em;
+}
+
 /* ===== NAV POPUP PDF SECTION ===== */
 
 .nav-popup li.pdf-section {

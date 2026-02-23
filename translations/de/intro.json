@@ -1,19 +1,32 @@
 {
   "id": "intro",
-  "title": "Einführung",
+  "title": "Purim – ein Fest, das unendliches Licht verbirgt",
 
   "content": [
     {
       "type": "paragraph",
-      "text": "Diese interaktive Lektion ist dem vertieften Verständnis des Festes Purim gewidmet."
+      "text": "Diese Lektion ist dem Jubiläum der Familie Grinberg gewidmet – mit Liebe und Freude."
+    },
+    {
+      "type": "quote",
+      "text": "„Megillat Ester ist das einzige Buch der Tanach, in dem der Name G-ttes kein einziges Mal erscheint. Darin liegt die tiefste Botschaft von Purim: G-tt auch dort zu sehen, wo Er verborgen ist." — Der Rebbe"
     },
     {
       "type": "paragraph",
-      "text": "Wir werden die Texte der Megillat Ester, die Worte unserer Weisen seligen Andenkens sowie die Erklärung des Rebbe analysieren, um den inneren Sinn der Ewigkeit von Purim zu erschließen."
+      "text": "Hinter dem Zufall steht göttliche Fürsorge, hinter der Maske die Wahrheit, hinter dem Lachen der tiefste Glaube. Purim lehrt uns: G-tt verlässt sein Volk niemals – auch wenn Sein Wirken unsichtbar bleibt."
     },
     {
       "type": "paragraph",
-      "text": "Jeder folgende Abschnitt wird erst nach dem erfolgreichen Bestehen des jeweiligen Quiz freigeschaltet."
+      "text": "Hier finden Sie:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Dvar Malchut – die Sicha des Rebbe über Purim: der innere Sinn des Festes",
+        "Megillat Ester – Worte, die Juden in allen Generationen lesen",
+        "Zedaka – die Möglichkeit, das Gebot gleich jetzt zu erfüllen",
+        "Spielen – ein Bereich für Kinder, voller Purim-Freude"
+      ]
     }
   ]
 }

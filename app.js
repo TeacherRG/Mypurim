@@ -1,12 +1,13 @@
 // ===== CONFIG =====
 
 const SECTIONS = [
-    { id: 'intro'         },
-    { id: 'section_a'     },
-    { id: 'section_b'     },
-    { id: 'section_c'     },
-    { id: 'esther_scroll', type: 'pdf' },
-    { id: 'tzedaka',       type: 'donate' }
+    { id: 'intro'                                          },
+    { id: 'dvar_malchut',  type: 'group'                  },
+    { id: 'section_a',     group: 'dvar_malchut'          },
+    { id: 'section_b',     group: 'dvar_malchut'          },
+    { id: 'section_c',     group: 'dvar_malchut'          },
+    { id: 'esther_scroll', type: 'pdf'                    },
+    { id: 'tzedaka',       type: 'donate'                 }
 ];
 
 // ===== STATE =====
@@ -74,9 +75,25 @@ document.addEventListener('DOMContentLoaded', function () {
 function renderSidebar() {
     sidebarMenu.innerHTML = '';
 
-    SECTIONS.forEach(function (section, index) {
+    // Quiz sections only (no type), in order — used for locking logic
+    const quizSections = SECTIONS.filter(function (s) { return !s.type; });
+
+    SECTIONS.forEach(function (section) {
         const li = document.createElement('li');
+
+        // Group header — non-clickable label
+        if (section.type === 'group') {
+            li.className = 'group-header';
+            li.textContent = I18N.sectionTitle(section.id, langMode);
+            sidebarMenu.appendChild(li);
+            return;
+        }
+
         li.textContent = I18N.sectionTitle(section.id, langMode);
+
+        if (section.group) {
+            li.classList.add('sub-item');
+        }
 
         // PDF and donate sections are always accessible — no quiz, no locking
         if (section.type === 'pdf') {
@@ -84,10 +101,11 @@ function renderSidebar() {
         } else if (section.type === 'donate') {
             li.classList.add('donate-section');
         } else {
-            // Locking: intro and section_a are always accessible.
-            // Each subsequent quiz section requires the previous one to be completed.
-            if (index >= 2) {
-                const prevId = SECTIONS[index - 1].id;
+            // Locking: first two quiz sections (intro, section_a) always accessible.
+            // Each subsequent requires the previous quiz section to be completed.
+            const quizIndex = quizSections.findIndex(function (s) { return s.id === section.id; });
+            if (quizIndex >= 2) {
+                const prevId = quizSections[quizIndex - 1].id;
                 if (!state.completedSections.includes(prevId)) {
                     li.classList.add('locked');
                 }
@@ -229,6 +247,15 @@ function renderContentBlocks(container, blocks) {
             const bq = document.createElement('blockquote');
             bq.textContent = block.text;
             container.appendChild(bq);
+        } else if (block.type === 'list') {
+            const ul = document.createElement('ul');
+            ul.className = 'intro-list';
+            block.items.forEach(function (item) {
+                const li = document.createElement('li');
+                li.textContent = item;
+                ul.appendChild(li);
+            });
+            container.appendChild(ul);
         }
     });
 }

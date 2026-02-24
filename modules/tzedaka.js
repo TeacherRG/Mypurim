@@ -82,7 +82,7 @@ function renderTzedaka() {
         org:      s.dniproOrg,
         desc:     s.dniproDesc,
         btnText:  s.btn,
-        href:     'https://www.portmone.com.ua/r3/pg/4ly2syh1dc00g4gccwg0ccgcokc4sw4?is=30303332462499f3524caf64bc3b954adcc10cef9c3c28a8e07730c61c0428d7a7e1b61150eb83427f46b0af&py=&h=ce774ffda6f170c231868393413f22d7'
+        href:     'https://djc.com.ua/ru/pozhertvovat/393413f22d7'
     }));
 
     contentArea.appendChild(grid);

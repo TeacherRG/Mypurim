@@ -7,11 +7,14 @@ function getEstherPDFs() {
             { file: 'pdfs/esther-ru-de-2.pdf', label: I18N.t('estherPart2', langMode) }
         ];
     }
-    if (langMode === 'ru-uk' || langMode === 'uk') {
+    if (langMode === 'ru-uk') {
         return [
             { file: 'pdfs/esther-ru-uk-1.pdf', label: I18N.t('estherPart1', langMode) },
             { file: 'pdfs/esther-ru-uk-2.pdf', label: I18N.t('estherPart2', langMode) }
         ];
+    }
+    if (langMode === 'uk') {
+        return [];
     }
     if (langMode === 'de') {
         return [

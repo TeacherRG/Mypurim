@@ -149,7 +149,7 @@ const I18N = (function () {
             pageTitle:        'חג הפורים — שיעור אינטראקטיבי',
             headerTitle:      'פורים — חג עם ישראל, המשפחה והילדים',
             progressLabel:    'הושלם',
-            dedication:       'לעילוי נשמת איירינה בת שרה',
+            dedication:       'לעילוי נשמת אירינה בת שרה',
             sidebarTitle:     'תפריט',
             quizHeader:       'בדוק הבנה',
             quizSubmit:       'ענה',

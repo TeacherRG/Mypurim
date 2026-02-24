@@ -82,7 +82,12 @@ function renderTitle(container, title, showShare) {
 function shareSection(id) {
     const url = window.location.origin + window.location.pathname + '#' + id;
     if (navigator.share) {
-        navigator.share({ url: url }).catch(function () {});
+        navigator.share({ url: url }).catch(function (e) {
+            // AbortError = user dismissed — not a real error
+            if (!e || e.name !== 'AbortError') {
+                AppLogger.warn('share: navigator.share failed', e);
+            }
+        });
     } else {
         navigator.clipboard.writeText(url).then(function () {
             showShareToast();

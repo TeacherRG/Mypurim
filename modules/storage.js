@@ -6,6 +6,7 @@ function loadProgress() {
         try {
             state = JSON.parse(saved);
         } catch (e) {
+            AppLogger.error('storage: corrupted lessonProgress — resetting', e);
             localStorage.removeItem('lessonProgress');
         }
     }

@@ -235,7 +235,7 @@ function renderMaharashScroll() {
     // Fullscreen
     fsBtn.addEventListener('click', function () {
         if (!document.fullscreenElement) {
-            viewer.requestFullscreen().catch(function () {});
+            viewer.requestFullscreen().catch(function (e) { AppLogger.info('maharash-scroll: fullscreen request denied', e); });
         } else {
             document.exitFullscreen();
         }

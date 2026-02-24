@@ -740,6 +740,19 @@ function renderMaharashScroll() {
     pageCounter.textContent = '1 / 11';
     toolbar.appendChild(pageCounter);
 
+    const zoomOut = document.createElement('button');
+    zoomOut.className = 'maharash-zoom-btn';
+    zoomOut.textContent = '−';
+    zoomOut.title = 'Уменьшить / Zoom out';
+
+    const zoomIn = document.createElement('button');
+    zoomIn.className = 'maharash-zoom-btn';
+    zoomIn.textContent = '+';
+    zoomIn.title = 'Увеличить / Zoom in';
+
+    toolbar.appendChild(zoomOut);
+    toolbar.appendChild(zoomIn);
+
     const fsBtn = document.createElement('button');
     fsBtn.className = 'maharash-fs-btn';
     fsBtn.title = 'Полный экран / Fullscreen';
@@ -789,6 +802,27 @@ function renderMaharashScroll() {
 
     // State
     let currentPage = 0;
+    let zoomLevel = 1;
+
+    function applyZoom() {
+        const imgs = strip.querySelectorAll('.maharash-img');
+        for (var z = 0; z < imgs.length; z++) { imgs[z].style.transform = ''; }
+        if (imgs[currentPage] && zoomLevel !== 1) {
+            imgs[currentPage].style.transform = 'scale(' + zoomLevel + ')';
+            imgs[currentPage].style.transformOrigin = 'center';
+        }
+        zoomIn.disabled = zoomLevel >= 4;
+        zoomOut.disabled = zoomLevel <= 0.5;
+    }
+
+    zoomOut.addEventListener('click', function () {
+        zoomLevel = Math.max(0.5, +(zoomLevel - 0.5).toFixed(1));
+        applyZoom();
+    });
+    zoomIn.addEventListener('click', function () {
+        zoomLevel = Math.min(4, +(zoomLevel + 0.5).toFixed(1));
+        applyZoom();
+    });
 
     function goTo(idx) {
         currentPage = Math.max(0, Math.min(IMAGES.length - 1, idx));
@@ -796,6 +830,8 @@ function renderMaharashScroll() {
         pageCounter.textContent = (currentPage + 1) + ' / ' + IMAGES.length;
         prevBtn.disabled = currentPage === 0;
         nextBtn.disabled = currentPage === IMAGES.length - 1;
+        zoomLevel = 1;
+        applyZoom();
     }
 
     goTo(0);
@@ -807,6 +843,8 @@ function renderMaharashScroll() {
     function onKey(e) {
         if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { goTo(currentPage + 1); e.preventDefault(); }
         if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { goTo(currentPage - 1); e.preventDefault(); }
+        if (e.key === '+' || e.key === '=') { zoomLevel = Math.min(4, +(zoomLevel + 0.5).toFixed(1)); applyZoom(); e.preventDefault(); }
+        if (e.key === '-') { zoomLevel = Math.max(0.5, +(zoomLevel - 0.5).toFixed(1)); applyZoom(); e.preventDefault(); }
         if (e.key === 'Escape' && document.fullscreenElement) { document.exitFullscreen(); }
     }
     document.addEventListener('keydown', onKey);

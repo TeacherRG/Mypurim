@@ -21,14 +21,53 @@
     <meta name="apple-mobile-web-app-title" content="Пурим" />
     <link rel="apple-touch-icon" href="/Favicon/apple-touch-icon.png" />
 
-    <!-- PWA: Service Worker registration -->
+    <!-- PWA: Service Worker registration + Install prompt -->
     <script>
+      // Register service worker
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js')
             .catch((err) => console.error('SW registration failed:', err));
         });
       }
+
+      // Capture the install prompt so we can show our own UI
+      let _deferredInstallPrompt = null;
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        _deferredInstallPrompt = e;
+        const banner = document.getElementById('install-banner');
+        if (banner) banner.hidden = false;
+      });
+
+      window.addEventListener('appinstalled', () => {
+        _deferredInstallPrompt = null;
+        const banner = document.getElementById('install-banner');
+        if (banner) banner.hidden = true;
+      });
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const installBtn = document.getElementById('install-btn');
+        const dismissBtn = document.getElementById('install-dismiss');
+        const banner = document.getElementById('install-banner');
+
+        if (installBtn) {
+          installBtn.addEventListener('click', async () => {
+            if (!_deferredInstallPrompt) return;
+            _deferredInstallPrompt.prompt();
+            await _deferredInstallPrompt.userChoice;
+            _deferredInstallPrompt = null;
+            if (banner) banner.hidden = true;
+          });
+        }
+
+        if (dismissBtn) {
+          dismissBtn.addEventListener('click', () => {
+            if (banner) banner.hidden = true;
+          });
+        }
+      });
     </script>
 </head>
 <body>
@@ -37,6 +76,16 @@
     <div id="preloader" class="preloader">
         <div class="preloader-clown">🤡</div>
         <div class="preloader-text">Пурим загружается...</div>
+    </div>
+
+    <!-- PWA INSTALL BANNER -->
+    <div id="install-banner" class="install-banner" hidden>
+        <div class="install-banner-text">
+            <strong>Установить приложение</strong>
+            <span>Работает офлайн · Быстрый доступ с экрана</span>
+        </div>
+        <button id="install-btn" class="install-banner-btn">Установить</button>
+        <button id="install-dismiss" class="install-banner-dismiss" aria-label="Закрыть">✕</button>
     </div>
 
     <!-- HEADER -->

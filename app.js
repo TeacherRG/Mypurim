@@ -821,13 +821,22 @@ function renderMaharashScroll() {
     // State
     let currentPage = 0;
     let zoomLevel = 1;
+    let panY = 0;
 
     function applyZoom() {
         const imgs = strip.querySelectorAll('.maharash-img');
-        for (var z = 0; z < imgs.length; z++) { imgs[z].style.transform = ''; }
-        if (imgs[currentPage] && zoomLevel !== 1) {
-            imgs[currentPage].style.transform = 'scale(' + zoomLevel + ')';
-            imgs[currentPage].style.transformOrigin = 'center';
+        for (var z = 0; z < imgs.length; z++) {
+            imgs[z].style.transform = '';
+            imgs[z].style.transformOrigin = '';
+        }
+        if (imgs[currentPage]) {
+            var parts = [];
+            if (panY !== 0) parts.push('translateY(' + panY + 'px)');
+            if (zoomLevel !== 1) parts.push('scale(' + zoomLevel + ')');
+            if (parts.length) {
+                imgs[currentPage].style.transform = parts.join(' ');
+                imgs[currentPage].style.transformOrigin = 'center center';
+            }
         }
         zoomIn.disabled = zoomLevel >= 4;
         zoomOut.disabled = zoomLevel <= 0.5;
@@ -837,6 +846,7 @@ function renderMaharashScroll() {
 
     zoomOut.addEventListener('click', function () {
         zoomLevel = Math.max(0.5, +(zoomLevel - 0.5).toFixed(1));
+        if (zoomLevel === 1) panY = 0;
         applyZoom();
     });
     zoomIn.addEventListener('click', function () {
@@ -846,6 +856,7 @@ function renderMaharashScroll() {
 
     zoomOutFs.addEventListener('click', function () {
         zoomLevel = Math.max(0.5, +(zoomLevel - 0.5).toFixed(1));
+        if (zoomLevel === 1) panY = 0;
         applyZoom();
     });
     zoomInFs.addEventListener('click', function () {
@@ -860,6 +871,7 @@ function renderMaharashScroll() {
         prevBtn.disabled = currentPage === 0;
         nextBtn.disabled = currentPage === IMAGES.length - 1;
         zoomLevel = 1;
+        panY = 0;
         applyZoom();
     }
 
@@ -880,8 +892,11 @@ function renderMaharashScroll() {
 
     // Touch/swipe and pinch-to-zoom support
     var touchStartX = null;
+    var touchStartY = null;
+    var panYAtTouchStart = 0;
     var pinchStartDist = null;
     var pinchStartZoom = 1;
+    var isPanning = false;
 
     strip.addEventListener('touchstart', function (e) {
         if (e.touches.length === 2) {
@@ -890,31 +905,49 @@ function renderMaharashScroll() {
             pinchStartDist = Math.sqrt(dx * dx + dy * dy);
             pinchStartZoom = zoomLevel;
             touchStartX = null;
+            touchStartY = null;
+            isPanning = false;
         } else {
             touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            panYAtTouchStart = panY;
             pinchStartDist = null;
+            isPanning = false;
         }
     }, { passive: true });
 
     strip.addEventListener('touchmove', function (e) {
         if (e.touches.length === 2 && pinchStartDist !== null) {
+            // Pinch-to-zoom
             var dx = e.touches[1].clientX - e.touches[0].clientX;
             var dy = e.touches[1].clientY - e.touches[0].clientY;
             var dist = Math.sqrt(dx * dx + dy * dy);
             var scale = dist / pinchStartDist;
             zoomLevel = Math.max(0.5, Math.min(4, +(pinchStartZoom * scale).toFixed(1)));
             applyZoom();
+        } else if (e.touches.length === 1 && zoomLevel > 1 && touchStartY !== null) {
+            // Vertical pan when zoomed in
+            var dy = e.touches[0].clientY - touchStartY;
+            var imgs = strip.querySelectorAll('.maharash-img');
+            var maxPan = imgs[currentPage] ? imgs[currentPage].offsetHeight * (zoomLevel - 1) / 2 : 0;
+            panY = Math.max(-maxPan, Math.min(maxPan, panYAtTouchStart + dy));
+            isPanning = true;
+            applyZoom();
+            e.preventDefault();
         }
-    }, { passive: true });
+    }, { passive: false });
 
     strip.addEventListener('touchend', function (e) {
         if (e.touches.length === 0) {
-            if (pinchStartDist === null && touchStartX !== null) {
+            if (!isPanning && pinchStartDist === null && touchStartX !== null) {
+                // Horizontal swipe: navigate pages
                 var dx = e.changedTouches[0].clientX - touchStartX;
                 if (Math.abs(dx) > 40) { goTo(currentPage + (dx < 0 ? 1 : -1)); }
             }
             touchStartX = null;
+            touchStartY = null;
             pinchStartDist = null;
+            isPanning = false;
         }
     }, { passive: true });
 

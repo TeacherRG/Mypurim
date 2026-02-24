@@ -1,6 +1,7 @@
 // ===== CONFIG =====
 
 const SECTIONS = [
+    { id: 'home',           type: 'home'                                   },
     { id: 'intro'                                                          },
     { id: 'dvar_malchut',    type: 'group'                                },
     { id: 'section_a',       group: 'dvar_malchut'                        },

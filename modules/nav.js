@@ -17,6 +17,23 @@ function closeNavPopup() {
 function renderSidebar() {
     sidebarMenu.innerHTML = '';
 
+    // "Home" button always at the top
+    const homeLi = document.createElement('li');
+    homeLi.className = 'home-nav-item';
+    homeLi.textContent = I18N.sectionTitle('home', langMode);
+    if (currentId === 'home') {
+        homeLi.classList.add('active');
+    }
+    homeLi.addEventListener('click', function () {
+        loadSection('home');
+    });
+    sidebarMenu.appendChild(homeLi);
+
+    // Divider after home button
+    const divider = document.createElement('li');
+    divider.className = 'nav-divider';
+    sidebarMenu.appendChild(divider);
+
     // Auto-expand the group containing the currently active section
     const currentSection = SECTIONS.find(function (s) { return s.id === currentId; });
     if (currentSection && currentSection.group) {
@@ -27,6 +44,11 @@ function renderSidebar() {
     const quizSections = SECTIONS.filter(function (s) { return !s.type; });
 
     SECTIONS.forEach(function (section) {
+        // Skip the home section — it has its own dedicated button above
+        if (section.type === 'home') {
+            return;
+        }
+
         // Skip sub-items whose group is currently collapsed
         if (section.group && collapsedGroups.has(section.group)) {
             return;

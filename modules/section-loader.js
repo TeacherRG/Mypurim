@@ -8,6 +8,12 @@ async function loadSection(id) {
 
     // PDF and donate sections have special rendering
     const sectionCfg = SECTIONS.find(function (s) { return s.id === id; });
+    if (sectionCfg && sectionCfg.type === 'home') {
+        renderHome();
+        renderSidebar();
+        updateProgressBar();
+        return;
+    }
     if (sectionCfg && sectionCfg.type === 'pdf') {
         renderEstherScroll();
         renderSidebar();

@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     renderSidebar();
     var initialHash = window.location.hash.slice(1);
     var validInitial = SECTIONS.find(function (s) { return s.id === initialHash; });
-    loadSection(validInitial ? initialHash : 'intro');
+    loadSection(validInitial ? initialHash : 'home');
     initMusicPlayer();
 
     langSelect.addEventListener('change', function () {

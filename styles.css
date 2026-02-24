@@ -1618,6 +1618,101 @@ body::before {
     background: rgba(255, 200, 0, 0.3);
 }
 
+/* ===== SHUM GAME ===== */
+
+.shum-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 16px;
+    padding: 16px;
+    height: calc(100vh - 180px);
+    min-height: 360px;
+    box-sizing: border-box;
+}
+
+.shum-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--shum-bg);
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.15s ease;
+    box-shadow: 0 8px 0 var(--shum-shadow), 0 14px 28px rgba(0,0,0,0.45);
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+.shum-tile:active {
+    transform: translateY(5px);
+    box-shadow: 0 3px 0 var(--shum-shadow), 0 6px 12px rgba(0,0,0,0.4);
+}
+
+.shum-tile.shum-active {
+    animation: shum-pulse 0.65s ease-in-out infinite alternate;
+    box-shadow: 0 8px 0 var(--shum-shadow), 0 0 40px var(--shum-bg), 0 0 80px rgba(255,255,255,0.15);
+}
+
+@keyframes shum-pulse {
+    from { transform: scale(1); }
+    to   { transform: scale(1.04); }
+}
+
+.shum-emoji {
+    font-size: clamp(52px, 10vw, 110px);
+    line-height: 1;
+    margin-bottom: 14px;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.35));
+    pointer-events: none;
+}
+
+.shum-name {
+    font-size: clamp(18px, 3.5vw, 36px);
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    letter-spacing: 0.03em;
+    pointer-events: none;
+}
+
+.shum-ripple {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: rgba(255,255,255,0.12);
+    opacity: 0;
+    transition: opacity 0.15s;
+    pointer-events: none;
+}
+
+.shum-tile.shum-active .shum-ripple {
+    opacity: 1;
+    animation: shum-ripple-anim 1.2s ease-in-out infinite;
+}
+
+@keyframes shum-ripple-anim {
+    0%   { transform: scale(0.9); opacity: 0.18; }
+    50%  { transform: scale(1.05); opacity: 0.08; }
+    100% { transform: scale(0.9); opacity: 0.18; }
+}
+
+@media (max-width: 500px) {
+    .shum-grid {
+        gap: 10px;
+        padding: 10px;
+        height: calc(100vh - 160px);
+    }
+    .shum-tile {
+        border-radius: 16px;
+    }
+}
+
 /* ===== ALCOHOL CALCULATOR ===== */
 
 .alcohol-desc {

@@ -50,6 +50,12 @@ async function loadSection(id) {
         updateProgressBar();
         return;
     }
+    if (sectionCfg && sectionCfg.type === 'shum') {
+        renderShumGame();
+        renderSidebar();
+        updateProgressBar();
+        return;
+    }
     if (sectionCfg && sectionCfg.type === 'maharash') {
         renderMaharashScroll();
         renderSidebar();

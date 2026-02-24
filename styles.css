@@ -1867,3 +1867,94 @@ body::before {
         font-size: 18px;
     }
 }
+
+/* ===== RTL / HEBREW SUPPORT ===== */
+
+html[dir="rtl"] body {
+    font-family: 'Arial Hebrew', 'David', Arial, sans-serif;
+}
+
+html[dir="rtl"] .header-top-row {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .header-controls {
+    align-items: flex-start;
+}
+
+html[dir="rtl"] .music-player {
+    align-items: flex-start;
+}
+
+html[dir="rtl"] .nav-popup {
+    left: auto;
+    right: 0;
+    transform: translateX(100%);
+}
+
+html[dir="rtl"] .nav-popup.open {
+    transform: translateX(0);
+}
+
+html[dir="rtl"] .section-title-row {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .lang-col,
+html[dir="rtl"] .esther-text-container,
+html[dir="rtl"] .halacha-meta,
+html[dir="rtl"] .donate-card,
+html[dir="rtl"] .alcohol-card,
+html[dir="rtl"] .quiz-card {
+    direction: rtl;
+    text-align: right;
+}
+
+html[dir="rtl"] .section-title {
+    text-align: right;
+}
+
+html[dir="rtl"] .header-main-title,
+html[dir="rtl"] .header-dedication {
+    text-align: right;
+}
+
+html[dir="rtl"] .esther-scroll-para,
+html[dir="rtl"] .esther-scroll-heading {
+    direction: rtl;
+    text-align: right;
+}
+
+html[dir="rtl"] .quiz-option label {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .footer-inner {
+    direction: rtl;
+    text-align: right;
+}
+
+html[dir="rtl"] .donate-card-header {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .dreidel-controls {
+    align-items: flex-end;
+}
+
+html[dir="rtl"] .hm-keyboard {
+    direction: ltr;
+}
+
+/* "Coming soon" notice for sections not yet translated to Hebrew */
+.coming-soon-notice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 160px;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #c8860a;
+    letter-spacing: 0.04em;
+    opacity: 0.85;
+}

@@ -26,6 +26,7 @@ function detectBrowserLang() {
         var l = langs[i].toLowerCase();
         if (l.startsWith('uk')) return 'uk';
         if (l.startsWith('de')) return 'de';
+        if (l.startsWith('he') || l.startsWith('iw')) return 'he';
         if (l.startsWith('ru')) return 'ru';
     }
     return 'ru';
@@ -232,6 +233,7 @@ async function loadSection(id) {
     // Determine translation language folder
     const transFolder = langMode === 'uk' || langMode === 'ru-uk' ? 'uk'
                       : langMode === 'de' || langMode === 'ru-de' ? 'de'
+                      : langMode === 'he' ? 'he'
                       : null;
 
     // Always load base (Russian)
@@ -290,6 +292,20 @@ function renderSection(baseData, transData) {
         // Single column
         // For non-Russian modes: use translation if available, else fall back to base
         const displayData = (langMode !== 'ru' && transData) ? transData : baseData;
+
+        // Hebrew with no translation file yet — show "בקרוב יהיה"
+        if (langMode === 'he' && !transData) {
+            const col = document.createElement('div');
+            col.className = 'lang-col';
+            renderTitle(col, baseData.title, true);
+            const notice = document.createElement('div');
+            notice.className = 'coming-soon-notice';
+            notice.textContent = I18N.t('comingSoon', langMode);
+            col.appendChild(notice);
+            contentArea.appendChild(col);
+            if (baseData.quiz) renderQuiz(baseData);
+            return;
+        }
 
         const col = document.createElement('div');
         col.className = 'lang-col';
@@ -574,6 +590,9 @@ function getEstherJSONs() {
     if (langMode === 'de') {
         return ['pdfs/ester-de.json'];
     }
+    if (langMode === 'he') {
+        return ['pdfs/ester-he.json'];
+    }
     return ['pdfs/ester-ru.json'];
 }
 
@@ -656,8 +675,17 @@ function renderEstherScroll() {
         container.className = 'esther-text-container';
         contentArea.appendChild(container);
         fetch(jsonFiles[0])
-            .then(function (r) { return r.json(); })
-            .then(function (data) { renderEstherJSON(data, container); });
+            .then(function (r) {
+                if (!r.ok) throw new Error('not found');
+                return r.json();
+            })
+            .then(function (data) { renderEstherJSON(data, container); })
+            .catch(function () {
+                const notice = document.createElement('div');
+                notice.className = 'coming-soon-notice';
+                notice.textContent = I18N.t('comingSoon', langMode);
+                container.appendChild(notice);
+            });
     } else {
         const dual = document.createElement('div');
         dual.className = 'esther-dual-container';
@@ -684,6 +712,7 @@ function renderEstherScroll() {
 function getHalachaFile(lang) {
     if (lang === 'uk') return 'Halacha/halacha-uk.json';
     if (lang === 'de') return 'Halacha/halacha-de.json';
+    if (lang === 'he') return 'Halacha/halacha-he.json';
     return 'Halacha/halacha-ru.json';
 }
 
@@ -720,12 +749,21 @@ async function renderHalacha() {
         renderHalachaData(rightCol, dataLang);
         dual.appendChild(rightCol);
     } else {
-        var lang = langMode === 'uk' ? 'uk' : langMode === 'de' ? 'de' : 'ru';
-        const data = await fetch(getHalachaFile(lang)).then(function (r) { return r.json(); });
-        const col = document.createElement('div');
-        col.className = 'lang-col';
-        renderHalachaData(col, data);
-        contentArea.appendChild(col);
+        var lang = langMode === 'uk' ? 'uk' : langMode === 'de' ? 'de' : langMode === 'he' ? 'he' : 'ru';
+        try {
+            const resp = await fetch(getHalachaFile(lang));
+            if (!resp.ok) throw new Error('not found');
+            const data = await resp.json();
+            const col = document.createElement('div');
+            col.className = 'lang-col';
+            renderHalachaData(col, data);
+            contentArea.appendChild(col);
+        } catch (e) {
+            const notice = document.createElement('div');
+            notice.className = 'coming-soon-notice';
+            notice.textContent = I18N.t('comingSoon', langMode);
+            contentArea.appendChild(notice);
+        }
     }
 }
 
@@ -839,7 +877,7 @@ function renderHalachaNode(container, value) {
 function renderTzedaka() {
     contentArea.innerHTML = '';
 
-    const uiLang = langMode === 'uk' ? 'uk' : (langMode === 'de' ? 'de' : 'ru');
+    const uiLang = langMode === 'uk' ? 'uk' : langMode === 'de' ? 'de' : langMode === 'he' ? 'he' : 'ru';
 
     const strings = {
         ru: {
@@ -874,6 +912,17 @@ function renderTzedaka() {
             dniproName: 'Jüdische Gemeinde Dnipro',
             dniproOrg:  '',
             dniproDesc: 'Unterstützen Sie die Jüdische Gemeinde Dnipro — das lebendige Zentrum des jüdischen Lebens in der Ukraine.'
+        },
+        he: {
+            title:      'תן צדקה',
+            intro:      'נתינת צדקה היא אחת המצוות המרכזיות של חג הפורים. ביום זה נהוג לתמוך בקהילות יהודיות הנושאות את אור התורה. תרומתכם משמעותית.',
+            btn:        'תרום',
+            viennaName: 'הקהילה היהודית בווינה',
+            viennaOrg:  'JRCV',
+            viennaDesc: 'תמכו בקהילה היהודית בווינה — אחת הקהילות העתיקות והפעילות ביותר באירופה, המאגדת מאות משפחות.',
+            dniproName: 'הקהילה היהודית בדניפרו',
+            dniproOrg:  '',
+            dniproDesc: 'תמכו בקהילה היהודית בדניפרו — המרכז החי של החיים היהודיים באוקראינה.'
         }
     };
 
@@ -972,7 +1021,7 @@ function buildDonateCard(opts) {
 function renderDreidelGame() {
     contentArea.innerHTML = '';
 
-    const uiLang = langMode === 'uk' ? 'uk' : (langMode === 'de' ? 'de' : 'ru');
+    const uiLang = langMode === 'uk' ? 'uk' : langMode === 'de' ? 'de' : langMode === 'he' ? 'he' : 'ru';
 
     const strings = {
         ru: {
@@ -1076,6 +1125,40 @@ function renderDreidelGame() {
             modeSpin:     'Nur drehen',
             modeGame:     'Gegen den Computer spielen',
             spinPrompt:   'Klicken Sie die Schaltfläche, um den Dreidel zu drehen!'
+        },
+        he: {
+            title:        'משחק סביבון',
+            intro:        'הסביבון הוא כלי משחק בעל ארבעה פאות שמסתובב. על כל פאה כתובה אות עברית: נ (נון), ג (גימל), ה (הא), פ (פא) — ראשי תיבות של "נס גדול היה פה".',
+            rulesTitle:   'חוקי המשחק',
+            rules: [
+                'נ  נון — לא קורה כלום, עביר תור',
+                'ג  גימל — לוקחים את כל הבנק!',
+                'ה  הא — לוקחים חצי מהבנק',
+                'פ  פא — שמים מטבע בבנק'
+            ],
+            spinBtn:      'סובב סביבון!',
+            restartBtn:   'התחל מחדש',
+            potLabel:     'בנק',
+            yourLabel:    'המטבעות שלך',
+            compLabel:    'מחשב',
+            yourTurn:     'התור שלך — סובב סביבון!',
+            compTurn:     'תור המחשב...',
+            nunMsg:       'נ נון — לא קורה כלום',
+            gimelMsg:     'ג גימל — אתה לוקח את כל הבנק!',
+            heMsg:        'ה הא — אתה לוקח חצי מהבנק',
+            peyMsg:       'פ פא — אתה שם מטבע בבנק',
+            compNunMsg:   'נ נון — המחשב מדלג',
+            compGimelMsg: 'ג גימל — המחשב לוקח את כל הבנק!',
+            compHeMsg:    'ה הא — המחשב לוקח חצי מהבנק',
+            compPeyMsg:   'פ פא — המחשב שם מטבע בבנק',
+            youWin:       'כל הכבוד! ניצחת! 🎉',
+            compWins:     'המחשב ניצח. נסה שוב!',
+            addedToPot:   'הבנק הוגדל — כל אחד הוסיף מטבע',
+            videoTitle:   'ועכשיו נרקוד! ושמחת בחגך',
+            videoDesc:    'אברהם פריד וליאור נרקיס — "ושמחת בחגך"',
+            modeSpin:     'רק לסובב',
+            modeGame:     'לשחק נגד המחשב',
+            spinPrompt:   'לחץ על הכפתור כדי לסובב את הסביבון!'
         }
     };
 
@@ -1453,7 +1536,7 @@ function renderHangmanSection() {
 function renderAlcoholCalculator() {
     contentArea.innerHTML = '';
 
-    var uiLang = langMode === 'uk' ? 'uk' : (langMode === 'de' ? 'de' : 'ru');
+    var uiLang = langMode === 'uk' ? 'uk' : langMode === 'de' ? 'de' : langMode === 'he' ? 'he' : 'ru';
 
     var strings = {
         ru: {
@@ -1578,6 +1661,47 @@ function renderAlcoholCalculator() {
             noDrinks:    'Bitte fügen Sie mindestens ein Getränk hinzu',
             disclaimer:  'Dieser Rechner dient nur zu Informationszwecken. Fahren Sie kein Fahrzeug, bis Ihr BAK 0,0 ‰ erreicht. Bleiben Sie verantwortungsbewusst!',
             removeBtn:   'Löschen'
+        },
+        he: {
+            title:       'מחשבון אלכוהול',
+            desc:        'עקוב אחר רמת האלכוהול בדם ומידת הפיכחון על בסיס נוסחת וידמארק המוכרת בעולם. הזן את כמות המשקאות האלכוהוליים שצרכת ותן לאפליקציה לחשב את רמת האלכוהול בדמך ומידת השכרות שלך. הישאר בטוח ואחראי.',
+            yourData:    'הנתונים שלך',
+            genderLabel: 'מין',
+            male:        'זכר',
+            female:      'נקבה',
+            weightLabel: 'משקל (ק"ג)',
+            drinksLabel: 'שתייה',
+            addDrink:    '+ הוסף משקה',
+            timeLabel:   'זמן מתחילת השתייה (שעות)',
+            calcBtn:     'חשב',
+            resultTitle: 'תוצאה',
+            bacLabel:    'אלכוהול בדם',
+            levelLabel:  'רמת שכרות',
+            soberLabel:  'עד להתפכחות מלאה',
+            soberHours:  'שע׳',
+            levels: [
+                { max: 0.3,        text: 'פיכח',                        color: '#4caf50' },
+                { max: 0.5,        text: 'השפעה קלה',                   color: '#8bc34a' },
+                { max: 1.0,        text: 'שכרות קלה',                   color: '#f9c74f' },
+                { max: 1.5,        text: 'שכרות מתונה',                 color: '#ff9800' },
+                { max: 2.0,        text: 'שכרות חזקה',                  color: '#ff5722' },
+                { max: 3.0,        text: 'שכרות חמורה / מסוכן',        color: '#f44336' },
+                { max: Infinity,   text: 'סכנת חיים!',                  color: '#b71c1c' }
+            ],
+            drinkTypes: [
+                { label: 'בירה (500 מ"ל, 5%)',               ml: 500, pct: 5  },
+                { label: 'בירה (330 מ"ל, 5%)',               ml: 330, pct: 5  },
+                { label: 'יין (150 מ"ל, 12%)',               ml: 150, pct: 12 },
+                { label: 'שמפניה (150 מ"ל, 11%)',            ml: 150, pct: 11 },
+                { label: 'וודקה / חריפים (50 מ"ל, 40%)',    ml: 50,  pct: 40 },
+                { label: 'משקה אחר...',                      ml: 0,   pct: 0, custom: true }
+            ],
+            customMl:    'מ"ל',
+            customPct:   '% אלכ.',
+            noData:      'אנא הזן משקל תקין (30–200 ק"ג)',
+            noDrinks:    'הוסף לפחות משקה אחד',
+            disclaimer:  'המחשבון מיועד למטרות מידע בלבד. אל תנהג עד שרמת האלכוהול בדמך תגיע ל-0.0 ‰. היה אחראי!',
+            removeBtn:   'הסר'
         }
     };
 
@@ -1856,11 +1980,12 @@ function renderSpiralGame() {
     if (_spiralToken) { _spiralToken.cancelled = true; _spiralToken = null; }
     contentArea.innerHTML = '';
 
-    var uiLang = langMode === 'uk' ? 'uk' : (langMode === 'de' ? 'de' : 'ru');
+    var uiLang = langMode === 'uk' ? 'uk' : langMode === 'de' ? 'de' : langMode === 'he' ? 'he' : 'ru';
     var labelsMap = {
         ru: { slower: 'Медленнее', faster: 'Быстрее',  hint: 'Смотри в центр · расслабься · דבש' },
         uk: { slower: 'Повільніше', faster: 'Швидше',   hint: 'Дивись у центр · розслабся · דבש'  },
-        de: { slower: 'Langsamer',  faster: 'Schneller', hint: 'Schau in die Mitte · entspanne dich · דבש' }
+        de: { slower: 'Langsamer',  faster: 'Schneller', hint: 'Schau in die Mitte · entspanne dich · דבש' },
+        he: { slower: 'אטי יותר',   faster: 'מהיר יותר', hint: 'הסתכל למרכז · הירגע · דבש' }
     };
     var labels = labelsMap[uiLang];
 

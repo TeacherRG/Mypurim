@@ -170,7 +170,6 @@ const I18N = (function () {
             estherMobileNotice:  'במכשירים ניידים אין אפשרות לצפות ב-PDF בתוך הדף. השתמשו בכפתורים למעלה כדי לפתוח או להוריד את הקובץ.',
             shareCopied:         'הקישור הועתק',
             visitorLabel:        'מבקרים:',
-            comingSoon:          'בקרוב יהיה',
             sections: {
                 home:            '🏠 דף הבית',
                 intro:           'אודות הפרויקט',

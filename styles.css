@@ -2303,18 +2303,6 @@ html[dir="rtl"] .hm-keyboard {
 html[dir="rtl"] .maharash-nav-prev { left: auto; right: 6px; }
 html[dir="rtl"] .maharash-nav-next { right: auto; left: 6px; }
 
-/* "Coming soon" notice for sections not yet translated to Hebrew */
-.coming-soon-notice {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 160px;
-    font-size: 2rem;
-    font-weight: 600;
-    color: #c8860a;
-    letter-spacing: 0.04em;
-    opacity: 0.85;
-}
 
 /* ===== MAHARASH SCROLL VIEWER ===== */
 

@@ -1,19 +1,21 @@
 // ===== CONFIG =====
 
 const SECTIONS = [
-    { id: 'intro'                                          },
-    { id: 'dvar_malchut',  type: 'group'                  },
-    { id: 'section_a',     group: 'dvar_malchut'          },
-    { id: 'section_b',     group: 'dvar_malchut'          },
-    { id: 'section_c',     group: 'dvar_malchut'          },
-    { id: 'halacha',       type: 'halacha'                },
-    { id: 'esther_scroll', type: 'pdf'                    },
-    { id: 'tzedaka',       type: 'donate'                 },
-    { id: 'games',         type: 'group'                  },
-    { id: 'dreidel',       type: 'game',    group: 'games'},
-    { id: 'hangman',       type: 'hangman', group: 'games'},
-    { id: 'spiral',        type: 'spiral',  group: 'games'},
-    { id: 'alcohol',       type: 'alcohol', group: 'games'}
+    { id: 'intro'                                                          },
+    { id: 'dvar_malchut',    type: 'group'                                },
+    { id: 'section_a',       group: 'dvar_malchut'                        },
+    { id: 'section_b',       group: 'dvar_malchut'                        },
+    { id: 'section_c',       group: 'dvar_malchut'                        },
+    { id: 'halacha',         type: 'halacha'                              },
+    { id: 'megilla_read',    type: 'group'                                },
+    { id: 'esther_scroll',   type: 'pdf',      group: 'megilla_read'     },
+    { id: 'maharash_scroll', type: 'maharash', group: 'megilla_read'     },
+    { id: 'tzedaka',         type: 'donate'                               },
+    { id: 'games',           type: 'group'                                },
+    { id: 'dreidel',         type: 'game',     group: 'games'            },
+    { id: 'hangman',         type: 'hangman',  group: 'games'            },
+    { id: 'spiral',          type: 'spiral',   group: 'games'            },
+    { id: 'alcohol',         type: 'alcohol',  group: 'games'            }
 ];
 
 // ===== STATE =====
@@ -35,7 +37,7 @@ function detectBrowserLang() {
 let currentId = null;
 let langMode = localStorage.getItem('langMode') || detectBrowserLang();
 let state = { completedSections: [] };
-let collapsedGroups = new Set(['dvar_malchut', 'games']);
+let collapsedGroups = new Set(['dvar_malchut', 'megilla_read', 'games']);
 var _spiralToken = null;
 
 // ===== DOM REFS =====
@@ -140,13 +142,15 @@ function renderSidebar() {
             li.classList.add('sub-item');
         }
 
-        // PDF, donate, halacha sections are always accessible — no quiz, no locking
+        // PDF, donate, halacha, maharash sections are always accessible — no quiz, no locking
         if (section.type === 'pdf') {
             li.classList.add('pdf-section');
         } else if (section.type === 'donate') {
             li.classList.add('donate-section');
         } else if (section.type === 'halacha') {
             li.classList.add('halacha-section-item');
+        } else if (section.type === 'maharash') {
+            li.classList.add('maharash-section-item');
         } else {
             // Locking: first two quiz sections (intro, section_a) always accessible.
             // Each subsequent requires the previous quiz section to be completed.
@@ -225,6 +229,12 @@ async function loadSection(id) {
     }
     if (sectionCfg && sectionCfg.type === 'alcohol') {
         renderAlcoholCalculator();
+        renderSidebar();
+        updateProgressBar();
+        return;
+    }
+    if (sectionCfg && sectionCfg.type === 'maharash') {
+        renderMaharashScroll();
         renderSidebar();
         updateProgressBar();
         return;
@@ -705,6 +715,141 @@ function renderEstherScroll() {
                 .then(function (data) { renderEstherJSON(data, textContainer); });
         });
     }
+}
+
+// ===== MAHARASH SCROLL VIEWER =====
+
+function renderMaharashScroll() {
+    contentArea.innerHTML = '';
+
+    const IMAGES = Array.from({ length: 11 }, function (_, i) {
+        return 'pdfs/Maharash/Megila' + (i + 1) + '.jpg';
+    });
+
+    const h2 = document.createElement('h2');
+    h2.className = 'section-title';
+    h2.textContent = I18N.sectionTitle('maharash_scroll', langMode);
+    contentArea.appendChild(h2);
+
+    // Toolbar
+    const toolbar = document.createElement('div');
+    toolbar.className = 'maharash-toolbar';
+
+    const pageCounter = document.createElement('span');
+    pageCounter.className = 'maharash-page-counter';
+    pageCounter.textContent = '1 / 11';
+    toolbar.appendChild(pageCounter);
+
+    const fsBtn = document.createElement('button');
+    fsBtn.className = 'maharash-fs-btn';
+    fsBtn.title = 'Полный экран / Fullscreen';
+    fsBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>';
+    toolbar.appendChild(fsBtn);
+
+    contentArea.appendChild(toolbar);
+
+    // Scroll container
+    const viewer = document.createElement('div');
+    viewer.className = 'maharash-viewer';
+    contentArea.appendChild(viewer);
+
+    // Navigation arrows
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'maharash-nav maharash-nav-prev';
+    prevBtn.innerHTML = '&#8249;';
+    prevBtn.title = 'Предыдущая страница';
+
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'maharash-nav maharash-nav-next';
+    nextBtn.innerHTML = '&#8250;';
+    nextBtn.title = 'Следующая страница';
+
+    viewer.appendChild(prevBtn);
+
+    // Image strip
+    const strip = document.createElement('div');
+    strip.className = 'maharash-strip';
+    viewer.appendChild(strip);
+
+    viewer.appendChild(nextBtn);
+
+    IMAGES.forEach(function (src, idx) {
+        const slide = document.createElement('div');
+        slide.className = 'maharash-slide';
+
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = 'Мегила Махараш, страница ' + (idx + 1);
+        img.className = 'maharash-img';
+        img.loading = idx === 0 ? 'eager' : 'lazy';
+
+        slide.appendChild(img);
+        strip.appendChild(slide);
+    });
+
+    // State
+    let currentPage = 0;
+
+    function goTo(idx) {
+        currentPage = Math.max(0, Math.min(IMAGES.length - 1, idx));
+        strip.style.transform = 'translateX(-' + (currentPage * 100) + '%)';
+        pageCounter.textContent = (currentPage + 1) + ' / ' + IMAGES.length;
+        prevBtn.disabled = currentPage === 0;
+        nextBtn.disabled = currentPage === IMAGES.length - 1;
+    }
+
+    goTo(0);
+
+    prevBtn.addEventListener('click', function () { goTo(currentPage - 1); });
+    nextBtn.addEventListener('click', function () { goTo(currentPage + 1); });
+
+    // Keyboard navigation
+    function onKey(e) {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { goTo(currentPage + 1); e.preventDefault(); }
+        if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { goTo(currentPage - 1); e.preventDefault(); }
+        if (e.key === 'Escape' && document.fullscreenElement) { document.exitFullscreen(); }
+    }
+    document.addEventListener('keydown', onKey);
+
+    // Touch/swipe support
+    var touchStartX = null;
+    strip.addEventListener('touchstart', function (e) {
+        touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    strip.addEventListener('touchend', function (e) {
+        if (touchStartX === null) return;
+        var dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 40) { goTo(currentPage + (dx < 0 ? 1 : -1)); }
+        touchStartX = null;
+    }, { passive: true });
+
+    // Fullscreen
+    fsBtn.addEventListener('click', function () {
+        if (!document.fullscreenElement) {
+            viewer.requestFullscreen().catch(function () {});
+        } else {
+            document.exitFullscreen();
+        }
+    });
+
+    document.addEventListener('fullscreenchange', function updateFsIcon() {
+        if (document.fullscreenElement === viewer) {
+            fsBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>';
+            viewer.classList.add('maharash-fullscreen-active');
+        } else {
+            fsBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>';
+            viewer.classList.remove('maharash-fullscreen-active');
+        }
+    });
+
+    // Cleanup keyboard listener when section changes
+    var origLoadSection = loadSection;
+    viewer.dataset.keyCleanup = 'pending';
+    var cleanupOnce = function () {
+        document.removeEventListener('keydown', onKey);
+        document.removeEventListener('fullscreenchange', cleanupOnce);
+    };
+    contentArea.addEventListener('maharash-cleanup', cleanupOnce, { once: true });
 }
 
 // ===== HALACHA SECTION =====

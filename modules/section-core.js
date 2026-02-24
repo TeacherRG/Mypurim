@@ -34,20 +34,6 @@ function renderSection(baseData, transData) {
         // For non-Russian modes: use translation if available, else fall back to base
         const displayData = (langMode !== 'ru' && transData) ? transData : baseData;
 
-        // Hebrew with no translation file yet — show "בקרוב יהיה"
-        if (langMode === 'he' && !transData) {
-            const col = document.createElement('div');
-            col.className = 'lang-col';
-            renderTitle(col, baseData.title, true);
-            const notice = document.createElement('div');
-            notice.className = 'coming-soon-notice';
-            notice.textContent = I18N.t('comingSoon', langMode);
-            col.appendChild(notice);
-            contentArea.appendChild(col);
-            if (baseData.quiz) renderQuiz(baseData);
-            return;
-        }
-
         const col = document.createElement('div');
         col.className = 'lang-col';
         renderTitle(col, displayData.title, true);

@@ -1,0 +1,109 @@
+{
+  "id": "megilla_shop",
+  "sections": [
+    {
+      "icon": "📜",
+      "title": "Warum es empfehlenswert ist, eine eigene Megillat Esther zu besitzen",
+      "items": [
+        {
+          "type": "list",
+          "content": [
+            "Konzentration beim Lesen — beim Lärm bei der Erwähnung Hamans kann man leicht Worte verpassen.",
+            "Unabhängigkeit vom Chasan — nicht jeder Vorleser besitzt vollständige Kawwana und Genauigkeit.",
+            "Möglichkeit, Auslassungen zu korrigieren — mit einer eigenen Rolle kann man Verpasstes sofort nachlesen.",
+            "Persönliche Erfüllung des Gebots — das Gebot selbst zu erfüllen ist höher als durch einen Boten.",
+            "Vollständigkeit der Wahrnehmung — das Lesen aus der eigenen Rolle aktiviert gleichzeitig Sehen, Hören und Sprechen."
+          ]
+        }
+      ]
+    },
+    {
+      "icon": "✍️",
+      "title": "Was beim Kauf wichtig ist",
+      "items": [
+        {
+          "type": "paragraph",
+          "text": "Megillat Esther wird von Hand geschrieben, lischma — für die Erfüllung des Gebots, auf speziell präpariertem Pergament."
+        },
+        {
+          "type": "paragraph",
+          "text": "Der Preis wird beeinflusst durch:"
+        },
+        {
+          "type": "list",
+          "content": [
+            "Erfahrung des Sofers",
+            "Schönheit der Schrift",
+            "Art der Schriftart",
+            "Anzahl der Zeilen pro Spalte",
+            "Verzierungen und Behälter"
+          ]
+        }
+      ]
+    },
+    {
+      "icon": "🖋",
+      "title": "Haupttypen von Schriftarten",
+      "items": [
+        {
+          "type": "list",
+          "content": [
+            "Sephardisch",
+            "Beit Yosef",
+            "Ari",
+            "Schrift des Alter Rebbe — nach der Tradition von Schneur Salman von Liadi, in Chabad-Gemeinden üblich"
+          ]
+        }
+      ]
+    },
+    {
+      "icon": "📏",
+      "title": "Anzahl der Zeilen",
+      "items": [
+        {
+          "type": "paragraph",
+          "text": "11, 21, 28, 35 und 42 Zeilen (42 — eine seltenere und komplexere Variante)."
+        },
+        {
+          "type": "paragraph",
+          "text": "Es ist ein verbreiteter Brauch, «Megillot ha-Melech» zu schreiben, bei der jede Spalte mit dem Wort «המלך» beginnt."
+        }
+      ]
+    },
+    {
+      "icon": "✔",
+      "title": "Pflichtprüfung",
+      "items": [
+        {
+          "type": "paragraph",
+          "text": "Vor dem Kauf muss sichergestellt werden, dass die Rolle folgende Prüfungen bestanden hat:"
+        },
+        {
+          "type": "list",
+          "content": [
+            "Computerprüfung",
+            "manuelle Halacha-Prüfung"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "Dies gilt nicht nur für Megillat Esther, sondern auch für Mesusot und Tefillin."
+        }
+      ]
+    },
+    {
+      "icon": "📩",
+      "title": "Kontakt",
+      "items": [
+        {
+          "type": "paragraph",
+          "text": "Für alle Fragen zum Kauf oder zur Prüfung von Megillat Esther, Mesusot und Tefillin schreiben Sie:"
+        },
+        {
+          "type": "contact",
+          "email": "kosherletter@gmail.com"
+        }
+      ]
+    }
+  ]
+}

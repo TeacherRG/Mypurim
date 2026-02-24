@@ -70,6 +70,12 @@ async function loadSection(id) {
         updateProgressBar();
         return;
     }
+    if (sectionCfg && sectionCfg.type === 'megilla_shop') {
+        renderMegillaShop();
+        renderSidebar();
+        updateProgressBar();
+        return;
+    }
 
     // Determine translation language folder
     const transFolder = langMode === 'uk' || langMode === 'ru-uk' ? 'uk'

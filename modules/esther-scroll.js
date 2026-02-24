@@ -18,6 +18,11 @@ function getEstherPDFs() {
             { file: 'pdfs/esther-de.pdf', label: '' }
         ];
     }
+    if (langMode === 'he') {
+        return [
+            { file: 'pdfs/esther-he.pdf', label: '' }
+        ];
+    }
     // Default: Russian
     return [
         { file: 'pdfs/esther-ru.pdf', label: '' }
@@ -38,12 +43,29 @@ function getEstherJSONs() {
         return ['pdfs/ester-de.json'];
     }
     if (langMode === 'he') {
-        return ['pdfs/ester-he.json'];
+        return ['pdfs/esther-he.json'];
     }
     return ['pdfs/ester-ru.json'];
 }
 
 function renderEstherJSON(data, container) {
+    // Hebrew format: chapters/verses
+    if (data.chapters) {
+        data.chapters.forEach(function (chapter) {
+            const h = document.createElement('h3');
+            h.className = 'esther-scroll-heading';
+            h.textContent = 'פרק ' + chapter.chapter_id;
+            container.appendChild(h);
+            chapter.verses.forEach(function (verse) {
+                const p = document.createElement('p');
+                p.className = 'esther-scroll-para';
+                p.textContent = '(' + verse.verse_id + ') ' + verse.text;
+                container.appendChild(p);
+            });
+        });
+        return;
+    }
+    // Pages/paragraphs format (ru, de, uk)
     data.pages.forEach(function (page) {
         if (page.headings && page.headings.length) {
             page.headings.forEach(function (h) {

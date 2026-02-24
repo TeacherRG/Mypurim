@@ -880,6 +880,7 @@ function renderMaharashScroll() {
 
     // Touch/swipe and pinch-to-zoom support
     var touchStartX = null;
+    var touchStartY = null;
     var pinchStartDist = null;
     var pinchStartZoom = 1;
 
@@ -890,8 +891,10 @@ function renderMaharashScroll() {
             pinchStartDist = Math.sqrt(dx * dx + dy * dy);
             pinchStartZoom = zoomLevel;
             touchStartX = null;
+            touchStartY = null;
         } else {
             touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
             pinchStartDist = null;
         }
     }, { passive: true });
@@ -909,11 +912,21 @@ function renderMaharashScroll() {
 
     strip.addEventListener('touchend', function (e) {
         if (e.touches.length === 0) {
-            if (pinchStartDist === null && touchStartX !== null) {
+            if (pinchStartDist === null && touchStartX !== null && touchStartY !== null) {
                 var dx = e.changedTouches[0].clientX - touchStartX;
-                if (Math.abs(dx) > 40) { goTo(currentPage + (dx < 0 ? 1 : -1)); }
+                var dy = e.changedTouches[0].clientY - touchStartY;
+                var absDx = Math.abs(dx);
+                var absDy = Math.abs(dy);
+                if (absDy > absDx && absDy > 40) {
+                    // Vertical swipe: up = next page, down = previous page
+                    goTo(currentPage + (dy < 0 ? 1 : -1));
+                } else if (absDx > absDy && absDx > 40) {
+                    // Horizontal swipe: left = next page, right = previous page
+                    goTo(currentPage + (dx < 0 ? 1 : -1));
+                }
             }
             touchStartX = null;
+            touchStartY = null;
             pinchStartDist = null;
         }
     }, { passive: true });

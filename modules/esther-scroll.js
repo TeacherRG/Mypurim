@@ -169,7 +169,7 @@ function renderEstherScroll() {
                 return r.json();
             })
             .then(function (data) { renderEstherJSON(data, container); })
-            .catch(function () {});
+            .catch(function (e) { AppLogger.error('esther-scroll: failed to load ' + jsonFiles[0], e); });
     } else {
         const dual = document.createElement('div');
         dual.className = 'esther-dual-container';
@@ -187,7 +187,7 @@ function renderEstherScroll() {
             fetch(file)
                 .then(function (r) { return r.json(); })
                 .then(function (data) { renderEstherJSON(data, textContainer); })
-                .catch(function () {});
+                .catch(function (e) { AppLogger.error('esther-scroll: failed to load dual ' + file, e); });
         });
     }
 }

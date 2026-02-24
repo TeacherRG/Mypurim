@@ -14,7 +14,7 @@ function initMusicPlayer() {
             mpLoad(0);
             bindMpEvents();
         })
-        .catch(function () { /* tracks.json not available yet */ });
+        .catch(function (e) { AppLogger.warn('music-player: tracks.json load failed', e); });
 }
 
 function mpLoad(index) {

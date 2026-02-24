@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 el.textContent = data.count.toLocaleString();
             }
         })
-        .catch(function () { /* silently ignore errors */ });
+        .catch(function (e) { AppLogger.warn('visitor-counter: fetch failed', e); });
 })();
 
 // ===== PRELOADER =====

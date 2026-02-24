@@ -85,6 +85,7 @@ async function loadSection(id) {
             return r.json();
         });
     } catch (e) {
+        AppLogger.error('section-loader: section "' + id + '" not found', e);
         contentArea.innerHTML = '';
         const errMsg = document.createElement('p');
         errMsg.style.cssText = 'color:red;padding:2rem';
@@ -101,6 +102,7 @@ async function loadSection(id) {
             transData = await fetch('translations/' + transFolder + '/' + id + '.json')
                 .then(function (r) { return r.json(); });
         } catch (e) {
+            AppLogger.info('section-loader: translation "' + transFolder + '/' + id + '" not available, using base', e);
             transData = null;
         }
     }

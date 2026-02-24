@@ -76,7 +76,7 @@ function renderShumGame() {
         var p = playPromises[idx];
         playPromises[idx] = null;
         if (p) {
-            p.then(function() { a.pause(); a.currentTime = 0; }).catch(function() {});
+            p.then(function() { a.pause(); a.currentTime = 0; }).catch(function(e) { AppLogger.debug('shum: audio stop interrupted', e); });
         } else {
             a.pause();
             a.currentTime = 0;
@@ -128,7 +128,7 @@ function renderShumGame() {
                 audio.currentTime = 0;
                 var p = audio.play();
                 playPromises[i] = p || null;
-                if (p) { p.catch(function() {}); }
+                if (p) { p.catch(function(e) { AppLogger.warn('shum: audio autoplay blocked', e); }); }
                 tile.classList.add('shum-active');
                 activeIndex = i;
             }

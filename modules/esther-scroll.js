@@ -166,12 +166,7 @@ function renderEstherScroll() {
                 return r.json();
             })
             .then(function (data) { renderEstherJSON(data, container); })
-            .catch(function () {
-                const notice = document.createElement('div');
-                notice.className = 'coming-soon-notice';
-                notice.textContent = I18N.t('comingSoon', langMode);
-                container.appendChild(notice);
-            });
+            .catch(function () {});
     } else {
         const dual = document.createElement('div');
         dual.className = 'esther-dual-container';

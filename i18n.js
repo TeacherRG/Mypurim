@@ -32,6 +32,7 @@ const I18N = (function () {
             shareCopied:         'Ссылка скопирована',
             visitorLabel:        'Посетителей:',
             sections: {
+                home:            '🏠 Главная',
                 intro:           'О проекте',
                 dvar_malchut:    'Двар Малхут',
                 section_a:       'Раздел 1',
@@ -76,6 +77,7 @@ const I18N = (function () {
             shareCopied:         'Посилання скопійовано',
             visitorLabel:        'Відвідувачів:',
             sections: {
+                home:            '🏠 Головна',
                 intro:           'Про проєкт',
                 dvar_malchut:    'Двар Малхут',
                 section_a:       'Розділ 1',
@@ -120,6 +122,7 @@ const I18N = (function () {
             shareCopied:         'Link kopiert',
             visitorLabel:        'Besucher:',
             sections: {
+                home:            '🏠 Startseite',
                 intro:           'Über das Projekt',
                 dvar_malchut:    'Dvar Malchut',
                 section_a:       'Abschnitt 1',
@@ -165,6 +168,7 @@ const I18N = (function () {
             visitorLabel:        'מבקרים:',
             comingSoon:          'בקרוב יהיה',
             sections: {
+                home:            '🏠 דף הבית',
                 intro:           'אודות הפרויקט',
                 dvar_malchut:    'דבר מלכות',
                 section_a:       'פרק א׳',

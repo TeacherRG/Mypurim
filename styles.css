@@ -2290,3 +2290,122 @@ html[dir="rtl"] .maharash-nav-next { right: auto; left: 6px; }
         max-height: 65vh;
     }
 }
+
+/* ===== HOME PAGE TILES ===== */
+
+.home-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 18px;
+    padding: 18px;
+    height: calc(100vh - 180px);
+    min-height: 380px;
+    box-sizing: border-box;
+}
+
+.home-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.40);
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    padding: 20px 12px;
+    gap: 10px;
+}
+
+.home-tile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: rgba(255, 255, 255, 0.08);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.home-tile:hover::after {
+    opacity: 1;
+}
+
+.home-tile:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.50);
+}
+
+.home-tile:active {
+    transform: translateY(2px) scale(0.98);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.home-tile-emoji {
+    font-size: clamp(48px, 9vw, 100px);
+    line-height: 1;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
+    pointer-events: none;
+}
+
+.home-tile-title {
+    font-size: clamp(15px, 2.8vw, 26px);
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
+    letter-spacing: 0.02em;
+    pointer-events: none;
+    text-align: center;
+    line-height: 1.2;
+}
+
+@media (max-width: 500px) {
+    .home-grid {
+        gap: 12px;
+        padding: 12px;
+        height: calc(100vh - 160px);
+    }
+
+    .home-tile {
+        border-radius: 18px;
+        padding: 14px 8px;
+        gap: 8px;
+    }
+}
+
+/* ===== HOME NAV BUTTON ===== */
+
+.home-nav-item {
+    font-weight: 700;
+    font-size: 15px;
+    color: #ffe066;
+    letter-spacing: 0.04em;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+    list-style: none;
+}
+
+.home-nav-item:hover {
+    background: rgba(255, 224, 102, 0.12);
+}
+
+.home-nav-item.active {
+    background: rgba(255, 224, 102, 0.18);
+    border-left: 3px solid #ffe066;
+}
+
+.nav-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 6px 12px 8px;
+    list-style: none;
+    pointer-events: none;
+}

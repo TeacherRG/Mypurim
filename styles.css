@@ -2656,3 +2656,103 @@ html[dir="rtl"] .maharash-nav-next { right: auto; left: 6px; }
     list-style: none;
     pointer-events: none;
 }
+
+/* ── MEGILLA SHOP SECTION ───────────────────────────────── */
+
+.megilla-shop-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(180, 130, 0, 0.35);
+    border-radius: 12px;
+    padding: 18px 20px 16px;
+    margin-bottom: 14px;
+    transition: box-shadow 0.2s;
+}
+
+.megilla-shop-card:hover {
+    box-shadow: 0 4px 18px rgba(255, 204, 0, 0.12);
+}
+
+.megilla-shop-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.megilla-shop-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.megilla-shop-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffe066;
+    margin: 0;
+    line-height: 1.35;
+}
+
+.megilla-shop-text {
+    font-size: 14px;
+    line-height: 1.75;
+    color: #ccc;
+    margin: 0 0 8px;
+}
+
+.megilla-shop-list {
+    margin: 4px 0 8px 0;
+    padding-left: 20px;
+}
+
+.megilla-shop-list li {
+    font-size: 14px;
+    line-height: 1.75;
+    color: #ccc;
+    margin-bottom: 6px;
+}
+
+.megilla-shop-contact {
+    margin-top: 10px;
+    padding: 12px 16px;
+    background: rgba(255, 204, 0, 0.08);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 204, 0, 0.2);
+    text-align: center;
+}
+
+.megilla-shop-email {
+    color: #ffe066;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s, text-decoration 0.2s;
+}
+
+.megilla-shop-email:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.nav-popup li.megilla-shop-nav-item {
+    border-top: 1px solid rgba(255, 204, 0, 0.3);
+    margin-top: 8px;
+    padding-top: 8px;
+    color: #ffe066;
+    font-weight: 600;
+}
+
+html[dir="rtl"] .megilla-shop-card {
+    direction: rtl;
+    text-align: right;
+}
+
+html[dir="rtl"] .megilla-shop-header {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .megilla-shop-list {
+    padding-left: 0;
+    padding-right: 20px;
+}

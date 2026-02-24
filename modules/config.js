@@ -17,7 +17,8 @@ const SECTIONS = [
     { id: 'hangman',         type: 'hangman',  group: 'games'            },
     { id: 'spiral',          type: 'spiral',   group: 'games'            },
     { id: 'alcohol',         type: 'alcohol',  group: 'games'            },
-    { id: 'shum',            type: 'shum',     group: 'games'            }
+    { id: 'shum',            type: 'shum',     group: 'games'            },
+    { id: 'megilla_shop',    type: 'megilla_shop'                        }
 ];
 
 // ===== STATE =====

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mypurim-v2';
+const CACHE_NAME = 'mypurim-v3';
 
 // Static assets to cache on install (app shell)
 const PRECACHE_URLS = [
@@ -47,6 +47,7 @@ const PRECACHE_URLS = [
   '/translations/he/intro.json',
   // Halacha data
   '/Halacha/halacha-de.json',
+  '/Halacha/halacha-he.json',
   '/Halacha/halacha-ru.json',
   '/Halacha/halacha-uk.json',
   // Esther scroll data

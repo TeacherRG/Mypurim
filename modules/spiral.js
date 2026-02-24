@@ -85,6 +85,7 @@ function renderSpiralGame() {
             case 'blessed':     return 'rgba(255,' + ~~(200*pulse) + ',0,' + a + ')';
             case 'heb_blessed': return 'rgba(255,' + ~~(220*pulse) + ',' + ~~(60*pulse) + ',' + a + ')';
             case 'heb_cursed':  return 'rgba(' + ~~(220*pulse) + ',' + ~~(10*pulse) + ',' + ~~(50*pulse) + ',' + a + ')';
+            default:            return 'rgba(255,255,255,' + a + ')';
         }
     }
 

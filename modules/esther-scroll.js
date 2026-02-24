@@ -186,7 +186,8 @@ function renderEstherScroll() {
             col.appendChild(textContainer);
             fetch(file)
                 .then(function (r) { return r.json(); })
-                .then(function (data) { renderEstherJSON(data, textContainer); });
+                .then(function (data) { renderEstherJSON(data, textContainer); })
+                .catch(function () {});
         });
     }
 }

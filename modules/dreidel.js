@@ -317,7 +317,7 @@ function renderDreidelGame() {
         return SIDES[Math.floor(Math.random() * 4)];
     }
 
-    function ensurePot(actor) {
+    function ensurePot() {
         if (gs.pot === 0) {
             if (gs.playerCoins > 0) { gs.playerCoins--; gs.pot++; }
             if (gs.compCoins > 0)   { gs.compCoins--;   gs.pot++; }

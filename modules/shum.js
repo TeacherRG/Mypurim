@@ -68,7 +68,20 @@ function renderShumGame() {
     contentArea.appendChild(grid);
 
     var audios = [];
+    var playPromises = [];
     var activeIndex = -1;
+
+    function stopSound(idx) {
+        var a = audios[idx];
+        var p = playPromises[idx];
+        playPromises[idx] = null;
+        if (p) {
+            p.then(function() { a.pause(); a.currentTime = 0; }).catch(function() {});
+        } else {
+            a.pause();
+            a.currentTime = 0;
+        }
+    }
 
     labels.sounds.forEach(function(sound, i) {
         var tile = document.createElement('button');
@@ -97,24 +110,25 @@ function renderShumGame() {
         audio.loop = true;
         audio.volume = 1;
         audios.push(audio);
+        playPromises.push(null);
 
         tile.addEventListener('click', function() {
             if (activeIndex === i) {
                 // Stop this sound
-                audio.pause();
-                audio.currentTime = 0;
+                stopSound(i);
                 tile.classList.remove('shum-active');
                 activeIndex = -1;
             } else {
                 // Stop previous if any
                 if (activeIndex >= 0) {
-                    audios[activeIndex].pause();
-                    audios[activeIndex].currentTime = 0;
+                    stopSound(activeIndex);
                     grid.children[activeIndex].classList.remove('shum-active');
                 }
                 // Play new sound
                 audio.currentTime = 0;
-                audio.play().catch(function() {});
+                var p = audio.play();
+                playPromises[i] = p || null;
+                if (p) { p.catch(function() {}); }
                 tile.classList.add('shum-active');
                 activeIndex = i;
             }

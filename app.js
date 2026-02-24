@@ -880,6 +880,7 @@ function renderMaharashScroll() {
 
     // Touch/swipe and pinch-to-zoom support
     var touchStartX = null;
+    var touchStartY = null;
     var pinchStartDist = null;
     var pinchStartZoom = 1;
 
@@ -890,8 +891,10 @@ function renderMaharashScroll() {
             pinchStartDist = Math.sqrt(dx * dx + dy * dy);
             pinchStartZoom = zoomLevel;
             touchStartX = null;
+            touchStartY = null;
         } else {
             touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
             pinchStartDist = null;
         }
     }, { passive: true });
@@ -911,9 +914,17 @@ function renderMaharashScroll() {
         if (e.touches.length === 0) {
             if (pinchStartDist === null && touchStartX !== null) {
                 var dx = e.changedTouches[0].clientX - touchStartX;
-                if (Math.abs(dx) > 40) { goTo(currentPage + (dx < 0 ? 1 : -1)); }
+                var dy = e.changedTouches[0].clientY - touchStartY;
+                if (Math.abs(dx) > Math.abs(dy)) {
+                    // Horizontal swipe → next/prev
+                    if (Math.abs(dx) > 40) { goTo(currentPage + (dx < 0 ? 1 : -1)); }
+                } else {
+                    // Vertical swipe → next/prev (up = next, down = prev)
+                    if (Math.abs(dy) > 40) { goTo(currentPage + (dy < 0 ? 1 : -1)); }
+                }
             }
             touchStartX = null;
+            touchStartY = null;
             pinchStartDist = null;
         }
     }, { passive: true });

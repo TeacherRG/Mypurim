@@ -3,7 +3,6 @@
 function getHalachaFile(lang) {
     if (lang === 'uk') return 'Halacha/halacha-uk.json';
     if (lang === 'de') return 'Halacha/halacha-de.json';
-    if (lang === 'he') return 'Halacha/halacha-he.json';
     return 'Halacha/halacha-ru.json';
 }
 
@@ -40,21 +39,13 @@ async function renderHalacha() {
         renderHalachaData(rightCol, dataLang);
         dual.appendChild(rightCol);
     } else {
-        var lang = langMode === 'uk' ? 'uk' : langMode === 'de' ? 'de' : langMode === 'he' ? 'he' : 'ru';
-        try {
-            const resp = await fetch(getHalachaFile(lang));
-            if (!resp.ok) throw new Error('not found');
-            const data = await resp.json();
-            const col = document.createElement('div');
-            col.className = 'lang-col';
-            renderHalachaData(col, data);
-            contentArea.appendChild(col);
-        } catch (e) {
-            const notice = document.createElement('div');
-            notice.className = 'coming-soon-notice';
-            notice.textContent = I18N.t('comingSoon', langMode);
-            contentArea.appendChild(notice);
-        }
+        var lang = langMode === 'uk' ? 'uk' : langMode === 'de' ? 'de' : 'ru';
+        const resp = await fetch(getHalachaFile(lang));
+        const data = await resp.json();
+        const col = document.createElement('div');
+        col.className = 'lang-col';
+        renderHalachaData(col, data);
+        contentArea.appendChild(col);
     }
 }
 

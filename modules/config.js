@@ -15,7 +15,8 @@ const SECTIONS = [
     { id: 'dreidel',         type: 'game',     group: 'games'            },
     { id: 'hangman',         type: 'hangman',  group: 'games'            },
     { id: 'spiral',          type: 'spiral',   group: 'games'            },
-    { id: 'alcohol',         type: 'alcohol',  group: 'games'            }
+    { id: 'alcohol',         type: 'alcohol',  group: 'games'            },
+    { id: 'shum',            type: 'shum',     group: 'games'            }
 ];
 
 // ===== STATE =====

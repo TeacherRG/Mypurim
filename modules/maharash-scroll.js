@@ -208,10 +208,10 @@ function renderMaharashScroll() {
             applyZoom();
         } else if (e.touches.length === 1 && zoomLevel > 1 && touchStartY !== null) {
             // Vertical pan when zoomed in
-            var dy = e.touches[0].clientY - touchStartY;
+            var panDelta = e.touches[0].clientY - touchStartY;
             var imgs = strip.querySelectorAll('.maharash-img');
             var maxPan = imgs[currentPage] ? imgs[currentPage].offsetHeight * (zoomLevel - 1) / 2 : 0;
-            panY = Math.max(-maxPan, Math.min(maxPan, panYAtTouchStart + dy));
+            panY = Math.max(-maxPan, Math.min(maxPan, panYAtTouchStart + panDelta));
             isPanning = true;
             applyZoom();
             e.preventDefault();
@@ -241,7 +241,7 @@ function renderMaharashScroll() {
         }
     });
 
-    document.addEventListener('fullscreenchange', function updateFsIcon() {
+    function onFsChange() {
         if (document.fullscreenElement === viewer) {
             fsBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>';
             viewer.classList.add('maharash-fullscreen-active');
@@ -249,13 +249,13 @@ function renderMaharashScroll() {
             fsBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>';
             viewer.classList.remove('maharash-fullscreen-active');
         }
-    });
+    }
+    document.addEventListener('fullscreenchange', onFsChange);
 
-    // Cleanup keyboard listener when section changes
-    viewer.dataset.keyCleanup = 'pending';
+    // Cleanup keyboard and fullscreen listeners when section changes
     var cleanupOnce = function () {
         document.removeEventListener('keydown', onKey);
-        document.removeEventListener('fullscreenchange', cleanupOnce);
+        document.removeEventListener('fullscreenchange', onFsChange);
     };
     contentArea.addEventListener('maharash-cleanup', cleanupOnce, { once: true });
 }

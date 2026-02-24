@@ -3,7 +3,11 @@
 function loadProgress() {
     const saved = localStorage.getItem('lessonProgress');
     if (saved) {
-        state = JSON.parse(saved);
+        try {
+            state = JSON.parse(saved);
+        } catch (e) {
+            localStorage.removeItem('lessonProgress');
+        }
     }
 }
 

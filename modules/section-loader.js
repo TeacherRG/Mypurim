@@ -1,6 +1,8 @@
 // ===== LOAD SECTION =====
 
 async function loadSection(id) {
+    // Notify previous section to clean up its listeners (e.g. maharash keydown/fullscreenchange)
+    contentArea.dispatchEvent(new CustomEvent('maharash-cleanup'));
     // Cancel any running spiral animation
     if (_spiralToken) { _spiralToken.cancelled = true; _spiralToken = null; }
     currentId = id;
@@ -76,9 +78,21 @@ async function loadSection(id) {
                       : null;
 
     // Always load base (Russian)
-    const baseData = await fetch('sections/' + id + '.json').then(function (r) {
-        return r.json();
-    });
+    let baseData;
+    try {
+        baseData = await fetch('sections/' + id + '.json').then(function (r) {
+            if (!r.ok) throw new Error('not found');
+            return r.json();
+        });
+    } catch (e) {
+        contentArea.innerHTML = '';
+        const errMsg = document.createElement('p');
+        errMsg.style.cssText = 'color:red;padding:2rem';
+        errMsg.textContent = 'Раздел не найден: ' + id;
+        contentArea.appendChild(errMsg);
+        renderSidebar();
+        return;
+    }
 
     // Try to load translation if needed
     let transData = null;

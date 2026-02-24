@@ -786,6 +786,24 @@ function renderMaharashScroll() {
 
     viewer.appendChild(nextBtn);
 
+    // Floating zoom overlay for fullscreen mode
+    const zoomOverlay = document.createElement('div');
+    zoomOverlay.className = 'maharash-zoom-overlay';
+
+    const zoomOutFs = document.createElement('button');
+    zoomOutFs.className = 'maharash-zoom-fs-btn';
+    zoomOutFs.textContent = '−';
+    zoomOutFs.title = 'Уменьшить / Zoom out';
+
+    const zoomInFs = document.createElement('button');
+    zoomInFs.className = 'maharash-zoom-fs-btn';
+    zoomInFs.textContent = '+';
+    zoomInFs.title = 'Увеличить / Zoom in';
+
+    zoomOverlay.appendChild(zoomInFs);
+    zoomOverlay.appendChild(zoomOutFs);
+    viewer.appendChild(zoomOverlay);
+
     IMAGES.forEach(function (src, idx) {
         const slide = document.createElement('div');
         slide.className = 'maharash-slide';
@@ -813,6 +831,8 @@ function renderMaharashScroll() {
         }
         zoomIn.disabled = zoomLevel >= 4;
         zoomOut.disabled = zoomLevel <= 0.5;
+        zoomInFs.disabled = zoomLevel >= 4;
+        zoomOutFs.disabled = zoomLevel <= 0.5;
     }
 
     zoomOut.addEventListener('click', function () {
@@ -820,6 +840,15 @@ function renderMaharashScroll() {
         applyZoom();
     });
     zoomIn.addEventListener('click', function () {
+        zoomLevel = Math.min(4, +(zoomLevel + 0.5).toFixed(1));
+        applyZoom();
+    });
+
+    zoomOutFs.addEventListener('click', function () {
+        zoomLevel = Math.max(0.5, +(zoomLevel - 0.5).toFixed(1));
+        applyZoom();
+    });
+    zoomInFs.addEventListener('click', function () {
         zoomLevel = Math.min(4, +(zoomLevel + 0.5).toFixed(1));
         applyZoom();
     });
@@ -849,16 +878,44 @@ function renderMaharashScroll() {
     }
     document.addEventListener('keydown', onKey);
 
-    // Touch/swipe support
+    // Touch/swipe and pinch-to-zoom support
     var touchStartX = null;
+    var pinchStartDist = null;
+    var pinchStartZoom = 1;
+
     strip.addEventListener('touchstart', function (e) {
-        touchStartX = e.touches[0].clientX;
+        if (e.touches.length === 2) {
+            var dx = e.touches[1].clientX - e.touches[0].clientX;
+            var dy = e.touches[1].clientY - e.touches[0].clientY;
+            pinchStartDist = Math.sqrt(dx * dx + dy * dy);
+            pinchStartZoom = zoomLevel;
+            touchStartX = null;
+        } else {
+            touchStartX = e.touches[0].clientX;
+            pinchStartDist = null;
+        }
     }, { passive: true });
+
+    strip.addEventListener('touchmove', function (e) {
+        if (e.touches.length === 2 && pinchStartDist !== null) {
+            var dx = e.touches[1].clientX - e.touches[0].clientX;
+            var dy = e.touches[1].clientY - e.touches[0].clientY;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            var scale = dist / pinchStartDist;
+            zoomLevel = Math.max(0.5, Math.min(4, +(pinchStartZoom * scale).toFixed(1)));
+            applyZoom();
+        }
+    }, { passive: true });
+
     strip.addEventListener('touchend', function (e) {
-        if (touchStartX === null) return;
-        var dx = e.changedTouches[0].clientX - touchStartX;
-        if (Math.abs(dx) > 40) { goTo(currentPage + (dx < 0 ? 1 : -1)); }
-        touchStartX = null;
+        if (e.touches.length === 0) {
+            if (pinchStartDist === null && touchStartX !== null) {
+                var dx = e.changedTouches[0].clientX - touchStartX;
+                if (Math.abs(dx) > 40) { goTo(currentPage + (dx < 0 ? 1 : -1)); }
+            }
+            touchStartX = null;
+            pinchStartDist = null;
+        }
     }, { passive: true });
 
     // Fullscreen

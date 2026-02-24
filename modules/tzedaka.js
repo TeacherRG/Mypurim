@@ -82,7 +82,7 @@ function renderTzedaka() {
         org:      s.dniproOrg,
         desc:     s.dniproDesc,
         btnText:  s.btn,
-        href:     'https://djc.com.ua/ru/pozhertvovat/393413f22d7'
+        href:     'https://djc.com.ua/ru/pozhertvovat/'
     }));
 
     contentArea.appendChild(grid);

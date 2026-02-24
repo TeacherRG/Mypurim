@@ -8,6 +8,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@700;900&family=Cormorant+Garamond:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="stylesheet" href="styles.css" />
+
+    <!-- PWA: Web App Manifest -->
+    <link rel="manifest" href="/Favicon/site.webmanifest" />
+
+    <!-- PWA: Theme color for browser chrome -->
+    <meta name="theme-color" content="#1e1f3a" />
+
+    <!-- PWA: iOS (Safari) support -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Пурим" />
+    <link rel="apple-touch-icon" href="/Favicon/apple-touch-icon.png" />
+
+    <!-- PWA: Service Worker registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .catch((err) => console.error('SW registration failed:', err));
+        });
+      }
+    </script>
 </head>
 <body>
 

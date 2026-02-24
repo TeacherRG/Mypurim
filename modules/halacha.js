@@ -41,20 +41,17 @@ async function renderHalacha() {
         dual.appendChild(rightCol);
     } else {
         var lang = langMode === 'uk' ? 'uk' : langMode === 'de' ? 'de' : langMode === 'he' ? 'he' : 'ru';
-        try {
-            const resp = await fetch(getHalachaFile(lang));
-            if (!resp.ok) throw new Error('not found');
-            const data = await resp.json();
-            const col = document.createElement('div');
-            col.className = 'lang-col';
-            renderHalachaData(col, data);
-            contentArea.appendChild(col);
-        } catch (e) {
-            const notice = document.createElement('div');
-            notice.className = 'coming-soon-notice';
-            notice.textContent = I18N.t('comingSoon', langMode);
-            contentArea.appendChild(notice);
+        let halachaLang = lang;
+        let resp = await fetch(getHalachaFile(halachaLang));
+        if (!resp.ok) {
+            halachaLang = 'ru';
+            resp = await fetch(getHalachaFile('ru'));
         }
+        const data = await resp.json();
+        const col = document.createElement('div');
+        col.className = 'lang-col';
+        renderHalachaData(col, data);
+        contentArea.appendChild(col);
     }
 }
 

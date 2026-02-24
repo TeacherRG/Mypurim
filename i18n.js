@@ -128,6 +128,48 @@ const I18N = (function () {
                 spiral:        'Gute Nacht 🌀',
                 alcohol:       'Alkohol-Kalkulator 🍷'
             }
+        },
+
+        he: {
+            pageTitle:        'חג הפורים — שיעור אינטראקטיבי',
+            headerTitle:      'פורים — חג עם ישראל, המשפחה והילדים',
+            progressLabel:    'הושלם',
+            dedication:       'מוקדש ליובל משפחת גרינברג וילדיה — יוסף יצחק, שיינא, אהרן ורחל   ז׳ אדר תשפ״ו',
+            sidebarTitle:     'תפריט',
+            quizHeader:       'בדוק הבנה',
+            quizSubmit:       'ענה',
+            quizAllCorrect:   'כל התשובות נכונות. הפרק הושלם.',
+            quizHasErrors:    'יש שגיאות. נסה שוב.',
+            quizAlreadyDone:  'הפרק כבר הושלם.',
+            footerTranslation:'תרגום ועיבוד לעברית:',
+            footerAI:         'בסיוע הבינה המלאכותית ChatGPT (OpenAI)',
+            footerCopyright:  '© 2026 Shluchim Office International. כל הזכויות שמורות.',
+            footerContact:    'לשאלות נוספות:',
+            footerMaterials:  'להורדת חומרי לימוד נוספים בקרו באתר:',
+            estherDesc:       'בחרו שפה בתפריט העליון כדי לפתוח את המגילה בשפה הרצויה. ניתן לקרוא את הטקסט ישירות בדף או להוריד את הקובץ.',
+            estherOpen:          'פתח בלשונית חדשה',
+            estherDownload:      'הורד PDF',
+            estherPart1:         'חלק א׳',
+            estherPart2:         'חלק ב׳',
+            estherMobileNotice:  'במכשירים ניידים אין אפשרות לצפות ב-PDF בתוך הדף. השתמשו בכפתורים למעלה כדי לפתוח או להוריד את הקובץ.',
+            shareCopied:         'הקישור הועתק',
+            visitorLabel:        'מבקרים:',
+            comingSoon:          'בקרוב יהיה',
+            sections: {
+                intro:         'אודות הפרויקט',
+                dvar_malchut:  'דבר מלכות',
+                section_a:     'פרק א׳',
+                section_b:     'פרק ב׳',
+                section_c:     'פרק ג׳',
+                halacha:       'הלכה',
+                esther_scroll: 'קריאת מגילת אסתר',
+                tzedaka:       'תן צדקה',
+                games:         'משחקים',
+                dreidel:       'משחק סביבון 🎡',
+                hangman:       'תלה את המן! 🪢',
+                spiral:        'לילה טוב 🌀',
+                alcohol:       'מחשבון אלכוהול 🍷'
+            }
         }
 
     };
@@ -136,6 +178,7 @@ const I18N = (function () {
     function getUILang(langMode) {
         if (langMode === 'uk') return 'uk';
         if (langMode === 'de') return 'de';
+        if (langMode === 'he') return 'he';
         return 'ru';
     }
 
@@ -163,8 +206,9 @@ const I18N = (function () {
         // Page title
         document.title = trans.pageTitle || TRANSLATIONS.ru.pageTitle;
 
-        // HTML lang attribute for accessibility
+        // HTML lang attribute and text direction for accessibility
         document.documentElement.lang = lang;
+        document.documentElement.dir = (lang === 'he') ? 'rtl' : 'ltr';
 
         // All elements with data-i18n attribute
         document.querySelectorAll('[data-i18n]').forEach(function (el) {

@@ -7,12 +7,12 @@ const HangmanGame = (function () {
 
     // ── Words from the Megillah (7–9 letters — too long to guess in 3 tries) ──
     const WORDS = [
-        { word: 'АХАШВЕРОШ', hint_ru: 'Царь Персии и Мидии',           hint_uk: 'Цар Персії та Мідії',           hint_de: 'König von Persien und Medien'   },
-        { word: 'МОРДЕХАЙ',  hint_ru: 'Иудей из колена Вениаминова',   hint_uk: 'Іудей із коліна Веніамінового', hint_de: 'Jude aus dem Stamm Benjamin'    },
-        { word: 'ХАРБОНА',   hint_ru: 'Слуга царя Ахашвероша',         hint_uk: 'Слуга царя Ахашвероша',         hint_de: 'Diener des Königs Ahasverus'    },
-        { word: 'МЕМУХАН',   hint_ru: 'Советник царя',                 hint_uk: 'Радник царя',                   hint_de: 'Ratgeber des Königs'             },
-        { word: 'БИРТАН',    hint_ru: 'Заговорщик при дворе царя',     hint_uk: 'Змовник при дворі царя',        hint_de: 'Verschwörer am Königshof'       },
-        { word: 'ВИГФАН',    hint_ru: 'Стражник, замысливший зло',     hint_uk: 'Охоронець, що задумав зло',     hint_de: 'Wächter, der Böses plante'      }
+        { word: 'АХАШВЕРОШ', hint_ru: 'Царь Персии и Мидии',           hint_uk: 'Цар Персії та Мідії',           hint_de: 'König von Persien und Medien',   hint_he: 'מלך פרס ומדי'           },
+        { word: 'МОРДЕХАЙ',  hint_ru: 'Иудей из колена Вениаминова',   hint_uk: 'Іудей із коліна Веніамінового', hint_de: 'Jude aus dem Stamm Benjamin',    hint_he: 'יהודי משבט בנימין'      },
+        { word: 'ХАРБОНА',   hint_ru: 'Слуга царя Ахашвероша',         hint_uk: 'Слуга царя Ахашвероша',         hint_de: 'Diener des Königs Ahasverus',    hint_he: 'משרת המלך אחשורוש'      },
+        { word: 'МЕМУХАН',   hint_ru: 'Советник царя',                 hint_uk: 'Радник царя',                   hint_de: 'Ratgeber des Königs',             hint_he: 'יועץ המלך'              },
+        { word: 'БИРТАН',    hint_ru: 'Заговорщик при дворе царя',     hint_uk: 'Змовник при дворі царя',        hint_de: 'Verschwörer am Königshof',       hint_he: 'קושר קשר בחצר המלך'     },
+        { word: 'ВИГФАН',    hint_ru: 'Стражник, замысливший зло',     hint_uk: 'Охоронець, що задумав зло',     hint_de: 'Wächter, der Böses plante',      hint_he: 'שומר שתכנן רעה'          }
     ];
 
     const MAX_WRONG = 3;
@@ -25,7 +25,7 @@ const HangmanGame = (function () {
 
     function pickWord(lang) {
         const item = WORDS[Math.floor(Math.random() * WORDS.length)];
-        const hintKey = 'hint_' + (lang === 'uk' ? 'uk' : lang === 'de' ? 'de' : 'ru');
+        const hintKey = 'hint_' + (lang === 'uk' ? 'uk' : lang === 'de' ? 'de' : lang === 'he' ? 'he' : 'ru');
         gs = { word: item.word, hint: item[hintKey] || item.hint_ru,
                guessed: new Set(), wrong: 0, over: false, hanged: false };
     }
@@ -67,12 +67,25 @@ const HangmanGame = (function () {
             loseTitle:  'Haman ist entkommen...',
             loseMsg:    'Du hast das Wort erraten — unglaublich! Haman ist entkommen.',
             wordWas:    'Das Wort war:'
+        },
+        he: {
+            title:      'תלה את המן!',
+            subtitle:   'נחש את המילה מהמגילה — רק שלוש ניסיונות...',
+            hint:       'רמז:',
+            wrongOf:    'טעויות:',
+            playAgain:  'שחק שוב',
+            winTitle:   '🎉 המן נתלה! 🎉',
+            winMsg:     'פורים! הרשע המן שילם על מזימותיו!',
+            loseTitle:  'המן ברח...',
+            loseMsg:    'ניחשת את המילה — מדהים! המן נמלט.',
+            wordWas:    'המילה הייתה:'
         }
     };
 
     function uiLang(langMode) {
         if (langMode === 'uk') return 'uk';
         if (langMode === 'de') return 'de';
+        if (langMode === 'he') return 'he';
         return 'ru';
     }
 

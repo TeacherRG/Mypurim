@@ -779,6 +779,41 @@ body::before {
     text-align: justify;
 }
 
+/* ===== HEBREW MEGILLA (esther-he.json) ===== */
+
+.esther-he-container {
+    direction: rtl;
+    font-family: "Arial Hebrew", "David", "SBL Hebrew", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 2;
+}
+
+.esther-he-chapter {
+    font-family: "Arial Hebrew", "David", Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e1f3a;
+    margin: 24px 0 12px;
+    text-align: right;
+    border-bottom: 2px solid #ffcc00;
+    padding-bottom: 6px;
+}
+
+.esther-he-verse {
+    font-size: 15px;
+    margin-bottom: 6px;
+    text-align: right;
+    line-height: 2;
+}
+
+.esther-he-verse-num {
+    font-size: 10px;
+    color: #999;
+    vertical-align: super;
+    margin-inline-start: 4px;
+    font-family: Arial, sans-serif;
+}
+
 /* ===== TZEDAKA / DONATE SECTION ===== */
 
 .donate-intro {

@@ -48,21 +48,38 @@ function getEstherJSONs() {
     return ['pdfs/ester-ru.json'];
 }
 
-function renderEstherJSON(data, container) {
-    // Hebrew format: chapters/verses
-    if (data.chapters) {
-        data.chapters.forEach(function (chapter) {
-            const h = document.createElement('h3');
-            h.className = 'esther-scroll-heading';
-            h.textContent = 'פרק ' + chapter.chapter_id;
-            container.appendChild(h);
-            chapter.verses.forEach(function (verse) {
-                const p = document.createElement('p');
-                p.className = 'esther-scroll-para';
-                p.textContent = '(' + verse.verse_id + ') ' + verse.text;
-                container.appendChild(p);
-            });
+// ===== HEBREW MEGILLA RENDERER =====
+// Handles esther-he.json which uses chapters/verses structure (unlike other languages)
+function renderHebrewMegilla(data, container) {
+    container.setAttribute('dir', 'rtl');
+    container.classList.add('esther-he-container');
+
+    data.chapters.forEach(function (chapter) {
+        var h = document.createElement('h3');
+        h.className = 'esther-he-chapter';
+        h.textContent = 'פרק ' + chapter.chapter_id;
+        container.appendChild(h);
+
+        chapter.verses.forEach(function (verse) {
+            var p = document.createElement('p');
+            p.className = 'esther-he-verse';
+
+            // Verse number as superscript — appears at right side in RTL (start of verse)
+            var num = document.createElement('sup');
+            num.className = 'esther-he-verse-num';
+            num.textContent = verse.verse_id;
+
+            p.appendChild(num);
+            p.appendChild(document.createTextNode('\u00A0' + verse.text));
+            container.appendChild(p);
         });
+    });
+}
+
+function renderEstherJSON(data, container) {
+    // Hebrew format: chapters/verses — handled by dedicated renderer
+    if (data.chapters) {
+        renderHebrewMegilla(data, container);
         return;
     }
     // Pages/paragraphs format (ru, de, uk)

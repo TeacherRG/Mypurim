@@ -8,7 +8,7 @@ async function renderMegillaListen() {
     // ── Title bar ──────────────────────────────────────────────────────────
     const titleBar = document.createElement('div');
     titleBar.className = 'section-title-bar';
-    titleBar.textContent = I18N.sectionTitle('megilla_listen', langMode);
+    titleBar.innerHTML = '<h1 class="section-title">' + I18N.sectionTitle('megilla_listen', langMode) + '</h1>';
     contentArea.appendChild(titleBar);
 
     // ── Controls ───────────────────────────────────────────────────────────
@@ -123,9 +123,9 @@ async function renderMegillaListen() {
             if (normalizeHeb(wordList[i].text) === norm) return i;
         }
         // Prefix match
-        for (var i = currentWordIdx; i < Math.min(currentWordIdx + LOOKAHEAD, wordList.length); i++) {
-            var wn = normalizeHeb(wordList[i].text);
-            if (wn && (wn.startsWith(norm) || norm.startsWith(wn))) return i;
+        for (var j = currentWordIdx; j < Math.min(currentWordIdx + LOOKAHEAD, wordList.length); j++) {
+            var wn = normalizeHeb(wordList[j].text);
+            if (wn && (wn.startsWith(norm) || norm.startsWith(wn))) return j;
         }
         return -1;
     }

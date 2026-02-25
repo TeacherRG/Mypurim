@@ -291,6 +291,7 @@ async function renderMegillaListen() {
 
     function downloadModule() {
         if (moduleDownloading || HebrewSpeech.ready()) return;
+        if (!confirm(I18N.t('mlDownloadConfirm', langMode))) return;
         moduleDownloading = true;
         downloadBtn.disabled = true;
         statusEl.textContent = I18N.t('mlDownloading', langMode);

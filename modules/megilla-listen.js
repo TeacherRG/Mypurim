@@ -15,6 +15,11 @@ async function renderMegillaListen() {
     const controls = document.createElement('div');
     controls.className = 'ml-controls';
 
+    const downloadBtn = document.createElement('button');
+    downloadBtn.className = 'ml-btn ml-btn-download';
+    downloadBtn.id = 'ml-download-btn';
+    downloadBtn.innerHTML = I18N.t('mlDownload', langMode);
+
     const listenBtn = document.createElement('button');
     listenBtn.className = 'ml-btn ml-btn-start';
     listenBtn.id = 'ml-listen-btn';
@@ -30,6 +35,7 @@ async function renderMegillaListen() {
     statusEl.className = 'ml-status';
     statusEl.id = 'ml-status';
 
+    controls.appendChild(downloadBtn);
     controls.appendChild(listenBtn);
     controls.appendChild(stopBtn);
     controls.appendChild(statusEl);
@@ -320,13 +326,66 @@ async function renderMegillaListen() {
         statusEl.className = 'ml-status';
     }
 
+    // ── Download speech recognition module ────────────────────────────────
+    var whisperWorker = null;
+
+    function downloadModule() {
+        if (whisperWorker) return; // already loading or loaded
+        downloadBtn.disabled = true;
+        statusEl.textContent = I18N.t('mlDownloading', langMode);
+        statusEl.className = 'ml-status ml-status-active';
+
+        try {
+            whisperWorker = new Worker('modules/whisper-worker.js', { type: 'module' });
+        } catch (e) {
+            AppLogger.error('megilla-listen: cannot create whisper worker', e);
+            statusEl.textContent = I18N.t('mlDownloadError', langMode);
+            statusEl.className = 'ml-status ml-status-error';
+            downloadBtn.disabled = false;
+            whisperWorker = null;
+            return;
+        }
+
+        whisperWorker.onmessage = function (event) {
+            var data = event.data;
+            if (data.type === 'status' && data.status === 'ready') {
+                statusEl.textContent = I18N.t('mlDownloadReady', langMode);
+                statusEl.className = 'ml-status ml-status-ready';
+                downloadBtn.innerHTML = '✅ ' + I18N.t('mlDownloadReady', langMode);
+            } else if (data.type === 'status' && data.status === 'loading') {
+                statusEl.textContent = I18N.t('mlDownloading', langMode);
+                statusEl.className = 'ml-status ml-status-active';
+            } else if (data.type === 'error') {
+                AppLogger.error('megilla-listen: whisper worker error', data.message);
+                statusEl.textContent = I18N.t('mlDownloadError', langMode);
+                statusEl.className = 'ml-status ml-status-error';
+                downloadBtn.disabled = false;
+                whisperWorker.terminate();
+                whisperWorker = null;
+            }
+        };
+
+        whisperWorker.onerror = function (e) {
+            AppLogger.error('megilla-listen: whisper worker failed', e);
+            statusEl.textContent = I18N.t('mlDownloadError', langMode);
+            statusEl.className = 'ml-status ml-status-error';
+            downloadBtn.disabled = false;
+            whisperWorker = null;
+        };
+    }
+
     // ── Button events ──────────────────────────────────────────────────────
+    downloadBtn.addEventListener('click', downloadModule);
     listenBtn.addEventListener('click', startListening);
     stopBtn.addEventListener('click', stopListening);
 
     // ── Cleanup on section change ──────────────────────────────────────────
     contentArea.addEventListener('maharash-cleanup', function onCleanup() {
         stopListening();
+        if (whisperWorker) {
+            whisperWorker.terminate();
+            whisperWorker = null;
+        }
         contentArea.removeEventListener('maharash-cleanup', onCleanup);
     }, { once: true });
 }

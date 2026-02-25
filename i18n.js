@@ -59,7 +59,11 @@ const I18N = (function () {
             mlNotSupported:  'Ваш браузер не поддерживает распознавание речи',
             mlMicDenied:     'Доступ к микрофону запрещён',
             mlError:         'Ошибка распознавания речи',
-            mlChapter:       'Глава'
+            mlChapter:       'Глава',
+            mlDownload:      '⬇ Скачать модуль распознавания речи',
+            mlDownloading:   '⏳ Загрузка модуля...',
+            mlDownloadReady: '✅ Модуль загружен и готов',
+            mlDownloadError: '❌ Ошибка загрузки модуля'
         },
 
         uk: {
@@ -114,7 +118,11 @@ const I18N = (function () {
             mlNotSupported:  'Ваш браузер не підтримує розпізнавання мови',
             mlMicDenied:     'Доступ до мікрофона заборонено',
             mlError:         'Помилка розпізнавання мови',
-            mlChapter:       'Глава'
+            mlChapter:       'Глава',
+            mlDownload:      '⬇ Завантажити модуль розпізнавання мови',
+            mlDownloading:   '⏳ Завантаження модуля...',
+            mlDownloadReady: '✅ Модуль завантажено та готово',
+            mlDownloadError: '❌ Помилка завантаження модуля'
         },
 
         de: {
@@ -169,7 +177,11 @@ const I18N = (function () {
             mlNotSupported:  'Ihr Browser unterstützt keine Spracherkennung',
             mlMicDenied:     'Mikrofonzugriff verweigert',
             mlError:         'Fehler bei der Spracherkennung',
-            mlChapter:       'Kapitel'
+            mlChapter:       'Kapitel',
+            mlDownload:      '⬇ Spracherkennungsmodul herunterladen',
+            mlDownloading:   '⏳ Modul wird geladen...',
+            mlDownloadReady: '✅ Modul geladen und bereit',
+            mlDownloadError: '❌ Fehler beim Laden des Moduls'
         },
 
         he: {
@@ -224,7 +236,11 @@ const I18N = (function () {
             mlNotSupported:  'הדפדפן אינו תומך בזיהוי דיבור',
             mlMicDenied:     'הגישה למיקרופון נדחתה',
             mlError:         'שגיאה בזיהוי דיבור',
-            mlChapter:       'פרק'
+            mlChapter:       'פרק',
+            mlDownload:      '⬇ הורד מודול זיהוי דיבור',
+            mlDownloading:   '⏳ טוען מודול...',
+            mlDownloadReady: '✅ המודול נטען ומוכן',
+            mlDownloadError: '❌ שגיאה בטעינת המודול'
         }
 
     };

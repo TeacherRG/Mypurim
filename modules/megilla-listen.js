@@ -248,20 +248,20 @@ async function renderMegillaListen() {
     // ── Speech Recognition via HebrewSpeech / Whisper ─────────────────────
 
     function startListening() {
-        if (!HebrewSpeech.ready()) {
-            statusEl.textContent = I18N.t('mlModuleNotReady', langMode);
-            statusEl.className = 'ml-status ml-status-error';
-            return;
-        }
-
         listenBtn.hidden = true;
         stopBtn.hidden = false;
-        statusEl.textContent = I18N.t('mlListening', langMode);
+        statusEl.textContent = HebrewSpeech.ready() ? I18N.t('mlListening', langMode) : I18N.t('mlDownloading', langMode);
         statusEl.className = 'ml-status ml-status-active';
 
         HebrewSpeech.start({
             onStatusChange: function (status) {
-                if (status === 'mic-denied') {
+                if (status === 'loading') {
+                    statusEl.textContent = I18N.t('mlDownloading', langMode);
+                    statusEl.className = 'ml-status ml-status-active';
+                } else if (status === 'listening') {
+                    statusEl.textContent = I18N.t('mlListening', langMode);
+                    statusEl.className = 'ml-status ml-status-active';
+                } else if (status === 'mic-denied') {
                     statusEl.textContent = I18N.t('mlMicDenied', langMode);
                     statusEl.className = 'ml-status ml-status-error';
                     stopListening();

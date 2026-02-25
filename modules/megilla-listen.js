@@ -41,6 +41,11 @@ async function renderMegillaListen() {
     controls.appendChild(statusEl);
     contentArea.appendChild(controls);
 
+    // Hide download button when native speech recognition is available (no download needed)
+    if (HebrewSpeech.usesSpeechAPI()) {
+        downloadBtn.hidden = true;
+    }
+
     // ── Text container ─────────────────────────────────────────────────────
     const textContainer = document.createElement('div');
     textContainer.className = 'ml-text-container';

@@ -319,6 +319,17 @@ async function renderMegillaListen() {
     listenBtn.addEventListener('click', startListening);
     stopBtn.addEventListener('click', stopListening);
 
+    // ── Auto-load if model is already cached in browser Cache Storage ──────
+    // Cache location: DevTools → Application → Cache Storage → transformers-cache
+    // Model key: URLs containing "Xenova/whisper-tiny"
+    HebrewSpeech.cached().then(function (isCached) {
+        if (isCached && !moduleDownloading && !HebrewSpeech.ready()) {
+            downloadModule();
+        }
+    }).catch(function (e) {
+        AppLogger.warn('megilla-listen: cache check failed', e);
+    });
+
     // ── Cleanup on section change ──────────────────────────────────────────
     contentArea.addEventListener('maharash-cleanup', function onCleanup() {
         stopListening();

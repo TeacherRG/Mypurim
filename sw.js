@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mypurim-v5';
+const CACHE_NAME = 'mypurim-v6';
 
 // Static assets to cache on install (app shell)
 const PRECACHE_URLS = [
@@ -63,8 +63,8 @@ const PRECACHE_URLS = [
   '/pdfs/ester-ru.json',
   '/pdfs/ester-uk.json',
   '/pdfs/esther-he.json',
-  // Audio
-  '/audio/addelojoda.mp3',
+  // Audio (fetched lazily via network-first; no need to pre-cache the large MP3)
+  // '/audio/addelojoda.mp3',
 ];
 
 // Install: precache the app shell

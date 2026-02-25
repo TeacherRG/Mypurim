@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mypurim-v4';
+const CACHE_NAME = 'mypurim-v5';
 
 // Static assets to cache on install (app shell)
 const PRECACHE_URLS = [
@@ -32,6 +32,7 @@ const PRECACHE_URLS = [
   '/modules/tzedaka.js',
   '/modules/megilla-shop.js',
   '/modules/logger.js',
+  '/modules/megilla-listen.js',
   // MegillaShop data
   '/MegillaShop/megilla-shop-ru.json',
   '/MegillaShop/megilla-shop-uk.json',
@@ -97,12 +98,18 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Only handle same-origin requests and GET requests
-  if (url.origin !== self.location.origin || request.method !== 'GET') {
+  // Only handle GET requests
+  if (request.method !== 'GET') {
     return;
   }
 
-  // Skip cross-origin requests (e.g. Google Fonts)
+  // Cache Google Fonts for offline use
+  if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
+    event.respondWith(cacheFirstWithNetwork(request));
+    return;
+  }
+
+  // Skip other cross-origin requests
   if (url.hostname !== self.location.hostname) {
     return;
   }

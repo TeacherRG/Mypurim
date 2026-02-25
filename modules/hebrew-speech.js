@@ -12,10 +12,9 @@ var HebrewSpeech = (function () {
     'use strict';
 
     var SAMPLE_RATE    = 16000;          // Hz required by Whisper
-    var CHUNK_SECONDS  = 5;              // seconds of audio per inference call
+    var CHUNK_SECONDS  = 2;              // seconds of audio per inference call
     var CHUNK_SAMPLES  = SAMPLE_RATE * CHUNK_SECONDS;
     var PROCESSOR_SIZE = 4096;           // ScriptProcessorNode buffer size
-    var NOISE_THRESHOLD = 0.4;           // RMS threshold above which audio is considered noise
 
     var worker          = null;
     var audioContext    = null;
@@ -26,7 +25,6 @@ var HebrewSpeech = (function () {
     var isListening     = false;
     var statusCb        = null;
     var transcriptCb    = null;
-    var hamanPauseUntil = 0;             // timestamp (ms) until which processing is paused for Haman
 
     // ── Worker ────────────────────────────────────────────────────────────────
 
@@ -40,10 +38,6 @@ var HebrewSpeech = (function () {
                 isReady = (data.status === 'ready');
                 _notify(data.status);
             } else if (data.type === 'transcript') {
-                if (data.text && data.text.indexOf('המן') !== -1 && Math.random() < 0.5) {
-                    hamanPauseUntil = Date.now() + 5000;
-                    _notify('haman');
-                }
                 if (transcriptCb) transcriptCb(data.text);
             } else if (data.type === 'error') {
                 AppLogger.error('whisper-worker error:', data.message);
@@ -117,20 +111,6 @@ var HebrewSpeech = (function () {
             if (!isListening) return;
 
             var input  = e.inputBuffer.getChannelData(0);
-
-            // RMS noise detection — block sending to worker when too loud
-            var sum = 0;
-            for (var k = 0; k < input.length; k++) { sum += input[k] * input[k]; }
-            var rms = Math.sqrt(sum / input.length);
-            if (rms > NOISE_THRESHOLD) {
-                _notify('ШУМ');
-                return;
-            }
-
-            // Haman pause — wait for rattles before resuming processing
-            if (Date.now() < hamanPauseUntil) {
-                return;
-            }
 
             var merged = new Float32Array(pcmBuffer.length + input.length);
             merged.set(pcmBuffer);

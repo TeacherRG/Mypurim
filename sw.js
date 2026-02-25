@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mypurim-v4';
+const CACHE_NAME = 'mypurim-v5';
 
 // Static assets to cache on install (app shell)
 const PRECACHE_URLS = [
@@ -30,6 +30,7 @@ const PRECACHE_URLS = [
   '/modules/spiral.js',
   '/modules/storage.js',
   '/modules/tzedaka.js',
+  '/modules/megilla-listen.js',
   '/modules/megilla-shop.js',
   '/modules/logger.js',
   // MegillaShop data

@@ -2813,6 +2813,24 @@ html[dir="rtl"] .megilla-shop-list {
     box-shadow: 0 4px 16px rgba(229, 57, 53, 0.55);
 }
 
+.ml-btn-download {
+    background: linear-gradient(135deg, #1976d2, #0d47a1);
+    color: #fff;
+    box-shadow: 0 3px 12px rgba(25, 118, 210, 0.4);
+}
+
+.ml-btn-download:hover {
+    background: linear-gradient(135deg, #1e88e5, #1565c0);
+    box-shadow: 0 4px 16px rgba(25, 118, 210, 0.55);
+}
+
+.ml-btn-download:disabled {
+    background: linear-gradient(135deg, #78909c, #546e7a);
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
 .ml-status {
     font-size: 14px;
     font-weight: 500;
@@ -2827,6 +2845,10 @@ html[dir="rtl"] .megilla-shop-list {
 
 .ml-status-error {
     color: #ef5350;
+}
+
+.ml-status-ready {
+    color: #4caf50;
 }
 
 @keyframes ml-pulse {

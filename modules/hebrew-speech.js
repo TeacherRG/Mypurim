@@ -7,7 +7,6 @@
 //   HebrewSpeech.start(options)   – begin listening
 //   HebrewSpeech.stop()           – stop listening (keeps worker alive)
 //   HebrewSpeech.terminate()      – stop listening and destroy the worker
-//   HebrewSpeech.syncMegillah(text) – stub called with every recognised transcript
 
 var HebrewSpeech = (function () {
     'use strict';
@@ -46,7 +45,6 @@ var HebrewSpeech = (function () {
                     _notify('haman');
                 }
                 if (transcriptCb) transcriptCb(data.text);
-                syncMegillah(data.text);
             } else if (data.type === 'error') {
                 AppLogger.error('whisper-worker error:', data.message);
                 _notify('error');
@@ -65,16 +63,6 @@ var HebrewSpeech = (function () {
     }
 
     // ── Public API ────────────────────────────────────────────────────────────
-
-    /**
-     * Stub — receives every Hebrew transcript produced by Whisper.
-     * Replace or extend this body to synchronise with Megilla content.
-     * @param {string} text – recognised Hebrew text
-     */
-    function syncMegillah(text) {
-        // TODO: integrate with megilla-listen word-highlighting logic
-        AppLogger.log('HebrewSpeech.syncMegillah:', text);
-    }
 
     /**
      * Start microphone capture and Hebrew recognition.
@@ -198,7 +186,6 @@ var HebrewSpeech = (function () {
         start:        start,
         stop:         stop,
         terminate:    terminate,
-        syncMegillah: syncMegillah,
         load:         load,
         ready:        ready,
     };

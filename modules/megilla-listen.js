@@ -111,7 +111,6 @@ async function renderMegillaListen() {
     // ── State ──────────────────────────────────────────────────────────────
     var currentWordIdx = 0;
     var currentVerseIndex = 0;
-    var isListening = false;
     var highlightedEl = null;
     var highlightedVerseEl = null;
 
@@ -255,7 +254,6 @@ async function renderMegillaListen() {
             return;
         }
 
-        isListening = true;
         listenBtn.hidden = true;
         stopBtn.hidden = false;
         statusEl.textContent = I18N.t('mlListening', langMode);
@@ -281,7 +279,6 @@ async function renderMegillaListen() {
     }
 
     function stopListening() {
-        isListening = false;
         HebrewSpeech.stop();
         listenBtn.hidden = false;
         stopBtn.hidden = true;

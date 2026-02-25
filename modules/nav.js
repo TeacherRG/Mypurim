@@ -91,6 +91,8 @@ function renderSidebar() {
             li.classList.add('halacha-section-item');
         } else if (section.type === 'maharash') {
             li.classList.add('maharash-section-item');
+        } else if (section.type === 'megilla_listen') {
+            li.classList.add('megilla-listen-nav-item');
         } else if (section.type === 'megilla_shop') {
             li.classList.add('megilla-shop-nav-item');
         } else {

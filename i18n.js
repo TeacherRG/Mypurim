@@ -50,8 +50,16 @@ const I18N = (function () {
                 spiral:          'Спокойной ночи 🌀',
                 alcohol:         'Алкогольный калькулятор 🍷',
                 shum:            'Шуметь! 📣',
+                megilla_listen:  '🎤 Слушать Мегилу',
                 megilla_shop:    '📜 Приобрести Мегилат Эстер'
-            }
+            },
+            mlListen:        'Слушать',
+            mlStop:          'Закончить слушать',
+            mlListening:     '🎙 Слушаю...',
+            mlNotSupported:  'Ваш браузер не поддерживает распознавание речи',
+            mlMicDenied:     'Доступ к микрофону запрещён',
+            mlError:         'Ошибка распознавания речи',
+            mlChapter:       'Глава'
         },
 
         uk: {
@@ -97,8 +105,16 @@ const I18N = (function () {
                 spiral:          'На добраніч 🌀',
                 alcohol:         'Алкогольний калькулятор 🍷',
                 shum:            'Шуміти! 📣',
+                megilla_listen:  '🎤 Слухати Мегілу',
                 megilla_shop:    '📜 Придбати Мегілат Естер'
-            }
+            },
+            mlListen:        'Слухати',
+            mlStop:          'Закінчити слухати',
+            mlListening:     '🎙 Слухаю...',
+            mlNotSupported:  'Ваш браузер не підтримує розпізнавання мови',
+            mlMicDenied:     'Доступ до мікрофона заборонено',
+            mlError:         'Помилка розпізнавання мови',
+            mlChapter:       'Глава'
         },
 
         de: {
@@ -144,8 +160,16 @@ const I18N = (function () {
                 spiral:          'Gute Nacht 🌀',
                 alcohol:         'Alkohol-Kalkulator 🍷',
                 shum:            'Lärm machen! 📣',
+                megilla_listen:  '🎤 Megilla anhören',
                 megilla_shop:    '📜 Megillat Esther erwerben'
-            }
+            },
+            mlListen:        'Anhören',
+            mlStop:          'Aufhören zuzuhören',
+            mlListening:     '🎙 Höre zu...',
+            mlNotSupported:  'Ihr Browser unterstützt keine Spracherkennung',
+            mlMicDenied:     'Mikrofonzugriff verweigert',
+            mlError:         'Fehler bei der Spracherkennung',
+            mlChapter:       'Kapitel'
         },
 
         he: {
@@ -191,8 +215,16 @@ const I18N = (function () {
                 spiral:          'לילה טוב 🌀',
                 alcohol:         'מחשבון אלכוהול 🍷',
                 shum:            '!לעשות רעש 📣',
+                megilla_listen:  '🎤 האזנה למגילה',
                 megilla_shop:    '📜 רכישת מגילת אסתר'
-            }
+            },
+            mlListen:        'האזן',
+            mlStop:          'סיים האזנה',
+            mlListening:     '🎙 מאזין...',
+            mlNotSupported:  'הדפדפן אינו תומך בזיהוי דיבור',
+            mlMicDenied:     'הגישה למיקרופון נדחתה',
+            mlError:         'שגיאה בזיהוי דיבור',
+            mlChapter:       'פרק'
         }
 
     };

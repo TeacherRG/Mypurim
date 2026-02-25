@@ -42,8 +42,9 @@ self.onmessage = async function (event) {
             const result = await transcriber(audio, {
                 language: 'hebrew',
                 task: 'transcribe',
+                return_timestamps: true,
             });
-            self.postMessage({ type: 'transcript', text: result.text });
+            self.postMessage({ type: 'transcript', text: result.text, chunks: result.chunks || [] });
         } catch (e) {
             self.postMessage({ type: 'error', message: e.message });
         }

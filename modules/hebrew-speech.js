@@ -16,15 +16,16 @@ var HebrewSpeech = (function () {
     var CHUNK_SAMPLES  = SAMPLE_RATE * CHUNK_SECONDS;
     var PROCESSOR_SIZE = 4096;           // ScriptProcessorNode buffer size
 
-    var worker          = null;
-    var audioContext    = null;
-    var mediaStream     = null;
-    var scriptProcessor = null;
-    var pcmBuffer       = new Float32Array(0);
-    var isReady         = false;
-    var isListening     = false;
-    var statusCb        = null;
-    var transcriptCb    = null;
+    var worker                = null;
+    var audioContext          = null;
+    var mediaStream           = null;
+    var scriptProcessor       = null;
+    var pcmBuffer             = new Float32Array(0);
+    var isReady               = false;
+    var isListening           = false;
+    var statusCb              = null;
+    var transcriptCb          = null;
+    var lastAudioChunkSentTime = 0;
 
     // ── Worker ────────────────────────────────────────────────────────────────
 
@@ -38,7 +39,7 @@ var HebrewSpeech = (function () {
                 isReady = (data.status === 'ready');
                 _notify(data.status);
             } else if (data.type === 'transcript') {
-                if (transcriptCb) transcriptCb(data.text);
+                if (transcriptCb) transcriptCb({ text: data.text, chunks: data.chunks || [], audioChunkSentTime: lastAudioChunkSentTime });
             } else if (data.type === 'error') {
                 AppLogger.error('whisper-worker error:', data.message);
                 _notify('error');
@@ -123,6 +124,7 @@ var HebrewSpeech = (function () {
                 pcmBuffer = pcmBuffer.slice(CHUNK_SAMPLES);
                 if (isReady) {
                     // Transfer the underlying buffer for zero-copy delivery
+                    lastAudioChunkSentTime = performance.now();
                     worker.postMessage({ type: 'transcribe', audio: chunk }, [chunk.buffer]);
                 }
             }

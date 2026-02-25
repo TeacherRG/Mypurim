@@ -245,6 +245,34 @@ async function renderMegillaListen() {
         });
     }
 
+    // ── Schedule highlights using Whisper token timestamps ─────────────────
+    // chunks: array of { text, timestamp: [startSec, endSec] } from Whisper.
+    // audioChunkSentTime: performance.now() value recorded when the audio chunk
+    // was posted to the worker (i.e. the end of the captured audio segment).
+    function scheduleHighlights(chunks, audioChunkSentTime) {
+        var now = performance.now();
+        chunks.forEach(function (chunk) {
+            var tokenStart = Array.isArray(chunk.timestamp) ? chunk.timestamp[0] : 0;
+            var tokenEnd   = Array.isArray(chunk.timestamp) ? chunk.timestamp[1] : tokenStart;
+            var words = chunk.text.trim().split(/\s+/).filter(function (w) { return w.length > 0; });
+            if (words.length === 0) return;
+            // Distribute words evenly across the token's time range so each
+            // word gets its own delay instead of all appearing simultaneously.
+            var wordInterval = words.length > 1 ? ((tokenEnd - tokenStart) * 1000) / words.length : 0;
+            words.forEach(function (word, i) {
+                var wordTimestamp = tokenStart + (i * wordInterval / 1000);
+                var delay = Math.max(0, audioChunkSentTime + wordTimestamp * 1000 - now);
+                setTimeout(function () {
+                    var matchIdx = findBestMatch(word);
+                    if (matchIdx >= 0) {
+                        highlightWord(matchIdx);
+                        currentWordIdx = matchIdx + 1;
+                    }
+                }, delay);
+            });
+        });
+    }
+
     // ── Speech Recognition via HebrewSpeech / Whisper ─────────────────────
 
     function startListening() {
@@ -271,8 +299,15 @@ async function renderMegillaListen() {
                     stopListening();
                 }
             },
-            onTranscript: function (text) {
-                processTranscript(text);
+            onTranscript: function (data) {
+                var text          = data.text              || '';
+                var chunks        = data.chunks            || [];
+                var audioSentTime = data.audioChunkSentTime || 0;
+                if (chunks.length > 0) {
+                    scheduleHighlights(chunks, audioSentTime);
+                } else {
+                    processTranscript(text);
+                }
                 syncMegillah(text);
             }
         });

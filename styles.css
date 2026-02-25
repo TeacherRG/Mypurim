@@ -2765,8 +2765,8 @@ html[dir="rtl"] .megilla-shop-list {
     gap: 12px;
     flex-wrap: wrap;
     padding: 16px 24px;
-    background: rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid rgba(255, 204, 0, 0.2);
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(255, 204, 0, 0.4);
     position: sticky;
     top: 0;
     z-index: 10;
@@ -2843,7 +2843,7 @@ html[dir="rtl"] .megilla-shop-list {
     line-height: 2.1;
     font-size: 22px;
     font-family: 'Times New Roman', 'David', serif;
-    color: #e8e8e8;
+    color: #1a1a2e;
     max-width: 900px;
     margin: 0 auto;
 }
@@ -2851,11 +2851,11 @@ html[dir="rtl"] .megilla-shop-list {
 .ml-chapter-header {
     font-size: 18px;
     font-weight: 700;
-    color: #ffe066;
+    color: #7a5c00;
     margin: 32px 0 16px;
     padding: 8px 14px;
-    background: rgba(255, 204, 0, 0.1);
-    border-right: 4px solid #ffe066;
+    background: rgba(255, 204, 0, 0.15);
+    border-right: 4px solid #c99a00;
     border-radius: 4px;
     letter-spacing: 0.03em;
 }
@@ -2867,7 +2867,7 @@ html[dir="rtl"] .megilla-shop-list {
 
 .ml-verse-num {
     font-size: 11px;
-    color: #888;
+    color: #aaa;
     vertical-align: super;
     margin-left: 4px;
     margin-right: 2px;

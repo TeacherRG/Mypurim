@@ -60,10 +60,11 @@ const I18N = (function () {
             mlMicDenied:     'Доступ к микрофону запрещён',
             mlError:         'Ошибка распознавания речи',
             mlChapter:       'Глава',
-            mlDownload:      '⬇ Скачать модуль распознавания речи',
+            mlDownload:      '⬇ Скачать модуль распознавания речи (ок.100Мб)',
             mlDownloading:   '⏳ Загрузка модуля...',
             mlDownloadReady: '✅ Модуль загружен и готов',
-            mlDownloadError: '❌ Ошибка загрузки модуля'
+            mlDownloadError: '❌ Ошибка загрузки модуля',
+            mlModuleNotReady:'⚠ Сначала скачайте модуль'
         },
 
         uk: {
@@ -119,10 +120,11 @@ const I18N = (function () {
             mlMicDenied:     'Доступ до мікрофона заборонено',
             mlError:         'Помилка розпізнавання мови',
             mlChapter:       'Глава',
-            mlDownload:      '⬇ Завантажити модуль розпізнавання мови',
+            mlDownload:      '⬇ Завантажити модуль розпізнавання мови (ок.100МБ)',
             mlDownloading:   '⏳ Завантаження модуля...',
             mlDownloadReady: '✅ Модуль завантажено та готово',
-            mlDownloadError: '❌ Помилка завантаження модуля'
+            mlDownloadError: '❌ Помилка завантаження модуля',
+            mlModuleNotReady:'⚠ Спочатку завантажте модуль'
         },
 
         de: {
@@ -178,10 +180,11 @@ const I18N = (function () {
             mlMicDenied:     'Mikrofonzugriff verweigert',
             mlError:         'Fehler bei der Spracherkennung',
             mlChapter:       'Kapitel',
-            mlDownload:      '⬇ Spracherkennungsmodul herunterladen',
+            mlDownload:      '⬇ Spracherkennungsmodul herunterladen (ca.100 MB)',
             mlDownloading:   '⏳ Modul wird geladen...',
             mlDownloadReady: '✅ Modul geladen und bereit',
-            mlDownloadError: '❌ Fehler beim Laden des Moduls'
+            mlDownloadError: '❌ Fehler beim Laden des Moduls',
+            mlModuleNotReady:'⚠ Bitte laden Sie zuerst das Modul herunter'
         },
 
         he: {
@@ -237,10 +240,11 @@ const I18N = (function () {
             mlMicDenied:     'הגישה למיקרופון נדחתה',
             mlError:         'שגיאה בזיהוי דיבור',
             mlChapter:       'פרק',
-            mlDownload:      '⬇ הורד מודול זיהוי דיבור',
+            mlDownload:      '⬇ הורד מודול זיהוי דיבור (≈100MB)',
             mlDownloading:   '⏳ טוען מודול...',
             mlDownloadReady: '✅ המודול נטען ומוכן',
-            mlDownloadError: '❌ שגיאה בטעינת המודול'
+            mlDownloadError: '❌ שגיאה בטעינת המודול',
+            mlModuleNotReady:'⚠ יש להוריד תחילה את המודול'
         }
 
     };

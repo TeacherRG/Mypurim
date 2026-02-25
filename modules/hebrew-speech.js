@@ -49,11 +49,14 @@ var HebrewSpeech = (function () {
                 syncMegillah(data.text);
             } else if (data.type === 'error') {
                 AppLogger.error('whisper-worker error:', data.message);
+                _notify('error');
             }
         };
 
         worker.onerror = function (e) {
             AppLogger.error('whisper-worker crashed:', e.message);
+            isReady = false;
+            _notify('error');
         };
     }
 
@@ -170,6 +173,17 @@ var HebrewSpeech = (function () {
         _notify('stopped');
     }
 
+    /** Pre-load the Whisper model without starting the microphone. */
+    function load(onStatusChange) {
+        statusCb = onStatusChange || null;
+        initWorker();
+    }
+
+    /** Returns true if the Whisper model is loaded and ready. */
+    function ready() {
+        return isReady;
+    }
+
     /** Stop capture and destroy the worker entirely. */
     function terminate() {
         stop();
@@ -185,5 +199,7 @@ var HebrewSpeech = (function () {
         stop:         stop,
         terminate:    terminate,
         syncMegillah: syncMegillah,
+        load:         load,
+        ready:        ready,
     };
 })();

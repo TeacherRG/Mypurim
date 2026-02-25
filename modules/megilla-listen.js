@@ -112,7 +112,6 @@ async function renderMegillaListen() {
     var currentWordIdx = 0;
     var currentVerseIndex = 0;
     var isListening = false;
-    var recognition = null;
     var highlightedEl = null;
     var highlightedVerseEl = null;
 
@@ -247,12 +246,11 @@ async function renderMegillaListen() {
         });
     }
 
-    // ── Speech Recognition ─────────────────────────────────────────────────
-    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    // ── Speech Recognition via HebrewSpeech / Whisper ─────────────────────
 
     function startListening() {
-        if (!SpeechRecognition) {
-            statusEl.textContent = I18N.t('mlNotSupported', langMode);
+        if (!HebrewSpeech.ready()) {
+            statusEl.textContent = I18N.t('mlModuleNotReady', langMode);
             statusEl.className = 'ml-status ml-status-error';
             return;
         }
@@ -263,63 +261,28 @@ async function renderMegillaListen() {
         statusEl.textContent = I18N.t('mlListening', langMode);
         statusEl.className = 'ml-status ml-status-active';
 
-        recognition = new SpeechRecognition();
-        recognition.lang = 'he-IL';
-        recognition.continuous = true;
-        recognition.interimResults = true;
-        recognition.maxAlternatives = 3;
-
-        recognition.onresult = function (event) {
-            // Process each new result
-            for (var i = event.resultIndex; i < event.results.length; i++) {
-                var result = event.results[i];
-                // Use all alternatives for better matching
-                for (var a = 0; a < result.length; a++) {
-                    processTranscript(result[a].transcript);
+        HebrewSpeech.start({
+            onStatusChange: function (status) {
+                if (status === 'mic-denied') {
+                    statusEl.textContent = I18N.t('mlMicDenied', langMode);
+                    statusEl.className = 'ml-status ml-status-error';
+                    stopListening();
+                } else if (status === 'error') {
+                    statusEl.textContent = I18N.t('mlError', langMode);
+                    statusEl.className = 'ml-status ml-status-error';
+                    stopListening();
                 }
-                // Verse-level sync on final results (isFinal = true)
-                if (result.isFinal) {
-                    syncMegillah(result[0].transcript);
-                }
+            },
+            onTranscript: function (text) {
+                processTranscript(text);
+                syncMegillah(text);
             }
-        };
-
-        recognition.onerror = function (event) {
-            if (event.error === 'not-allowed') {
-                statusEl.textContent = I18N.t('mlMicDenied', langMode);
-                statusEl.className = 'ml-status ml-status-error';
-                stopListening();
-            } else if (event.error === 'no-speech') {
-                // Ignore — will restart automatically
-            } else {
-                AppLogger.warn('megilla-listen: recognition error', event.error);
-            }
-        };
-
-        recognition.onend = function () {
-            // Auto-restart if still in listening mode
-            if (isListening) {
-                try { recognition.start(); } catch (e) { /* ignore */ }
-            }
-        };
-
-        try {
-            recognition.start();
-        } catch (e) {
-            AppLogger.error('megilla-listen: cannot start recognition', e);
-            statusEl.textContent = I18N.t('mlError', langMode);
-            statusEl.className = 'ml-status ml-status-error';
-            stopListening();
-        }
+        });
     }
 
     function stopListening() {
         isListening = false;
-        if (recognition) {
-            recognition.onend = null;
-            try { recognition.stop(); } catch (e) { /* ignore */ }
-            recognition = null;
-        }
+        HebrewSpeech.stop();
         listenBtn.hidden = false;
         stopBtn.hidden = true;
         statusEl.textContent = '';
@@ -327,51 +290,31 @@ async function renderMegillaListen() {
     }
 
     // ── Download speech recognition module ────────────────────────────────
-    var whisperWorker = null;
+    var moduleDownloading = false;
 
     function downloadModule() {
-        if (whisperWorker) return; // already loading or loaded
+        if (moduleDownloading || HebrewSpeech.ready()) return;
+        moduleDownloading = true;
         downloadBtn.disabled = true;
         statusEl.textContent = I18N.t('mlDownloading', langMode);
         statusEl.className = 'ml-status ml-status-active';
 
-        try {
-            whisperWorker = new Worker('modules/whisper-worker.js', { type: 'module' });
-        } catch (e) {
-            AppLogger.error('megilla-listen: cannot create whisper worker', e);
-            statusEl.textContent = I18N.t('mlDownloadError', langMode);
-            statusEl.className = 'ml-status ml-status-error';
-            downloadBtn.disabled = false;
-            whisperWorker = null;
-            return;
-        }
-
-        whisperWorker.onmessage = function (event) {
-            var data = event.data;
-            if (data.type === 'status' && data.status === 'ready') {
+        HebrewSpeech.load(function (status) {
+            if (status === 'ready') {
                 statusEl.textContent = I18N.t('mlDownloadReady', langMode);
                 statusEl.className = 'ml-status ml-status-ready';
                 downloadBtn.innerHTML = '✅ ' + I18N.t('mlDownloadReady', langMode);
-            } else if (data.type === 'status' && data.status === 'loading') {
+            } else if (status === 'loading') {
                 statusEl.textContent = I18N.t('mlDownloading', langMode);
                 statusEl.className = 'ml-status ml-status-active';
-            } else if (data.type === 'error') {
-                AppLogger.error('megilla-listen: whisper worker error', data.message);
+            } else if (status === 'error') {
+                AppLogger.error('megilla-listen: module load error');
                 statusEl.textContent = I18N.t('mlDownloadError', langMode);
                 statusEl.className = 'ml-status ml-status-error';
                 downloadBtn.disabled = false;
-                whisperWorker.terminate();
-                whisperWorker = null;
+                moduleDownloading = false;
             }
-        };
-
-        whisperWorker.onerror = function (e) {
-            AppLogger.error('megilla-listen: whisper worker failed', e);
-            statusEl.textContent = I18N.t('mlDownloadError', langMode);
-            statusEl.className = 'ml-status ml-status-error';
-            downloadBtn.disabled = false;
-            whisperWorker = null;
-        };
+        });
     }
 
     // ── Button events ──────────────────────────────────────────────────────
@@ -382,10 +325,7 @@ async function renderMegillaListen() {
     // ── Cleanup on section change ──────────────────────────────────────────
     contentArea.addEventListener('maharash-cleanup', function onCleanup() {
         stopListening();
-        if (whisperWorker) {
-            whisperWorker.terminate();
-            whisperWorker = null;
-        }
+        HebrewSpeech.terminate();
         contentArea.removeEventListener('maharash-cleanup', onCleanup);
     }, { once: true });
 }

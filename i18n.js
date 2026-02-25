@@ -64,7 +64,8 @@ const I18N = (function () {
             mlDownloading:   '⏳ Загрузка модуля...',
             mlDownloadReady: '✅ Модуль загружен и готов',
             mlDownloadError: '❌ Ошибка загрузки модуля',
-            mlModuleNotReady:'⚠ Сначала скачайте модуль'
+            mlModuleNotReady:'⚠ Сначала скачайте модуль',
+            mlDownloadConfirm:'Для загрузки модуля распознавания речи потребуется скачать около 100 МБ данных. Продолжить?'
         },
 
         uk: {
@@ -124,7 +125,8 @@ const I18N = (function () {
             mlDownloading:   '⏳ Завантаження модуля...',
             mlDownloadReady: '✅ Модуль завантажено та готово',
             mlDownloadError: '❌ Помилка завантаження модуля',
-            mlModuleNotReady:'⚠ Спочатку завантажте модуль'
+            mlModuleNotReady:'⚠ Спочатку завантажте модуль',
+            mlDownloadConfirm:'Для завантаження модуля розпізнавання мови потрібно завантажити близько 100 МБ даних. Продовжити?'
         },
 
         de: {
@@ -184,7 +186,8 @@ const I18N = (function () {
             mlDownloading:   '⏳ Modul wird geladen...',
             mlDownloadReady: '✅ Modul geladen und bereit',
             mlDownloadError: '❌ Fehler beim Laden des Moduls',
-            mlModuleNotReady:'⚠ Bitte laden Sie zuerst das Modul herunter'
+            mlModuleNotReady:'⚠ Bitte laden Sie zuerst das Modul herunter',
+            mlDownloadConfirm:'Zum Laden des Spracherkennungsmoduls müssen ca. 100 MB heruntergeladen werden. Fortfahren?'
         },
 
         he: {
@@ -244,7 +247,8 @@ const I18N = (function () {
             mlDownloading:   '⏳ טוען מודול...',
             mlDownloadReady: '✅ המודול נטען ומוכן',
             mlDownloadError: '❌ שגיאה בטעינת המודול',
-            mlModuleNotReady:'⚠ יש להוריד תחילה את המודול'
+            mlModuleNotReady:'⚠ יש להוריד תחילה את המודול',
+            mlDownloadConfirm:'לטעינת מודול זיהוי הדיבור יש להוריד כ-100MB. להמשיך?'
         }
 
     };

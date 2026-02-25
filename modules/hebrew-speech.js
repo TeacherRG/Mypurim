@@ -41,7 +41,7 @@ var HebrewSpeech = (function () {
                 isReady = (data.status === 'ready');
                 _notify(data.status);
             } else if (data.type === 'transcript') {
-                if (data.text && data.text.indexOf('המן') !== -1) {
+                if (data.text && data.text.indexOf('המן') !== -1 && Math.random() < 0.5) {
                     hamanPauseUntil = Date.now() + 5000;
                     _notify('haman');
                 }

@@ -78,6 +78,20 @@ var HebrewSpeech = (function () {
 
         initWorker();
 
+        // Check microphone permission before requesting it
+        if (navigator.permissions) {
+            try {
+                var permStatus = await navigator.permissions.query({ name: 'microphone' });
+                if (permStatus.state === 'denied') {
+                    AppLogger.error('HebrewSpeech: microphone permission denied');
+                    _notify('mic-denied');
+                    return;
+                }
+            } catch (e) {
+                // Permissions API query failed – fall through to getUserMedia
+            }
+        }
+
         // Request microphone
         try {
             mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });

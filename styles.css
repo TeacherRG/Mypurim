@@ -2865,6 +2865,13 @@ html[dir="rtl"] .megilla-shop-list {
     display: inline;
 }
 
+.ml-verse-active {
+    background: rgba(255, 230, 0, 0.18);
+    border-radius: 4px;
+    outline: 2px solid rgba(255, 204, 0, 0.6);
+    outline-offset: 2px;
+}
+
 .ml-verse-num {
     font-size: 11px;
     color: #888;

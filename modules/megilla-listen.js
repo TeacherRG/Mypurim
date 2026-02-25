@@ -56,8 +56,11 @@ async function renderMegillaListen() {
 
     // ── Build word list & render text ──────────────────────────────────────
     // wordList: flat array of { text, element }
+    // verseList: flat array of { id, text } for verse-level sync
     var wordList = [];
     var globalWordIdx = 0;
+    var verseList = [];
+    var globalVerseIdx = 0;
 
     data.chapters.forEach(function (chapter) {
         // Chapter header
@@ -69,6 +72,10 @@ async function renderMegillaListen() {
         chapter.verses.forEach(function (verse) {
             const verseLine = document.createElement('div');
             verseLine.className = 'ml-verse';
+            var verseElemId = 'ml-verse-' + globalVerseIdx;
+            verseLine.id = verseElemId;
+            verseList.push({ id: verseElemId, text: verse.text });
+            globalVerseIdx++;
 
             // Verse number
             const verseNum = document.createElement('sup');
@@ -97,9 +104,11 @@ async function renderMegillaListen() {
 
     // ── State ──────────────────────────────────────────────────────────────
     var currentWordIdx = 0;
+    var currentVerseIndex = 0;
     var isListening = false;
     var recognition = null;
     var highlightedEl = null;
+    var highlightedVerseEl = null;
 
     // ── Hebrew normalization ───────────────────────────────────────────────
     // Strip niqqud (vowel marks U+05B0–U+05C7) for comparison
@@ -108,6 +117,83 @@ async function renderMegillaListen() {
             .replace(/[\u05B0-\u05C7\u05F0-\u05F4\u05C0\u05C3\u05C6]/g, '')
             .replace(/[^\u05D0-\u05EA]/g, '')
             .trim();
+    }
+
+    // ── stripNikud ─────────────────────────────────────────────────────────
+    // Strip Hebrew nikud (vowel points), cantillation marks, punctuation and
+    // extra whitespace to produce a clean consonantal string for comparison.
+    function stripNikud(text) {
+        return text
+            .replace(/[\u0591-\u05C7]/g, '')  // nikud + cantillation (U+0591–U+05C7)
+            .replace(/[^\u05D0-\u05EA\s]/g, '') // keep only Hebrew letters and spaces
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
+    // ── Levenshtein distance ───────────────────────────────────────────────
+    function levenshtein(a, b) {
+        var m = a.length, n = b.length;
+        if (m === 0) return n;
+        if (n === 0) return m;
+        var prev = [], curr = [];
+        for (var j = 0; j <= n; j++) prev[j] = j;
+        for (var i = 1; i <= m; i++) {
+            curr[0] = i;
+            for (var j = 1; j <= n; j++) {
+                curr[j] = a[i - 1] === b[j - 1]
+                    ? prev[j - 1]
+                    : 1 + Math.min(prev[j], curr[j - 1], prev[j - 1]);
+            }
+            var tmp = prev; prev = curr; curr = tmp;
+        }
+        return prev[n];
+    }
+
+    // ── scrollToVerse ──────────────────────────────────────────────────────
+    // Highlight the verse element with the given id and scroll it into view.
+    function scrollToVerse(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        if (highlightedVerseEl) highlightedVerseEl.classList.remove('ml-verse-active');
+        el.classList.add('ml-verse-active');
+        highlightedVerseEl = el;
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // ── syncMegillah ───────────────────────────────────────────────────────
+    // Match recognizedText against a sliding window of verses around
+    // currentVerseIndex using Levenshtein similarity.  When the best match
+    // exceeds the 60 % threshold, advance currentVerseIndex and highlight
+    // the matched verse via scrollToVerse().
+    var VERSE_WINDOW = 5; // look ±5 verses from current position
+    var MATCH_THRESHOLD = 0.6;
+
+    function syncMegillah(recognizedText) {
+        var norm = stripNikud(recognizedText).replace(/\s/g, '');
+        if (!norm) return;
+
+        var start = Math.max(0, currentVerseIndex - VERSE_WINDOW);
+        var end = Math.min(verseList.length - 1, currentVerseIndex + VERSE_WINDOW);
+
+        var bestIdx = -1;
+        var bestScore = 0;
+
+        for (var i = start; i <= end; i++) {
+            var verseNorm = stripNikud(verseList[i].text).replace(/\s/g, '');
+            var maxLen = Math.max(norm.length, verseNorm.length);
+            if (maxLen === 0) continue;
+            var dist = levenshtein(norm, verseNorm);
+            var score = 1 - dist / maxLen;
+            if (score > bestScore) {
+                bestScore = score;
+                bestIdx = i;
+            }
+        }
+
+        if (bestIdx >= 0 && bestScore >= MATCH_THRESHOLD) {
+            currentVerseIndex = bestIdx;
+            scrollToVerse(verseList[bestIdx].id);
+        }
     }
 
     // ── Word matching ──────────────────────────────────────────────────────
@@ -184,6 +270,10 @@ async function renderMegillaListen() {
                 // Use all alternatives for better matching
                 for (var a = 0; a < result.length; a++) {
                     processTranscript(result[a].transcript);
+                }
+                // Verse-level sync on final results (isFinal = true)
+                if (result.isFinal) {
+                    syncMegillah(result[0].transcript);
                 }
             }
         };

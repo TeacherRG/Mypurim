@@ -172,6 +172,24 @@ var HebrewSpeech = (function () {
         return isReady;
     }
 
+    /**
+     * Async: resolves to true when Xenova/whisper-tiny model files are already
+     * stored in the browser Cache Storage (cache name: "transformers-cache").
+     * Check via DevTools → Application → Cache Storage → transformers-cache.
+     */
+    async function cached() {
+        if (!('caches' in window)) return false;
+        try {
+            var cache = await caches.open('transformers-cache');
+            var keys  = await cache.keys();
+            return keys.some(function (req) {
+                return req.url.includes('Xenova/whisper-tiny');
+            });
+        } catch (_) {
+            return false;
+        }
+    }
+
     /** Stop capture and destroy the worker entirely. */
     function terminate() {
         stop();
@@ -188,5 +206,6 @@ var HebrewSpeech = (function () {
         terminate:    terminate,
         load:         load,
         ready:        ready,
+        cached:       cached,
     };
 })();

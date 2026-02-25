@@ -12,7 +12,7 @@ var HebrewSpeech = (function () {
     'use strict';
 
     var SAMPLE_RATE    = 16000;          // Hz required by Whisper
-    var CHUNK_SECONDS  = 2;              // seconds of audio per inference call
+    var CHUNK_SECONDS  = 1;              // seconds of audio per inference call
     var CHUNK_SAMPLES  = SAMPLE_RATE * CHUNK_SECONDS;
     var PROCESSOR_SIZE = 4096;           // ScriptProcessorNode buffer size
 

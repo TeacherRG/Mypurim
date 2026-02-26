@@ -79,7 +79,13 @@ const I18N = (function () {
             zoomOut:          'Уменьшить',
             mlRattleBtn:      'Трещотка (нажать — шуметь / ещё раз — замолчать)',
             mlSpeedUp:        'Быстрее',
-            mlSpeedDown:      'Медленнее'
+            mlSpeedDown:      'Медленнее',
+            navPrivacy:       '🔒 Политика конфиденциальности',
+            navHelp:          '❓ Помощь',
+            privacyTitle:     'Политика конфиденциальности',
+            privacyContent:   'Этот сайт не собирает личные данные пользователей. Мы используем анонимные счётчики посещаемости (Яндекс.Метрика, Google Analytics) для улучшения сервиса. Файлы cookie используются только для сохранения настроек языка и прогресса в разделах. Мы не передаём данные третьим лицам.',
+            helpTitle:        'Помощь',
+            helpContent:      'Добро пожаловать на сайт Пурима!\n\n🏠 Главная — быстрый доступ к основным разделам.\n📜 Двар Малхут — учение Ребе о смысле Пурима (3 раздела с тестами).\n⚖️ Алаха — законы Пурима с проверкой знаний.\n📖 Мегила — читайте или слушайте Мегилат Эстер.\n💛 Цдака — пожертвование прямо со страницы.\n🎮 Игры — дрейдл, виселица, спираль и другие игры.\n\nДля смены языка воспользуйтесь меню выбора языка в верхней части страницы.'
         },
 
         uk: {
@@ -154,7 +160,13 @@ const I18N = (function () {
             zoomOut:          'Зменшити',
             mlRattleBtn:      'Брязкальце (натиснути — шуміти / ще раз — замовкнути)',
             mlSpeedUp:        'Швидше',
-            mlSpeedDown:      'Повільніше'
+            mlSpeedDown:      'Повільніше',
+            navPrivacy:       '🔒 Політика конфіденційності',
+            navHelp:          '❓ Довідка',
+            privacyTitle:     'Політика конфіденційності',
+            privacyContent:   'Цей сайт не збирає особисті дані користувачів. Ми використовуємо анонімні лічильники відвідуваності для покращення сервісу. Файли cookie використовуються лише для збереження налаштувань мови та прогресу в розділах.',
+            helpTitle:        'Довідка',
+            helpContent:      'Ласкаво просимо на сайт Пурима!\n\n🏠 Головна — швидкий доступ до основних розділів.\n📜 Двар Малхут — вчення Ребе про зміст Пурима.\n⚖️ Алаха — закони Пурима.\n📖 Мегіла — читайте або слухайте Мегілат Естер.\n💛 Цдака — пожертвування прямо зі сторінки.\n🎮 Ігри — дрейдл, шибениця та інші ігри.'
         },
 
         de: {
@@ -229,7 +241,13 @@ const I18N = (function () {
             zoomOut:          'Verkleinern',
             mlRattleBtn:      'Rassel (drücken — Geräusch / nochmals — still)',
             mlSpeedUp:        'Schneller',
-            mlSpeedDown:      'Langsamer'
+            mlSpeedDown:      'Langsamer',
+            navPrivacy:       '🔒 Datenschutzrichtlinie',
+            navHelp:          '❓ Hilfe',
+            privacyTitle:     'Datenschutzrichtlinie',
+            privacyContent:   'Diese Website sammelt keine persönlichen Daten. Wir verwenden anonyme Besucherzähler zur Verbesserung des Dienstes. Cookies werden nur für Spracheinstellungen und den Fortschritt in den Abschnitten verwendet.',
+            helpTitle:        'Hilfe',
+            helpContent:      'Willkommen auf der Purim-Website!\n\n🏠 Startseite — schneller Zugang zu den Hauptbereichen.\n📜 Dvar Malchut — Lehre des Rebbe über den Sinn von Purim.\n⚖️ Halacha — Gesetze von Purim.\n📖 Megilla — lesen oder hören Sie die Megillat Esther.\n💛 Zedaka — Spende direkt von der Seite.\n🎮 Spiele — Dreidel, Galgen und andere Spiele.'
         },
 
         en: {
@@ -304,7 +322,13 @@ const I18N = (function () {
             zoomOut:          'Zoom out',
             mlRattleBtn:      'Gragger (press to make noise / press again to stop)',
             mlSpeedUp:        'Faster',
-            mlSpeedDown:      'Slower'
+            mlSpeedDown:      'Slower',
+            navPrivacy:       '🔒 Privacy Policy',
+            navHelp:          '❓ Help',
+            privacyTitle:     'Privacy Policy',
+            privacyContent:   'This website does not collect personal data. We use anonymous visitor counters to improve the service. Cookies are used only for language settings and section progress.',
+            helpTitle:        'Help',
+            helpContent:      "Welcome to the Purim website!\n\n🏠 Home — quick access to main sections.\n📜 Dvar Malchut — the Rebbe's teaching on the meaning of Purim.\n⚖️ Halacha — laws of Purim.\n📖 Megilla — read or listen to Megillat Esther.\n💛 Tzedaka — donate directly from the page.\n🎮 Games — dreidel, hangman, and other games."
         },
 
         he: {
@@ -379,7 +403,13 @@ const I18N = (function () {
             zoomOut:          'הקטן',
             mlRattleBtn:      'רעשן (לחץ להשמיע / לחץ שוב לעצור)',
             mlSpeedUp:        'מהר יותר',
-            mlSpeedDown:      'לאט יותר'
+            mlSpeedDown:      'לאט יותר',
+            navPrivacy:       '🔒 מדיניות פרטיות',
+            navHelp:          '❓ עזרה',
+            privacyTitle:     'מדיניות פרטיות',
+            privacyContent:   'אתר זה אינו אוסף מידע אישי. אנו משתמשים במונים אנונימיים לשיפור השירות. עוגיות משמשות רק לשמירת הגדרות שפה והתקדמות בפרקים.',
+            helpTitle:        'עזרה',
+            helpContent:      '!ברוכים הבאים לאתר הפורים\n\n🏠 דף הבית — גישה מהירה לסעיפים הראשיים.\n📜 דבר מלכות — תורת הרבי על משמעות הפורים.\n⚖️ הלכה — דיני פורים.\n📖 מגילה — קראו או האזינו למגילת אסתר.\n💛 צדקה — תרומה ישירות מהדף.\n🎮 משחקים — סביבון, תליית המן ומשחקים נוספים.'
         }
 
     };

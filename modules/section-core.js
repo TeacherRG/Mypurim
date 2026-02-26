@@ -282,3 +282,32 @@ function checkQuiz(sectionId, card) {
         result.style.color = 'red';
     }
 }
+
+// ===== INFO PAGE (Privacy Policy / Help) =====
+
+function renderInfoPage(titleKey, contentKey) {
+    contentArea.innerHTML = '';
+
+    const col = document.createElement('div');
+    col.className = 'lang-col';
+
+    const row = document.createElement('div');
+    row.className = 'section-title-row';
+
+    const h2 = document.createElement('h2');
+    h2.className = 'section-title';
+    h2.textContent = I18N.t(titleKey, langMode);
+    row.appendChild(h2);
+    col.appendChild(row);
+
+    const text = I18N.t(contentKey, langMode);
+    text.split('\n').forEach(function (line) {
+        const trimmed = line.trim();
+        if (trimmed === '') return;
+        const p = document.createElement('p');
+        p.textContent = trimmed;
+        col.appendChild(p);
+    });
+
+    contentArea.appendChild(col);
+}

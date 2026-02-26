@@ -87,6 +87,7 @@ async function loadSection(id) {
     const transFolder = langMode === 'uk' || langMode === 'ru-uk' ? 'uk'
                       : langMode === 'de' || langMode === 'ru-de' ? 'de'
                       : langMode === 'he' ? 'he'
+                      : langMode === 'en' ? 'en'
                       : null;
 
     // Always load base (Russian)

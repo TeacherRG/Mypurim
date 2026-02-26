@@ -211,6 +211,74 @@ const I18N = (function () {
             zoomOut:          'Verkleinern'
         },
 
+        en: {
+            pageTitle:        'Purim — the Holiday of Divine Providence',
+            headerTitle:      'Purim — the holiday of the Jewish people, family, and children',
+            progressLabel:    'completed',
+            dedication:       'Dedicated to the elevation of the soul of Irina bat Sara',
+            sidebarTitle:     'Menu',
+            quizHeader:       'Check your understanding',
+            quizSubmit:       'Submit',
+            quizAllCorrect:   'All answers are correct. Section completed.',
+            quizHasErrors:    'There are errors. Please try again.',
+            quizAlreadyDone:  'Section already completed.',
+            footerDvarRights: 'Rights to "Dvar Malchut" © 2026 Shluchim Office International',
+            footerAudioRights:'Rights to audio and Russian version of the Megilla ©',
+            footerPhotoRights:'Rights to photos of the Megilla of Rebbe Maharash ©',
+            footerContact:    'Feedback and comments:',
+            footerCredit:     'Website created by Rav Reuven Greenberg',
+            footerCopyright:  '© All rights reserved 2026',
+            estherDesc:       'Select a language in the top menu to open the Megilla in the desired language. You can read the text directly on the page or download the file.',
+            estherOpen:          'Open in new tab',
+            estherDownload:      'Download PDF',
+            estherPart1:         'Part 1',
+            estherPart2:         'Part 2',
+            estherMobileNotice:  'On mobile devices, viewing the PDF within the page is not available. Use the buttons above to open or download the file.',
+            shareCopied:         'Link copied',
+            visitorLabel:        'Visitors:',
+            sections: {
+                home:            '🏠 Home',
+                intro:           'About the Project',
+                dvar_malchut:    'Dvar Malchut',
+                section_a:       'Section 1',
+                section_b:       'Section 2',
+                section_c:       'Section 3',
+                halacha:         'Halacha',
+                megilla_read:    'Read the Megilla',
+                esther_scroll:   'Read Megilla text',
+                maharash_scroll: 'Read Megilla scroll',
+                tzedaka:         'Give Tzedaka',
+                games:           'Games',
+                dreidel:         'Dreidel game 🎡',
+                hangman:         'Hang Haman! 🪢',
+                spiral:          'Good night 🌀',
+                alcohol:         'Alcohol calculator 🍷',
+                shum:            'Make noise! 📣',
+                megilla_listen:  '🎤 Listen to Megilla',
+                megilla_shop:    '📜 Purchase Megillat Esther'
+            },
+            mlListen:        'Listen',
+            mlStop:          'Stop listening',
+            mlListening:     '🎙 Listening...',
+            mlNotSupported:  'Your browser does not support speech recognition',
+            mlMicDenied:     'Microphone access denied',
+            mlError:         'Speech recognition error',
+            mlChapter:       'Chapter',
+            mlDownload:      '⬇ Download speech recognition module (≈100MB)',
+            mlDownloading:   '⏳ Loading module...',
+            mlDownloadReady: '✅ Module loaded and ready',
+            mlDownloadError: '❌ Error loading module',
+            mlModuleNotReady:'⚠ Please download the module first',
+            mlDownloadConfirm:'To load the speech recognition module, about 100 MB of data needs to be downloaded. Continue?',
+            audioPlayerTitle: '🎧 Listen to the Megilla',
+            audioPlay:        '▶ Play',
+            audioPause:       '⏸ Pause',
+            audioStop:        '⏹ Stop',
+            audioSpeed:       'Speed:',
+            zoomIn:           'Zoom in',
+            zoomOut:          'Zoom out'
+        },
+
         he: {
             pageTitle:        'חג הפורים — שיעור אינטראקטיבי',
             headerTitle:      'פורים — חג עם ישראל, המשפחה והילדים',
@@ -286,6 +354,7 @@ const I18N = (function () {
         if (langMode === 'uk') return 'uk';
         if (langMode === 'de') return 'de';
         if (langMode === 'he') return 'he';
+        if (langMode === 'en') return 'en';
         return 'ru';
     }
 

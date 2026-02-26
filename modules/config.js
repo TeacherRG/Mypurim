@@ -33,6 +33,7 @@ function detectBrowserLang() {
         if (l.startsWith('uk')) return 'uk';
         if (l.startsWith('de')) return 'de';
         if (l.startsWith('he') || l.startsWith('iw')) return 'he';
+        if (l.startsWith('en')) return 'en';
         if (l.startsWith('ru')) return 'ru';
     }
     return 'ru';

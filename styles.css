@@ -2857,6 +2857,54 @@ html[dir="rtl"] .megilla-shop-list {
     font-weight: 600;
 }
 
+.ml-status-noise {
+    color: #ff9800;
+    animation: ml-pulse 0.8s ease-in-out infinite;
+}
+
+/* ── Congratulations overlay ── */
+
+.ml-congrats-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: ml-fadein 0.35s ease;
+}
+
+@keyframes ml-fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.ml-congrats-box {
+    background: linear-gradient(135deg, #1e1f3a, #2c2f6a);
+    border: 2px solid rgba(255, 204, 0, 0.7);
+    border-radius: 16px;
+    padding: 40px 32px;
+    text-align: center;
+    max-width: 480px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 204, 0, 0.15);
+}
+
+.ml-congrats-emoji {
+    font-size: 64px;
+    line-height: 1;
+    margin-bottom: 16px;
+}
+
+.ml-congrats-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.5;
+    margin-bottom: 28px;
+}
+
 /* Nav item styling */
 .nav-popup li.megilla-listen-nav-item {
     color: #80cbc4;

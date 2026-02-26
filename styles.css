@@ -814,6 +814,122 @@ body::before {
     font-family: Arial, sans-serif;
 }
 
+/* ===== MEGILLA AUDIO PLAYER ===== */
+
+.megilla-audio-player {
+    background: linear-gradient(135deg, #1e1f3a, #2c2f6a);
+    border: 2px solid rgba(255, 204, 0, 0.5);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.megilla-audio-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffcc00;
+    letter-spacing: 0.02em;
+    margin: 0;
+}
+
+.megilla-audio-controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.megilla-audio-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+}
+
+.megilla-audio-btn:hover {
+    opacity: 0.85;
+}
+
+.megilla-audio-btn:active {
+    transform: scale(0.97);
+}
+
+.megilla-audio-btn-play {
+    background: linear-gradient(135deg, #ffcc00, #ff8800);
+    color: #1e1f3a;
+    min-width: 90px;
+}
+
+.megilla-audio-btn-stop {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.megilla-audio-speed-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    font-weight: 500;
+    margin-left: 6px;
+}
+
+.megilla-audio-speed-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 6px 12px;
+    border-radius: 7px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.megilla-audio-speed-btn:hover {
+    background: rgba(255, 204, 0, 0.2);
+    border-color: rgba(255, 204, 0, 0.5);
+}
+
+.megilla-audio-speed-btn.active {
+    background: rgba(255, 204, 0, 0.3);
+    border-color: #ffcc00;
+    color: #ffcc00;
+}
+
+.megilla-audio-progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.megilla-audio-progress {
+    flex: 1;
+    height: 5px;
+    border-radius: 3px;
+    accent-color: #ffcc00;
+    cursor: pointer;
+}
+
+.megilla-audio-time {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 12px;
+    white-space: nowrap;
+    min-width: 80px;
+    text-align: right;
+}
+
 /* ===== TZEDAKA / DONATE SECTION ===== */
 
 .donate-intro {

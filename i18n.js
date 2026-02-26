@@ -76,7 +76,10 @@ const I18N = (function () {
             audioStop:        '⏹ Стоп',
             audioSpeed:       'Скорость:',
             zoomIn:           'Увеличить',
-            zoomOut:          'Уменьшить'
+            zoomOut:          'Уменьшить',
+            mlRattleBtn:      'Трещотка (нажать — шуметь / ещё раз — замолчать)',
+            mlSpeedUp:        'Быстрее',
+            mlSpeedDown:      'Медленнее'
         },
 
         uk: {
@@ -148,7 +151,10 @@ const I18N = (function () {
             audioStop:        '⏹ Стоп',
             audioSpeed:       'Швидкість:',
             zoomIn:           'Збільшити',
-            zoomOut:          'Зменшити'
+            zoomOut:          'Зменшити',
+            mlRattleBtn:      'Брязкальце (натиснути — шуміти / ще раз — замовкнути)',
+            mlSpeedUp:        'Швидше',
+            mlSpeedDown:      'Повільніше'
         },
 
         de: {
@@ -220,7 +226,10 @@ const I18N = (function () {
             audioStop:        '⏹ Stop',
             audioSpeed:       'Geschwindigkeit:',
             zoomIn:           'Vergrößern',
-            zoomOut:          'Verkleinern'
+            zoomOut:          'Verkleinern',
+            mlRattleBtn:      'Rassel (drücken — Geräusch / nochmals — still)',
+            mlSpeedUp:        'Schneller',
+            mlSpeedDown:      'Langsamer'
         },
 
         en: {
@@ -292,7 +301,10 @@ const I18N = (function () {
             audioStop:        '⏹ Stop',
             audioSpeed:       'Speed:',
             zoomIn:           'Zoom in',
-            zoomOut:          'Zoom out'
+            zoomOut:          'Zoom out',
+            mlRattleBtn:      'Gragger (press to make noise / press again to stop)',
+            mlSpeedUp:        'Faster',
+            mlSpeedDown:      'Slower'
         },
 
         he: {
@@ -364,7 +376,10 @@ const I18N = (function () {
             audioStop:        '⏹ עצור',
             audioSpeed:       'מהירות:',
             zoomIn:           'הגדל',
-            zoomOut:          'הקטן'
+            zoomOut:          'הקטן',
+            mlRattleBtn:      'רעשן (לחץ להשמיע / לחץ שוב לעצור)',
+            mlSpeedUp:        'מהר יותר',
+            mlSpeedDown:      'לאט יותר'
         }
 
     };

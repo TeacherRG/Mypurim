@@ -29,11 +29,6 @@ function renderSidebar() {
     });
     sidebarMenu.appendChild(homeLi);
 
-    // Divider after home button
-    const divider = document.createElement('li');
-    divider.className = 'nav-divider';
-    sidebarMenu.appendChild(divider);
-
     // Auto-expand the group containing the currently active section
     const currentSection = SECTIONS.find(function (s) { return s.id === currentId; });
     if (currentSection && currentSection.group) {

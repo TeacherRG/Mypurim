@@ -39,6 +39,16 @@ document.addEventListener('DOMContentLoaded', function () {
     navClose.addEventListener('click', closeNavPopup);
     navOverlay.addEventListener('click', closeNavPopup);
 
+    document.getElementById('nav-privacy-btn').addEventListener('click', function () {
+        closeNavPopup();
+        renderInfoPage('privacyTitle', 'privacyContent');
+    });
+
+    document.getElementById('nav-help-btn').addEventListener('click', function () {
+        closeNavPopup();
+        renderInfoPage('helpTitle', 'helpContent');
+    });
+
     // Close popup on Escape key
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') closeNavPopup();

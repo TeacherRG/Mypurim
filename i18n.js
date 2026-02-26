@@ -70,7 +70,9 @@ const I18N = (function () {
             audioPlay:        '▶ Слушать',
             audioPause:       '⏸ Пауза',
             audioStop:        '⏹ Стоп',
-            audioSpeed:       'Скорость:'
+            audioSpeed:       'Скорость:',
+            zoomIn:           'Увеличить',
+            zoomOut:          'Уменьшить'
         },
 
         uk: {
@@ -136,7 +138,9 @@ const I18N = (function () {
             audioPlay:        '▶ Слухати',
             audioPause:       '⏸ Пауза',
             audioStop:        '⏹ Стоп',
-            audioSpeed:       'Швидкість:'
+            audioSpeed:       'Швидкість:',
+            zoomIn:           'Збільшити',
+            zoomOut:          'Зменшити'
         },
 
         de: {
@@ -202,7 +206,9 @@ const I18N = (function () {
             audioPlay:        '▶ Abspielen',
             audioPause:       '⏸ Pause',
             audioStop:        '⏹ Stop',
-            audioSpeed:       'Geschwindigkeit:'
+            audioSpeed:       'Geschwindigkeit:',
+            zoomIn:           'Vergrößern',
+            zoomOut:          'Verkleinern'
         },
 
         he: {
@@ -268,7 +274,9 @@ const I18N = (function () {
             audioPlay:        '▶ השמע',
             audioPause:       '⏸ השהה',
             audioStop:        '⏹ עצור',
-            audioSpeed:       'מהירות:'
+            audioSpeed:       'מהירות:',
+            zoomIn:           'הגדל',
+            zoomOut:          'הקטן'
         }
 
     };

@@ -273,6 +273,52 @@ function renderEstherScroll() {
     desc.textContent = I18N.t('estherDesc', langMode);
     contentArea.appendChild(desc);
 
+    // ── Zoom toolbar ──────────────────────────────────────────────────────────
+    var estherZoom = 1.0;
+    var estherContainers = [];
+
+    const zoomBar = document.createElement('div');
+    zoomBar.className = 'esther-zoom-bar';
+
+    const zoomOutBtn = document.createElement('button');
+    zoomOutBtn.className = 'esther-zoom-btn';
+    zoomOutBtn.textContent = '−';
+    zoomOutBtn.title = I18N.t('zoomOut', langMode);
+    zoomOutBtn.disabled = true;
+
+    const zoomLabel = document.createElement('span');
+    zoomLabel.className = 'esther-zoom-label';
+    zoomLabel.textContent = '100%';
+
+    const zoomInBtn = document.createElement('button');
+    zoomInBtn.className = 'esther-zoom-btn';
+    zoomInBtn.textContent = '+';
+    zoomInBtn.title = I18N.t('zoomIn', langMode);
+
+    zoomBar.appendChild(zoomOutBtn);
+    zoomBar.appendChild(zoomLabel);
+    zoomBar.appendChild(zoomInBtn);
+    contentArea.appendChild(zoomBar);
+
+    function applyEstherZoom() {
+        estherContainers.forEach(function (c) {
+            c.style.fontSize = Math.round(estherZoom * 100) + '%';
+        });
+        zoomLabel.textContent = Math.round(estherZoom * 100) + '%';
+        zoomInBtn.disabled = estherZoom >= 2.0;
+        zoomOutBtn.disabled = estherZoom <= 0.5;
+    }
+
+    zoomOutBtn.addEventListener('click', function () {
+        estherZoom = Math.max(0.5, parseFloat((estherZoom - 0.1).toFixed(1)));
+        applyEstherZoom();
+    });
+    zoomInBtn.addEventListener('click', function () {
+        estherZoom = Math.min(2.0, parseFloat((estherZoom + 0.1).toFixed(1)));
+        applyEstherZoom();
+    });
+    // ── End Zoom toolbar ──────────────────────────────────────────────────────
+
     const pdfs = getEstherPDFs();
     const jsonFiles = getEstherJSONs();
 
@@ -283,6 +329,7 @@ function renderEstherScroll() {
         const container = document.createElement('div');
         container.className = 'esther-text-container';
         contentArea.appendChild(container);
+        estherContainers.push(container);
         fetch(jsonFiles[0])
             .then(function (r) {
                 if (!r.ok) throw new Error('not found');
@@ -304,10 +351,32 @@ function renderEstherScroll() {
             const textContainer = document.createElement('div');
             textContainer.className = 'esther-text-container esther-text-col';
             col.appendChild(textContainer);
+            estherContainers.push(textContainer);
             fetch(file)
                 .then(function (r) { return r.json(); })
                 .then(function (data) { renderEstherJSON(data, textContainer); })
                 .catch(function (e) { AppLogger.error('esther-scroll: failed to load dual ' + file, e); });
         });
     }
+
+    // ── Mouse wheel zoom (Ctrl+wheel) on text containers ─────────────────────
+    function onEstherWheel(e) {
+        if (e.ctrlKey) {
+            e.preventDefault();
+            var delta = e.deltaY < 0 ? 0.1 : -0.1;
+            estherZoom = Math.max(0.5, Math.min(2.0, parseFloat((estherZoom + delta).toFixed(1))));
+            applyEstherZoom();
+        }
+    }
+
+    estherContainers.forEach(function (c) {
+        c.addEventListener('wheel', onEstherWheel, { passive: false });
+    });
+
+    contentArea.addEventListener('maharash-cleanup', function () {
+        estherContainers.forEach(function (c) {
+            c.removeEventListener('wheel', onEstherWheel);
+        });
+    }, { once: true });
+    // ── End Mouse wheel zoom ──────────────────────────────────────────────────
 }

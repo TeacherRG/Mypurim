@@ -779,6 +779,48 @@ body::before {
     text-align: justify;
 }
 
+/* ===== ESTHER ZOOM BAR ===== */
+
+.esther-zoom-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 12px;
+}
+
+.esther-zoom-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 1.5px solid rgba(30, 31, 58, 0.35);
+    background: transparent;
+    color: #1e1f3a;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+    padding: 0;
+}
+
+.esther-zoom-btn:hover:not(:disabled) {
+    background: rgba(30, 31, 58, 0.08);
+}
+
+.esther-zoom-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.esther-zoom-label {
+    font-size: 13px;
+    color: #555;
+    min-width: 42px;
+    text-align: center;
+}
+
 /* ===== HEBREW MEGILLA (esther-he.json) ===== */
 
 .esther-he-container {

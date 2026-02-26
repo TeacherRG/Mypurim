@@ -9,121 +9,6 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="stylesheet" href="styles.css" />
 
-    <!-- PWA: Web App Manifest -->
-    <link rel="manifest" href="/Favicon/site.webmanifest" />
-
-    <!-- PWA: Theme color for browser chrome -->
-    <meta name="theme-color" content="#1e1f3a" />
-
-    <!-- PWA: iOS (Safari) support -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Пурим" />
-    <link rel="apple-touch-icon" href="/Favicon/apple-touch-icon.png" />
-
-    <!-- PWA: Service Worker registration + Install prompt -->
-    <script>
-      // Register service worker
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .catch((err) => console.error('SW registration failed:', err));
-        });
-      }
-
-      // --- Platform detection ---
-      const _isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-      const _isInStandalone = window.matchMedia('(display-mode: standalone)').matches
-                           || window.navigator.standalone === true;
-
-      // Capture the install prompt (Android/Chrome)
-      let _deferredInstallPrompt = null;
-
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        _deferredInstallPrompt = e;
-        // Show bottom banner (Android)
-        const banner = document.getElementById('install-banner');
-        if (banner) banner.hidden = false;
-        // Show nav sidebar install button
-        _updateNavInstallBtn();
-      });
-
-      window.addEventListener('appinstalled', () => {
-        _deferredInstallPrompt = null;
-        const banner = document.getElementById('install-banner');
-        if (banner) banner.hidden = true;
-        const footer = document.getElementById('nav-install-footer');
-        if (footer) footer.hidden = true;
-      });
-
-      function _updateNavInstallBtn() {
-        const footer = document.getElementById('nav-install-footer');
-        if (!footer) return;
-        // Already installed as PWA — hide install UI
-        if (_isInStandalone) { footer.hidden = true; return; }
-        // iOS: always show (user must manually use Share → Add to Home Screen)
-        if (_isIOS) { footer.hidden = false; return; }
-        // Android/Desktop: show only when browser provides install prompt
-        footer.hidden = !_deferredInstallPrompt;
-      }
-
-      document.addEventListener('DOMContentLoaded', () => {
-        // --- Bottom banner (Android) ---
-        const installBtn  = document.getElementById('install-btn');
-        const dismissBtn  = document.getElementById('install-dismiss');
-        const banner      = document.getElementById('install-banner');
-
-        if (installBtn) {
-          installBtn.addEventListener('click', async () => {
-            if (!_deferredInstallPrompt) return;
-            _deferredInstallPrompt.prompt();
-            await _deferredInstallPrompt.userChoice;
-            _deferredInstallPrompt = null;
-            if (banner) banner.hidden = true;
-          });
-        }
-        if (dismissBtn) {
-          dismissBtn.addEventListener('click', () => {
-            if (banner) banner.hidden = true;
-          });
-        }
-
-        // --- Nav sidebar install button ---
-        _updateNavInstallBtn();
-
-        const navInstallBtn  = document.getElementById('nav-install-btn');
-        const iosModal       = document.getElementById('ios-install-modal');
-        const iosModalClose  = document.getElementById('ios-modal-close');
-
-        if (navInstallBtn) {
-          navInstallBtn.addEventListener('click', async () => {
-            if (_isIOS) {
-              // iOS: show instructions modal
-              if (iosModal) iosModal.hidden = false;
-            } else if (_deferredInstallPrompt) {
-              // Android: trigger native install
-              _deferredInstallPrompt.prompt();
-              const { outcome } = await _deferredInstallPrompt.userChoice;
-              _deferredInstallPrompt = null;
-              _updateNavInstallBtn();
-              if (banner) banner.hidden = true;
-            }
-          });
-        }
-
-        if (iosModalClose) {
-          iosModalClose.addEventListener('click', () => {
-            if (iosModal) iosModal.hidden = true;
-          });
-        }
-        if (iosModal) {
-          iosModal.addEventListener('click', (e) => {
-            if (e.target === iosModal) iosModal.hidden = true;
-          });
-        }
-      });
-    </script>
 </head>
 <body>
 
@@ -131,31 +16,6 @@
     <div id="preloader" class="preloader">
         <div class="preloader-clown">🤡</div>
         <div class="preloader-text">Пурим загружается...</div>
-    </div>
-
-    <!-- PWA INSTALL BANNER (Android/Chrome — appears at bottom) -->
-    <div id="install-banner" class="install-banner" hidden>
-        <div class="install-banner-text">
-            <strong>Установить приложение</strong>
-            <span>Работает офлайн · Быстрый доступ с экрана</span>
-        </div>
-        <button id="install-btn" class="install-banner-btn">Установить</button>
-        <button id="install-dismiss" class="install-banner-dismiss" aria-label="Закрыть">✕</button>
-    </div>
-
-    <!-- iOS INSTALL INSTRUCTIONS MODAL -->
-    <div id="ios-install-modal" class="ios-install-modal" hidden>
-        <div class="ios-install-modal-inner">
-            <button class="ios-modal-close" id="ios-modal-close" aria-label="Закрыть">✕</button>
-            <div class="ios-install-icon">📲</div>
-            <h3 class="ios-install-title">Установить на iPhone / iPad</h3>
-            <ol class="ios-install-steps">
-                <li>Нажмите <strong>«Поделиться»</strong> <span class="ios-share-icon">⬆️</span> в Safari</li>
-                <li>Прокрутите вниз и выберите<br><strong>«На экран "Домой"»</strong></li>
-                <li>Нажмите <strong>«Добавить»</strong> в правом верхнем углу</li>
-            </ol>
-            <p class="ios-install-note">После этого значок Пурима появится на вашем экране</p>
-        </div>
     </div>
 
     <!-- HEADER -->
@@ -206,13 +66,6 @@
             <button class="nav-close" id="nav-close" aria-label="Закрыть меню">✕</button>
         </div>
         <ul id="sidebar-menu"></ul>
-        <!-- INSTALL BUTTON — shown on mobile when not yet installed -->
-        <div class="nav-install-footer" id="nav-install-footer" hidden>
-            <button class="nav-install-btn" id="nav-install-btn">
-                <span class="nav-install-icon">📲</span>
-                <span class="nav-install-label">Установить на телефон</span>
-            </button>
-        </div>
     </nav>
 
     <!-- LAYOUT -->

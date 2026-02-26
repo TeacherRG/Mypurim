@@ -99,8 +99,9 @@ async function renderMegillaListen() {
     var isPausedByNoise = false;
     var autoTimer = null;
 
-    // Reading speed: ~150 WPM ≈ 400 ms per word
-    var WORD_INTERVAL = 400;
+    // Reading speed: 130 WPM ≈ 462 ms per word
+    var currentWpm = 130;
+    var WORD_INTERVAL = Math.round(60000 / currentWpm);
 
     // ── Noise detection state ──────────────────────────────────────────────
     var audioCtx = null;
@@ -112,24 +113,8 @@ async function renderMegillaListen() {
     var NOISE_THRESHOLD = 0.05;   // RMS amplitude threshold
     var NOISE_RESUME_DELAY = 1200; // ms of quiet before resuming
 
-    // ── Noise detection ────────────────────────────────────────────────────
     function startNoiseDetection() {
-        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
-        navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-            .then(function (stream) {
-                micStream = stream;
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                analyser = audioCtx.createAnalyser();
-                analyser.fftSize = 512;
-                analyser.smoothingTimeConstant = 0.3;
-                var source = audioCtx.createMediaStreamSource(stream);
-                source.connect(analyser);
-                noiseDataBuffer = new Float32Array(analyser.frequencyBinCount);
-                noiseCheckInterval = setInterval(checkNoise, 80);
-            })
-            .catch(function (e) {
-                AppLogger.warn('megilla-listen: noise detection unavailable', e);
-            });
+        // Microphone permission request removed; noise detection disabled.
     }
 
     function checkNoise() {
@@ -354,28 +339,23 @@ async function renderMegillaListen() {
     fasterBtn.title = I18N.t('mlSpeedUp', langMode);
     fasterBtn.textContent = '▲';
 
-    // Speed steps in ms per word (index 0 = slowest, last index = fastest)
-    var SPEED_STEPS = [800, 600, 400, 300, 200];
-    var speedStepIdx = 2; // default: 400 ms (~150 wpm)
-
     function updateSpeedLabel() {
-        var wpm = Math.round(60000 / WORD_INTERVAL);
-        speedValueEl.textContent = wpm + ' wpm';
+        speedValueEl.textContent = currentWpm + ' wpm';
     }
     updateSpeedLabel();
 
     slowerBtn.addEventListener('click', function () {
-        if (speedStepIdx > 0) {
-            speedStepIdx--;
-            WORD_INTERVAL = SPEED_STEPS[speedStepIdx];
+        if (currentWpm > 50) {
+            currentWpm -= 10;
+            WORD_INTERVAL = Math.round(60000 / currentWpm);
             updateSpeedLabel();
         }
     });
 
     fasterBtn.addEventListener('click', function () {
-        if (speedStepIdx < SPEED_STEPS.length - 1) {
-            speedStepIdx++;
-            WORD_INTERVAL = SPEED_STEPS[speedStepIdx];
+        if (currentWpm < 300) {
+            currentWpm += 10;
+            WORD_INTERVAL = Math.round(60000 / currentWpm);
             updateSpeedLabel();
         }
     });

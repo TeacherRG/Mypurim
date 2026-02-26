@@ -148,30 +148,40 @@
         </div>
     </footer>
 
-    <!-- Logger must be first: patches console.error/warn and installs global error handlers -->
-    <script src="modules/logger.js"></script>
-    <script src="i18n.js"></script>
-    <script src="hangman.js"></script>
+    <!-- Logger must be first: patches console.error/warn and installs global error handlers.
+         Using defer preserves this order — deferred scripts execute in document order after DOM parsing. -->
+    <script src="modules/logger.js" defer></script>
+    <script src="i18n.js" defer></script>
+    <script src="hangman.js" defer></script>
     <!-- Modules -->
-    <script src="modules/config.js"></script>
-    <script src="modules/storage.js"></script>
-    <script src="modules/music-player.js"></script>
-    <script src="modules/nav.js"></script>
-    <script src="modules/section-core.js"></script>
-    <script src="modules/section-loader.js"></script>
-    <script src="modules/esther-scroll.js"></script>
-    <script src="modules/hebrew-speech.js"></script>
-    <script src="modules/megilla-listen.js"></script>
-    <script src="modules/maharash-scroll.js"></script>
-    <script src="modules/halacha.js"></script>
-    <script src="modules/megilla-shop.js"></script>
-    <script src="modules/tzedaka.js"></script>
-    <script src="modules/dreidel.js"></script>
-    <script src="modules/alcohol.js"></script>
-    <script src="modules/spiral.js"></script>
-    <script src="modules/shum.js"></script>
-    <script src="modules/home.js"></script>
+    <script src="modules/config.js" defer></script>
+    <script src="modules/storage.js" defer></script>
+    <script src="modules/music-player.js" defer></script>
+    <script src="modules/nav.js" defer></script>
+    <script src="modules/section-core.js" defer></script>
+    <script src="modules/section-loader.js" defer></script>
+    <script src="modules/esther-scroll.js" defer></script>
+    <script src="modules/hebrew-speech.js" defer></script>
+    <script src="modules/megilla-listen.js" defer></script>
+    <script src="modules/maharash-scroll.js" defer></script>
+    <script src="modules/halacha.js" defer></script>
+    <script src="modules/megilla-shop.js" defer></script>
+    <script src="modules/tzedaka.js" defer></script>
+    <script src="modules/dreidel.js" defer></script>
+    <script src="modules/alcohol.js" defer></script>
+    <script src="modules/spiral.js" defer></script>
+    <script src="modules/shum.js" defer></script>
+    <script src="modules/home.js" defer></script>
     <!-- Main entry point -->
-    <script src="app.js"></script>
+    <script src="app.js" defer></script>
+    <!-- Service Worker registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/sw.js')
+                    .catch(function (err) { console.warn('SW registration failed:', err); });
+            });
+        }
+    </script>
 </body>
 </html>

@@ -87,7 +87,7 @@ body::before {
 .header-dedication {
     flex: 1;
     text-align: center;
-    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-family: 'Inter', sans-serif;
     font-size: 17px;
     font-style: italic;
     font-weight: 500;
@@ -276,7 +276,7 @@ body::before {
 .nav-close {
     background: none;
     border: none;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
     font-size: 17px;
     line-height: 1;
@@ -850,7 +850,7 @@ body::before {
 
 .esther-he-verse-num {
     font-size: 10px;
-    color: #999;
+    color: #777;
     vertical-align: super;
     margin-inline-start: 4px;
     font-family: Arial, sans-serif;
@@ -966,7 +966,7 @@ body::before {
 }
 
 .megilla-audio-time {
-    color: rgba(255, 255, 255, 0.65);
+    color: rgba(255, 255, 255, 0.9);
     font-size: 12px;
     white-space: nowrap;
     min-width: 80px;
@@ -1032,7 +1032,7 @@ body::before {
 .donate-card-org {
     font-size: 13px;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.9);
     letter-spacing: 0.06em;
     text-transform: uppercase;
     margin: 0;
@@ -1190,7 +1190,7 @@ body::before {
 
 .dreidel-stat-label {
     font-size: 12px;
-    color: rgba(255,255,255,0.6);
+    color: rgba(255, 255, 255, 0.85);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     margin-bottom: 6px;
@@ -1331,7 +1331,7 @@ body::before {
     font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-weight: 500;
-    color: rgba(255,255,255,0.55);
+    color: rgba(255, 255, 255, 0.85);
     cursor: pointer;
     transition: background 0.22s, color 0.22s, border-color 0.22s;
     letter-spacing: 0.01em;
@@ -1510,7 +1510,7 @@ body::before {
     justify-content: center;
     gap: 6px;
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.8);
     margin-top: 14px;
 }
 
@@ -1777,11 +1777,11 @@ body::before {
     top: 16px;
     left: 50%;
     transform: translateX(-50%);
-    color: rgba(255, 200, 0, 0.5);
+    color: rgba(255, 200, 0, 0.85);
     font-size: 12px;
     letter-spacing: 0.15em;
     white-space: nowrap;
-    font-family: serif;
+    font-family: Georgia, serif;
     pointer-events: none;
     z-index: 2;
 }
@@ -2255,7 +2255,7 @@ html[dir="rtl"] .maharash-nav-next { right: auto; left: 6px; }
 .maharash-page-counter {
     font-size: 15px;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.9);
     letter-spacing: 0.04em;
 }
 
@@ -2631,7 +2631,7 @@ html[dir="rtl"] .maharash-nav-next { right: auto; left: 6px; }
 .megilla-shop-text {
     font-size: 14px;
     line-height: 1.75;
-    color: #ccc;
+    color: #e0e0e0;
     margin: 0 0 8px;
 }
 
@@ -2643,7 +2643,7 @@ html[dir="rtl"] .maharash-nav-next { right: auto; left: 6px; }
 .megilla-shop-list li {
     font-size: 14px;
     line-height: 1.75;
-    color: #ccc;
+    color: #e0e0e0;
     margin-bottom: 6px;
 }
 
@@ -2769,7 +2769,7 @@ html[dir="rtl"] .megilla-shop-list {
 .ml-status {
     font-size: 14px;
     font-weight: 500;
-    color: #aaa;
+    color: #ccc;
     min-width: 120px;
 }
 
@@ -2831,7 +2831,7 @@ html[dir="rtl"] .megilla-shop-list {
 
 .ml-verse-num {
     font-size: 11px;
-    color: #aaa;
+    color: #777;
     vertical-align: super;
     margin-left: 4px;
     margin-right: 2px;

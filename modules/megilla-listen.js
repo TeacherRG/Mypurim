@@ -312,9 +312,89 @@ async function renderMegillaListen() {
     startBtn.addEventListener('click', startReading);
     stopBtn.addEventListener('click', stopReading);
 
-    // ── Cleanup on section change ──────────────────────────────────────────
-    contentArea.addEventListener('maharash-cleanup', function onCleanup() {
+    // ── Floating bottom bar ─────────────────────────────────────────────────
+    var fabBar = document.createElement('div');
+    fabBar.className = 'ml-fab-bar';
+
+    // Rattle button (uses one shum audio file)
+    var rattleBtn = document.createElement('button');
+    rattleBtn.className = 'ml-fab-rattle';
+    rattleBtn.title = I18N.t('mlRattleBtn', langMode);
+    rattleBtn.textContent = '🪘';
+    var rattleAudio = new Audio('audio/Shum/' + encodeURIComponent('Шумящая игрушка.wav'));
+    rattleAudio.loop = true;
+    var rattlePlaying = false;
+    rattleBtn.addEventListener('click', function () {
+        if (rattlePlaying) {
+            rattleAudio.pause();
+            rattleAudio.currentTime = 0;
+            rattlePlaying = false;
+            rattleBtn.classList.remove('ml-fab-rattle-active');
+        } else {
+            rattleAudio.currentTime = 0;
+            var p = rattleAudio.play();
+            if (p) p.catch(function (e) { AppLogger.warn('megilla-listen: rattle audio blocked', e); });
+            rattlePlaying = true;
+            rattleBtn.classList.add('ml-fab-rattle-active');
+        }
+    });
+    fabBar.appendChild(rattleBtn);
+
+    // Speed control: slower (▼) / label / faster (▲)
+    var slowerBtn = document.createElement('button');
+    slowerBtn.className = 'ml-fab-speed-btn';
+    slowerBtn.title = I18N.t('mlSpeedDown', langMode);
+    slowerBtn.textContent = '▼';
+
+    var speedValueEl = document.createElement('span');
+    speedValueEl.className = 'ml-fab-speed-value';
+
+    var fasterBtn = document.createElement('button');
+    fasterBtn.className = 'ml-fab-speed-btn';
+    fasterBtn.title = I18N.t('mlSpeedUp', langMode);
+    fasterBtn.textContent = '▲';
+
+    // Speed steps in ms per word (index 0 = slowest, last index = fastest)
+    var SPEED_STEPS = [800, 600, 400, 300, 200];
+    var speedStepIdx = 2; // default: 400 ms (~150 wpm)
+
+    function updateSpeedLabel() {
+        var wpm = Math.round(60000 / WORD_INTERVAL);
+        speedValueEl.textContent = wpm + ' wpm';
+    }
+    updateSpeedLabel();
+
+    slowerBtn.addEventListener('click', function () {
+        if (speedStepIdx > 0) {
+            speedStepIdx--;
+            WORD_INTERVAL = SPEED_STEPS[speedStepIdx];
+            updateSpeedLabel();
+        }
+    });
+
+    fasterBtn.addEventListener('click', function () {
+        if (speedStepIdx < SPEED_STEPS.length - 1) {
+            speedStepIdx++;
+            WORD_INTERVAL = SPEED_STEPS[speedStepIdx];
+            updateSpeedLabel();
+        }
+    });
+
+    fabBar.appendChild(slowerBtn);
+    fabBar.appendChild(speedValueEl);
+    fabBar.appendChild(fasterBtn);
+
+    contentArea.appendChild(fabBar);
+
+    // Stop rattle when leaving the section
+    contentArea.addEventListener('maharash-cleanup', function onFabCleanup() {
         stopReading();
-        contentArea.removeEventListener('maharash-cleanup', onCleanup);
+        if (rattlePlaying) {
+            rattleAudio.pause();
+            rattleAudio.currentTime = 0;
+            rattlePlaying = false;
+        }
+        fabBar.remove();
+        contentArea.removeEventListener('maharash-cleanup', onFabCleanup);
     }, { once: true });
 }

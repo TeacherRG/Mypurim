@@ -2795,11 +2795,11 @@ html[dir="rtl"] .megilla-shop-list {
 
 .ml-text-container {
     direction: rtl;
-    text-align: right;
-    padding: 24px 32px 48px;
+    text-align: justify;
+    padding: 24px 32px 100px;
     line-height: 2.1;
     font-size: 22px;
-    font-family: 'Times New Roman', 'David', serif;
+    font-family: 'Frank Ruhl Libre', 'Times New Roman', 'David', serif;
     color: #1a1a2e;
     max-width: 900px;
     margin: 0 auto;
@@ -2910,10 +2910,100 @@ html[dir="rtl"] .megilla-shop-list {
     color: #80cbc4;
 }
 
+/* ── Floating bottom bar ── */
+
+.ml-fab-bar {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(30, 31, 58, 0.72);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 204, 0, 0.3);
+    border-radius: 40px;
+    padding: 7px 14px;
+    z-index: 200;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+}
+
+.ml-fab-rattle {
+    font-size: 22px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    color: inherit;
+    padding: 0;
+}
+
+.ml-fab-rattle:active {
+    transform: scale(0.92);
+}
+
+.ml-fab-rattle.ml-fab-rattle-active {
+    background: rgba(255, 152, 0, 0.35);
+    border-color: rgba(255, 152, 0, 0.7);
+    animation: ml-rattle-shake 0.35s ease-in-out infinite alternate;
+}
+
+@keyframes ml-rattle-shake {
+    from { transform: rotate(-8deg); }
+    to   { transform: rotate(8deg); }
+}
+
+.ml-fab-speed-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.75);
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+}
+
+.ml-fab-speed-btn {
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #fff;
+    padding: 0;
+    transition: background 0.2s, transform 0.1s;
+    line-height: 1;
+}
+
+.ml-fab-speed-btn:active {
+    transform: scale(0.9);
+}
+
+.ml-fab-speed-btn:hover {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+.ml-fab-speed-value {
+    font-size: 13px;
+    color: #ffe066;
+    font-weight: 600;
+    min-width: 34px;
+    text-align: center;
+}
+
 @media (max-width: 600px) {
     .ml-text-container {
         font-size: 19px;
-        padding: 16px 16px 40px;
+        padding: 16px 16px 100px;
     }
 
     .ml-controls {
@@ -2924,5 +3014,11 @@ html[dir="rtl"] .megilla-shop-list {
     .ml-btn {
         padding: 9px 16px;
         font-size: 14px;
+    }
+
+    .ml-fab-bar {
+        bottom: 12px;
+        padding: 6px 12px;
+        gap: 8px;
     }
 }

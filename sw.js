@@ -4,7 +4,7 @@
 
 'use strict';
 
-var CACHE_VERSION = 'mypurim-v1';
+var CACHE_VERSION = 'mypurim-v2';
 
 // Static assets to precache on install
 var PRECACHE_ASSETS = [

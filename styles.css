@@ -656,9 +656,10 @@ body::before {
 }
 
 .nav-popup li.pdf-section.active {
-    color: #fff;
+    color: #ffcc00;
     font-weight: 700;
-    border-left-color: #fff;
+    border-left-color: #ffcc00;
+    background: rgba(255, 204, 0, 0.08);
 }
 
 /* ===== ESTHER SCROLL MODULE ===== */
@@ -1099,9 +1100,10 @@ body::before {
 }
 
 .nav-popup li.donate-section.active {
-    color: #fff;
+    color: #ffcc00;
     font-weight: 700;
-    border-left-color: #fff;
+    border-left-color: #ffcc00;
+    background: rgba(255, 204, 0, 0.08);
 }
 
 /* ===== NAV POPUP GAME SECTION ===== */
@@ -1119,9 +1121,31 @@ body::before {
 }
 
 .nav-popup li.game-section.active {
-    color: #fff;
+    color: #ffcc00;
     font-weight: 700;
-    border-left-color: #fff;
+    border-left-color: #ffcc00;
+    background: rgba(255, 204, 0, 0.08);
+}
+
+/* ===== NAV POPUP HALACHA SECTION ===== */
+
+.nav-popup li.halacha-section-item {
+    border-top: 1px solid rgba(255, 204, 0, 0.3);
+    margin-top: 8px;
+    padding-top: 16px;
+    color: #ffcc00;
+    opacity: 0.9;
+}
+
+.nav-popup li.halacha-section-item:hover {
+    opacity: 1;
+}
+
+.nav-popup li.halacha-section-item.active {
+    color: #ffcc00;
+    font-weight: 700;
+    border-left-color: #ffcc00;
+    background: rgba(255, 204, 0, 0.08);
 }
 
 /* ===== DREIDEL GAME ===== */
@@ -2448,17 +2472,17 @@ html[dir="rtl"] .maharash-nav-next { right: auto; left: 6px; }
 
 /* Sidebar item colour for maharash */
 .maharash-section-item {
-    color: #c8a0ff;
+    color: #ffcc00;
 }
 
 .maharash-section-item.active {
-    color: #e8c8ff;
-    border-left-color: #c8a0ff;
-    background: rgba(200, 160, 255, 0.13);
+    color: #ffcc00;
+    border-left-color: #ffcc00;
+    background: rgba(255, 204, 0, 0.08);
 }
 
 .maharash-section-item:hover:not(.active) {
-    background: rgba(200, 160, 255, 0.08);
+    background: rgba(255, 255, 255, 0.07);
 }
 
 @media (max-width: 600px) {
@@ -2568,7 +2592,7 @@ html[dir="rtl"] .maharash-nav-next { right: auto; left: 6px; }
     font-size: 15px;
     color: #ffe066;
     letter-spacing: 0.04em;
-    padding: 10px 18px;
+    padding: 13px 22px;
     border-radius: 8px;
     cursor: pointer;
     transition: background 0.15s;
@@ -2674,8 +2698,21 @@ html[dir="rtl"] .maharash-nav-next { right: auto; left: 6px; }
     border-top: 1px solid rgba(255, 204, 0, 0.3);
     margin-top: 8px;
     padding-top: 8px;
-    color: #ffe066;
+    color: #ffcc00;
     font-weight: 600;
+    opacity: 0.9;
+}
+
+.nav-popup li.megilla-shop-nav-item:hover {
+    opacity: 1;
+}
+
+.nav-popup li.megilla-shop-nav-item.active {
+    color: #ffcc00;
+    font-weight: 700;
+    border-left-color: #ffcc00;
+    background: rgba(255, 204, 0, 0.08);
+    opacity: 1;
 }
 
 html[dir="rtl"] .megilla-shop-card {
@@ -2858,7 +2895,17 @@ html[dir="rtl"] .megilla-shop-list {
 
 /* Nav item styling */
 .nav-popup li.megilla-listen-nav-item {
-    color: #80cbc4;
+    color: #ffcc00;
+}
+
+.nav-popup li.megilla-listen-nav-item.active {
+    color: #ffcc00;
+    border-left-color: #ffcc00;
+    background: rgba(255, 204, 0, 0.08);
+}
+
+.nav-popup li.megilla-listen-nav-item:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.07);
 }
 
 @media (max-width: 600px) {

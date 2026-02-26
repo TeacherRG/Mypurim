@@ -1,0 +1,118 @@
+{
+  "id": "section_c",
+  "title": "Section C — The Secret of Eternity: the Merit of the Children of Israel",
+
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Having examined the words of the Midrash and the Rambam's halachic ruling that the days of Purim will not be abolished even in the era of Mashiach, the Rebbe reveals the inner reason for this uniqueness."
+    },
+    {
+      "type": "paragraph",
+      "text": "The salvation in the days of Mordechai and Esther was not achieved through political means, military force, or diplomacy. It was achieved through the Torah study of Jewish children."
+    },
+    {
+      "type": "paragraph",
+      "text": "When the wicked Haman resolved to destroy, kill, and annihilate all the Jews — from young to old, children and women — Mordechai did not lose heart. He gathered twenty-two thousand children and taught them words of Torah."
+    },
+    {
+      "type": "paragraph",
+      "text": "It was precisely the merit of their pure breath, their selfless Torah study free of calculation and ego, that overturned the heavenly decree."
+    },
+    {
+      "type": "paragraph",
+      "text": "This is the deeper meaning of the eternity of Purim: the connection of the Jewish people to G-d through the purity of children's Torah possesses a quality of infinity."
+    },
+    {
+      "type": "paragraph",
+      "text": "Therefore, even when the infinite joy of the Redemption is revealed in the future, the joy of Purim will not lose its significance, for it is rooted in the very essence of the Jewish soul."
+    }
+  ],
+
+  "sources": [
+
+    {
+      "title": "Source 8 — Midrash Esther Rabbah 8:7",
+      "text": "When Haman saw Mordechai sitting with twenty-two thousand children and teaching them Torah, he asked: What are you studying? They answered him: The laws of the offerings. He said: Let your offerings come and cancel my ten thousand talents of silver. And Haman said: Were it not for these children, I would have prevailed over Israel; but now, because of them, I cannot harm them."
+    },
+
+    {
+      "title": "Source 9 — Talmud Bavli, tractate Shabbat 119b",
+      "text": "Resh Lakish said in the name of Rabbi Yehuda Nesia: The world endures only by virtue of the breath of schoolchildren studying Torah. The Sages asked him: What about the breath of adults who study Torah? He replied: The breath of children, in which there is no sin, is not comparable to the breath of adults, in which there is sin."
+    },
+
+    {
+      "title": "Source 10 — Isaiah 35:10",
+      "text": "And the redeemed of the L-rd shall return and come to Zion with singing; everlasting joy shall be upon their heads; they shall obtain gladness and joy, and sorrow and sighing shall flee away."
+    }
+
+  ],
+
+  "quiz": {
+    "questions": [
+      {
+        "question": "What, according to the Rebbe's explanation, is the inner reason for the eternity of Purim?",
+        "options": [
+          {
+            "text": "The political wisdom of Mordechai and Esther",
+            "correct": false
+          },
+          {
+            "text": "The military victory and self-defense of the Jews",
+            "correct": false
+          },
+          {
+            "text": "The merit of the pure Torah study of Jewish children, which possesses a quality of infinity",
+            "correct": true
+          },
+          {
+            "text": "The fact that Purim was established by the prophets",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "question": "How does the Talmud (Shabbat 119b) explain the special power of children's Torah study?",
+        "options": [
+          {
+            "text": "Because children study more pages than adults",
+            "correct": false
+          },
+          {
+            "text": "Because their breath, in which there is no sin, sustains the existence of the world",
+            "correct": true
+          },
+          {
+            "text": "Because children memorize texts more easily",
+            "correct": false
+          },
+          {
+            "text": "Because children are exempt from the commandments",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "question": "Why will the joy of Purim not lose its significance even in the era of Mashiach?",
+        "options": [
+          {
+            "text": "Because it is connected to a historical victory over enemies",
+            "correct": false
+          },
+          {
+            "text": "Because it is rooted in the essential connection of the Jewish people to G-d through the purity of children's Torah",
+            "correct": true
+          },
+          {
+            "text": "Because Purim is celebrated for two days",
+            "correct": false
+          },
+          {
+            "text": "Because it is not mentioned in the Pentateuch",
+            "correct": false
+          }
+        ]
+      }
+    ]
+  }
+}

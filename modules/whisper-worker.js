@@ -43,6 +43,8 @@ self.onmessage = async function (event) {
                 language: 'hebrew',
                 task: 'transcribe',
                 return_timestamps: true,
+                temperature: 0.0,
+                initial_prompt: 'זהו טקסט בעברית.',
             });
             self.postMessage({ type: 'transcript', text: result.text, chunks: result.chunks || [] });
         } catch (e) {

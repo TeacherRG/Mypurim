@@ -148,6 +148,126 @@ function renderEstherScroll() {
     h2.textContent = I18N.sectionTitle('esther_scroll', langMode);
     contentArea.appendChild(h2);
 
+    // ── Megilla Audio Player ────────────────────────────────────────────────
+    const audioPlayer = document.createElement('div');
+    audioPlayer.className = 'megilla-audio-player';
+
+    const audioTitle = document.createElement('p');
+    audioTitle.className = 'megilla-audio-title';
+    audioTitle.textContent = I18N.t('audioPlayerTitle', langMode);
+    audioPlayer.appendChild(audioTitle);
+
+    const audio = document.createElement('audio');
+    audio.src = 'audio/megila.mp3';
+    audio.preload = 'metadata';
+    audioPlayer.appendChild(audio);
+
+    const controls = document.createElement('div');
+    controls.className = 'megilla-audio-controls';
+
+    const playBtn = document.createElement('button');
+    playBtn.className = 'megilla-audio-btn megilla-audio-btn-play';
+    playBtn.textContent = I18N.t('audioPlay', langMode);
+
+    const stopBtn = document.createElement('button');
+    stopBtn.className = 'megilla-audio-btn megilla-audio-btn-stop';
+    stopBtn.textContent = I18N.t('audioStop', langMode);
+
+    const speedLabel = document.createElement('span');
+    speedLabel.className = 'megilla-audio-speed-label';
+    speedLabel.textContent = I18N.t('audioSpeed', langMode);
+
+    const speeds = [1, 1.25, 1.5, 2];
+    const speedBtns = speeds.map(function (s) {
+        const btn = document.createElement('button');
+        btn.className = 'megilla-audio-speed-btn' + (s === 1 ? ' active' : '');
+        btn.textContent = s === 1 ? '1×' : s + '×';
+        btn.dataset.speed = s;
+        btn.addEventListener('click', function () {
+            audio.playbackRate = s;
+            speedBtns.forEach(function (b) { b.classList.toggle('active', b === btn); });
+        });
+        return btn;
+    });
+
+    controls.appendChild(playBtn);
+    controls.appendChild(stopBtn);
+    controls.appendChild(speedLabel);
+    speedBtns.forEach(function (b) { controls.appendChild(b); });
+    audioPlayer.appendChild(controls);
+
+    const progressWrap = document.createElement('div');
+    progressWrap.className = 'megilla-audio-progress-wrap';
+
+    const progressBar = document.createElement('input');
+    progressBar.type = 'range';
+    progressBar.className = 'megilla-audio-progress';
+    progressBar.min = 0;
+    progressBar.max = 100;
+    progressBar.value = 0;
+    progressBar.step = 0.1;
+
+    const timeEl = document.createElement('span');
+    timeEl.className = 'megilla-audio-time';
+    timeEl.textContent = '0:00 / 0:00';
+
+    progressWrap.appendChild(progressBar);
+    progressWrap.appendChild(timeEl);
+    audioPlayer.appendChild(progressWrap);
+
+    function formatTime(sec) {
+        var m = Math.floor(sec / 60);
+        var s = Math.floor(sec % 60);
+        return m + ':' + (s < 10 ? '0' : '') + s;
+    }
+
+    audio.addEventListener('timeupdate', function () {
+        if (!audio.duration) return;
+        progressBar.value = (audio.currentTime / audio.duration) * 100;
+        timeEl.textContent = formatTime(audio.currentTime) + ' / ' + formatTime(audio.duration);
+    });
+
+    audio.addEventListener('loadedmetadata', function () {
+        timeEl.textContent = '0:00 / ' + formatTime(audio.duration);
+    });
+
+    audio.addEventListener('ended', function () {
+        playBtn.textContent = I18N.t('audioPlay', langMode);
+        progressBar.value = 0;
+    });
+
+    progressBar.addEventListener('input', function () {
+        if (audio.duration) {
+            audio.currentTime = (progressBar.value / 100) * audio.duration;
+        }
+    });
+
+    playBtn.addEventListener('click', function () {
+        if (audio.paused) {
+            audio.play();
+            playBtn.textContent = I18N.t('audioPause', langMode);
+        } else {
+            audio.pause();
+            playBtn.textContent = I18N.t('audioPlay', langMode);
+        }
+    });
+
+    stopBtn.addEventListener('click', function () {
+        audio.pause();
+        audio.currentTime = 0;
+        progressBar.value = 0;
+        playBtn.textContent = I18N.t('audioPlay', langMode);
+    });
+
+    // Stop audio when leaving the section
+    contentArea.addEventListener('maharash-cleanup', function () {
+        audio.pause();
+        audio.currentTime = 0;
+    }, { once: true });
+
+    contentArea.appendChild(audioPlayer);
+    // ── End Audio Player ───────────────────────────────────────────────────
+
     const desc = document.createElement('p');
     desc.className = 'esther-desc';
     desc.textContent = I18N.t('estherDesc', langMode);

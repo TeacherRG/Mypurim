@@ -65,7 +65,12 @@ const I18N = (function () {
             mlDownloadReady: '✅ Модуль загружен и готов',
             mlDownloadError: '❌ Ошибка загрузки модуля',
             mlModuleNotReady:'⚠ Сначала скачайте модуль',
-            mlDownloadConfirm:'Для загрузки модуля распознавания речи потребуется скачать около 100 МБ данных. Продолжить?'
+            mlDownloadConfirm:'Для загрузки модуля распознавания речи потребуется скачать около 100 МБ данных. Продолжить?',
+            audioPlayerTitle: '🎧 Прослушать Мегилу',
+            audioPlay:        '▶ Слушать',
+            audioPause:       '⏸ Пауза',
+            audioStop:        '⏹ Стоп',
+            audioSpeed:       'Скорость:'
         },
 
         uk: {
@@ -126,7 +131,12 @@ const I18N = (function () {
             mlDownloadReady: '✅ Модуль завантажено та готово',
             mlDownloadError: '❌ Помилка завантаження модуля',
             mlModuleNotReady:'⚠ Спочатку завантажте модуль',
-            mlDownloadConfirm:'Для завантаження модуля розпізнавання мови потрібно завантажити близько 100 МБ даних. Продовжити?'
+            mlDownloadConfirm:'Для завантаження модуля розпізнавання мови потрібно завантажити близько 100 МБ даних. Продовжити?',
+            audioPlayerTitle: '🎧 Прослухати Мегілу',
+            audioPlay:        '▶ Слухати',
+            audioPause:       '⏸ Пауза',
+            audioStop:        '⏹ Стоп',
+            audioSpeed:       'Швидкість:'
         },
 
         de: {
@@ -187,7 +197,12 @@ const I18N = (function () {
             mlDownloadReady: '✅ Modul geladen und bereit',
             mlDownloadError: '❌ Fehler beim Laden des Moduls',
             mlModuleNotReady:'⚠ Bitte laden Sie zuerst das Modul herunter',
-            mlDownloadConfirm:'Zum Laden des Spracherkennungsmoduls müssen ca. 100 MB heruntergeladen werden. Fortfahren?'
+            mlDownloadConfirm:'Zum Laden des Spracherkennungsmoduls müssen ca. 100 MB heruntergeladen werden. Fortfahren?',
+            audioPlayerTitle: '🎧 Megilla anhören',
+            audioPlay:        '▶ Abspielen',
+            audioPause:       '⏸ Pause',
+            audioStop:        '⏹ Stop',
+            audioSpeed:       'Geschwindigkeit:'
         },
 
         he: {
@@ -248,7 +263,12 @@ const I18N = (function () {
             mlDownloadReady: '✅ המודול נטען ומוכן',
             mlDownloadError: '❌ שגיאה בטעינת המודול',
             mlModuleNotReady:'⚠ יש להוריד תחילה את המודול',
-            mlDownloadConfirm:'לטעינת מודול זיהוי הדיבור יש להוריד כ-100MB. להמשיך?'
+            mlDownloadConfirm:'לטעינת מודול זיהוי הדיבור יש להוריד כ-100MB. להמשיך?',
+            audioPlayerTitle: '🎧 האזנה למגילה',
+            audioPlay:        '▶ השמע',
+            audioPause:       '⏸ השהה',
+            audioStop:        '⏹ עצור',
+            audioSpeed:       'מהירות:'
         }
 
     };

@@ -1,0 +1,93 @@
+{
+  "calendar_cycle": "Adar 5786 (2026)",
+  "source_material": "Machon Halacha Chabad",
+  "schedule": [
+    {
+      "datum": "Monday, 13 Adar",
+      "event": "Fast of Esther (Taanit Esther)",
+      "halachot": {
+        "fasting": [
+          "Pregnant women, nursing mothers, the ill, and those in significant pain should consult a rabbi regarding the fast.",
+          "Children below bar/bat-mitzvah age may not fast, and they need not be accustomed to fasting even for a few hours.",
+          "The fast ends with the appearance of the stars.",
+          "Since one may not eat before the Megilla reading, the fast effectively continues until after the reading is completed."
+        ],
+        "prayers": [
+          "During the repetition of the Amida, the chazzan recites 'Aneinu' between 'Go'el Yisrael' and 'Refa'enu'.",
+          "Selichot are recited even if a chatan or a brit milah is present (though those individuals do not recite Selichot).",
+          "The long 'Avinu Malkeinu' is recited.",
+          "The Torah portion 'Vayechal' is read only if at least three people in the minyan are fasting.",
+          "If fewer than three are fasting, the weekly portion 'Ki Tisa' is read instead.",
+          "At Mincha, those fasting recite 'Aneinu' in the blessing 'Shome'a Tefilla'.",
+          "Tachnun and 'Avinu Malkeinu' are not recited at Mincha."
+        ],
+        "machatzit_hashekel": [
+          "Before Mincha it is customary to give tzedaka in memory of the half-shekel.",
+          "One should give three coins each worth half of the local currency (e.g., three half-dollar coins in the USA).",
+          "It is customary to give on behalf of each family member, and children should be encouraged to give from their own money."
+        ]
+      }
+    },
+    {
+      "datum": "Tuesday, 14 Adar",
+      "event": "Purim",
+      "halachot": {
+        "megilla_reading": [
+          "Every Jewish man and woman is obligated to hear the entire Megilla — once at night and once during the day.",
+          "Every single word must be heard; if even one word is missed, the obligation is not fulfilled.",
+          "The Megilla may not be heard via loudspeaker, telephone, or radio.",
+          "One may not speak from the beginning of the blessings until the end of the blessing 'Ha-Rav et Rivenu'.",
+          "Before the reading, the Megilla is unrolled and folded into three parts like a letter.",
+          "The reader stands during the reading out of respect for the congregation.",
+          "Noise (groggers) is made only when Haman's name is mentioned together with his title.",
+          "The ten sons of Haman and the word 'aseret' must be read in a single breath.",
+          "The congregation also recites the names of the ten sons of Haman in a single breath before the reader does."
+        ],
+        "mishloach_manot": [
+          "One is obligated to send at least two portions of ready-to-eat food or drink to one person.",
+          "Men send to men; women send to women.",
+          "It is preferable to send through a messenger, ideally a child.",
+          "The minimum amount for each portion is a ke-zayit (approximately 27 cubic centimeters)."
+        ],
+        "matanot_la_evyonim": [
+          "One is obligated to give at least one gift each to two poor people.",
+          "A poor person is one who lacks sufficient funds for their family's basic needs.",
+          "It is permitted to give from a man to a woman and vice versa.",
+          "The minimum amount is a pruta (about 30 agorot), but it is preferable to give the value of a meal.",
+          "It is better to increase spending on gifts to the poor than on the festive meal or mishloach manot.",
+          "The money must reach the poor on Purim itself."
+        ],
+        "purim_feast_and_rejoicing": [
+          "One is obligated to hold a festive meal with meat (preferably beef) and bread.",
+          "It is obligatory to drink wine or other alcoholic beverages until one cannot distinguish between 'Cursed is Haman' and 'Blessed is Mordechai'.",
+          "Chabad restriction: men under 40 should not drink more than one reviit (approximately 86 ml) of wine.",
+          "Women are obligated in all the Purim mitzvot except the obligation to become intoxicated.",
+          "It is customary to eat hamantaschen, kreplach (with meat), and grain dishes."
+        ],
+        "work": [
+          "Heavy labor such as building or sewing is not strictly forbidden but is customarily avoided.",
+          "Household tasks and work done for the purpose of the holiday are permitted."
+        ]
+      }
+    },
+    {
+      "datum": "Wednesday, 15 Adar",
+      "event": "Shushan Purim",
+      "halachot": {
+        "general": "In cities without ancient walls, Tachnun and 'Al Ha-Nissim' are not recited.",
+        "jerusalem": "In Jerusalem, Purim is celebrated today with all its mitzvot.",
+        "doubtful_cities": [
+          "All Purim mitzvot are observed; 'Al Ha-Nissim' is recited and the Torah is read.",
+          "The Megilla is read after prayers without a blessing.",
+          "Heavy labor should be avoided on this day."
+        ]
+      }
+    }
+  ],
+  "special_instructions_for_mivtzoim": {
+    "megilla": "If listeners cannot concentrate on every word, the blessing should not be recited.",
+    "mishloach_manot": "If no prepared sets are available, portions of food may be exchanged in a hospital or army setting.",
+    "matanot_la_evyonim": "It is recommended to carry a tzedaka box to immediately pass money to the poor.",
+    "feast": "Those going out on mivtzoim must eat at least a ke-beitza of bread after Mincha but before sunset."
+  }
+}

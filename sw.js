@@ -54,7 +54,8 @@ var PRECACHE_ASSETS = [
     '/translations/he/intro.json',
     '/Halacha/halacha-ru.json',
     '/Halacha/halacha-uk.json',
-    '/Halacha/halacha-de.json'
+    '/Halacha/halacha-de.json',
+    '/Halacha/halacha-en.json'
 ];
 
 // ── Install: precache static shell ──────────────────────────────────────────

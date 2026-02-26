@@ -2845,6 +2845,7 @@ html[dir="rtl"] .megilla-shop-list {
     border-radius: 3px;
     transition: background 0.15s, color 0.15s;
     padding: 1px 2px;
+    cursor: pointer;
 }
 
 .ml-word-active {

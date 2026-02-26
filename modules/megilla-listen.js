@@ -15,11 +15,6 @@ async function renderMegillaListen() {
     const controls = document.createElement('div');
     controls.className = 'ml-controls';
 
-    const downloadBtn = document.createElement('button');
-    downloadBtn.className = 'ml-btn ml-btn-download';
-    downloadBtn.id = 'ml-download-btn';
-    downloadBtn.innerHTML = I18N.t('mlDownload', langMode);
-
     const listenBtn = document.createElement('button');
     listenBtn.className = 'ml-btn ml-btn-start';
     listenBtn.id = 'ml-listen-btn';
@@ -35,7 +30,6 @@ async function renderMegillaListen() {
     statusEl.className = 'ml-status';
     statusEl.id = 'ml-status';
 
-    controls.appendChild(downloadBtn);
     controls.appendChild(listenBtn);
     controls.appendChild(stopBtn);
     controls.appendChild(statusEl);
@@ -113,6 +107,16 @@ async function renderMegillaListen() {
     var currentVerseIndex = 0;
     var highlightedEl = null;
     var highlightedVerseEl = null;
+
+    // ── Manual correction: click any word to jump currentWordIdx there ─────
+    textContainer.addEventListener('click', function (e) {
+        var target = e.target;
+        if (!target.classList.contains('ml-word')) return;
+        var idx = parseInt(target.dataset.idx, 10);
+        if (isNaN(idx)) return;
+        currentWordIdx = idx;
+        highlightWord(idx);
+    });
 
     // ── Hebrew normalization ───────────────────────────────────────────────
     // Strip niqqud (vowel marks U+05B0–U+05C7) for comparison
@@ -245,50 +249,23 @@ async function renderMegillaListen() {
         });
     }
 
-    // ── Schedule highlights using Whisper token timestamps ─────────────────
-    // chunks: array of { text, timestamp: [startSec, endSec] } from Whisper.
-    // audioChunkSentTime: performance.now() value recorded when the audio chunk
-    // was posted to the worker (i.e. the end of the captured audio segment).
-    function scheduleHighlights(chunks, audioChunkSentTime) {
-        var now = performance.now();
-        chunks.forEach(function (chunk) {
-            var tokenStart = Array.isArray(chunk.timestamp) ? chunk.timestamp[0] : 0;
-            var tokenEnd   = Array.isArray(chunk.timestamp) ? chunk.timestamp[1] : tokenStart;
-            var words = chunk.text.trim().split(/\s+/).filter(function (w) { return w.length > 0; });
-            if (words.length === 0) return;
-            // Distribute words evenly across the token's time range so each
-            // word gets its own delay instead of all appearing simultaneously.
-            var wordInterval = words.length > 1 ? ((tokenEnd - tokenStart) * 1000) / words.length : 0;
-            words.forEach(function (word, i) {
-                var wordTimestamp = tokenStart + (i * wordInterval / 1000);
-                var delay = Math.max(0, audioChunkSentTime + wordTimestamp * 1000 - now);
-                setTimeout(function () {
-                    var matchIdx = findBestMatch(word);
-                    if (matchIdx >= 0) {
-                        highlightWord(matchIdx);
-                        currentWordIdx = matchIdx + 1;
-                    }
-                }, delay);
-            });
-        });
-    }
-
-    // ── Speech Recognition via HebrewSpeech / Whisper ─────────────────────
+    // ── Speech Recognition via HebrewSpeech / Web Speech API ──────────────
 
     function startListening() {
         listenBtn.hidden = true;
         stopBtn.hidden = false;
-        statusEl.textContent = HebrewSpeech.ready() ? I18N.t('mlListening', langMode) : I18N.t('mlDownloading', langMode);
+        statusEl.textContent = I18N.t('mlListening', langMode);
         statusEl.className = 'ml-status ml-status-active';
 
         HebrewSpeech.start({
             onStatusChange: function (status) {
-                if (status === 'loading') {
-                    statusEl.textContent = I18N.t('mlDownloading', langMode);
-                    statusEl.className = 'ml-status ml-status-active';
-                } else if (status === 'listening') {
+                if (status === 'listening') {
                     statusEl.textContent = I18N.t('mlListening', langMode);
                     statusEl.className = 'ml-status ml-status-active';
+                } else if (status === 'not-supported') {
+                    statusEl.textContent = I18N.t('mlNotSupported', langMode);
+                    statusEl.className = 'ml-status ml-status-error';
+                    stopListening();
                 } else if (status === 'mic-denied') {
                     statusEl.textContent = I18N.t('mlMicDenied', langMode);
                     statusEl.className = 'ml-status ml-status-error';
@@ -300,14 +277,8 @@ async function renderMegillaListen() {
                 }
             },
             onTranscript: function (data) {
-                var text          = data.text              || '';
-                var chunks        = data.chunks            || [];
-                var audioSentTime = data.audioChunkSentTime || 0;
-                if (chunks.length > 0) {
-                    scheduleHighlights(chunks, audioSentTime);
-                } else {
-                    processTranscript(text);
-                }
+                var text = data.text || '';
+                processTranscript(text);
                 syncMegillah(text);
             }
         });
@@ -321,37 +292,7 @@ async function renderMegillaListen() {
         statusEl.className = 'ml-status';
     }
 
-    // ── Download speech recognition module ────────────────────────────────
-    var moduleDownloading = false;
-
-    function downloadModule() {
-        if (moduleDownloading || HebrewSpeech.ready()) return;
-        if (!confirm(I18N.t('mlDownloadConfirm', langMode))) return;
-        moduleDownloading = true;
-        downloadBtn.disabled = true;
-        statusEl.textContent = I18N.t('mlDownloading', langMode);
-        statusEl.className = 'ml-status ml-status-active';
-
-        HebrewSpeech.load(function (status) {
-            if (status === 'ready') {
-                statusEl.textContent = I18N.t('mlDownloadReady', langMode);
-                statusEl.className = 'ml-status ml-status-ready';
-                downloadBtn.innerHTML = '✅ ' + I18N.t('mlDownloadReady', langMode);
-            } else if (status === 'loading') {
-                statusEl.textContent = I18N.t('mlDownloading', langMode);
-                statusEl.className = 'ml-status ml-status-active';
-            } else if (status === 'error') {
-                AppLogger.error('megilla-listen: module load error');
-                statusEl.textContent = I18N.t('mlDownloadError', langMode);
-                statusEl.className = 'ml-status ml-status-error';
-                downloadBtn.disabled = false;
-                moduleDownloading = false;
-            }
-        });
-    }
-
     // ── Button events ──────────────────────────────────────────────────────
-    downloadBtn.addEventListener('click', downloadModule);
     listenBtn.addEventListener('click', startListening);
     stopBtn.addEventListener('click', stopListening);
 

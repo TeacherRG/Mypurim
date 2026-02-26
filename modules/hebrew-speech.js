@@ -16,16 +16,49 @@ var HebrewSpeech = (function () {
     var CHUNK_SAMPLES  = SAMPLE_RATE * CHUNK_SECONDS;
     var PROCESSOR_SIZE = 4096;           // ScriptProcessorNode buffer size
 
+    var RMS_THRESHOLD  = 0.15;          // soft volume gate (below = silence, skip)
+    var FFT_SIZE       = 1024;          // AnalyserNode FFT size
+    // First bin index whose centre frequency is ≥ 4 kHz  (formula: freq * FFT_SIZE / sampleRate)
+    var HF_BIN_START   = Math.round(4000 * FFT_SIZE / SAMPLE_RATE);
+    var HF_RATIO_LIMIT = 0.75;          // if >75 % of spectral energy is above 4 kHz → noise
+
     var worker                = null;
     var audioContext          = null;
     var mediaStream           = null;
     var scriptProcessor       = null;
+    var analyserNode          = null;
+    var frequencyData         = null;
     var pcmBuffer             = new Float32Array(0);
     var isReady               = false;
     var isListening           = false;
     var statusCb              = null;
     var transcriptCb          = null;
     var lastAudioChunkSentTime = 0;
+
+    // ── Noise helpers ─────────────────────────────────────────────────────────
+
+    /** Root-mean-square loudness of a Float32Array sample buffer. */
+    function calcRms(samples) {
+        var sum = 0;
+        for (var i = 0; i < samples.length; i++) sum += samples[i] * samples[i];
+        return Math.sqrt(sum / samples.length);
+    }
+
+    /**
+     * Returns true when the current AnalyserNode spectrum is dominated by
+     * high-frequency content (≥ 4 kHz), which is the fingerprint of
+     * squeakers and rattles rather than human speech.
+     */
+    function isHighFreqNoise() {
+        if (!analyserNode) return false;
+        analyserNode.getByteFrequencyData(frequencyData);
+        var total = 0, hf = 0;
+        for (var i = 0; i < frequencyData.length; i++) {
+            total += frequencyData[i];
+            if (i >= HF_BIN_START) hf += frequencyData[i];
+        }
+        return total > 0 && (hf / total) > HF_RATIO_LIMIT;
+    }
 
     // ── Worker ────────────────────────────────────────────────────────────────
 
@@ -100,6 +133,12 @@ var HebrewSpeech = (function () {
         audioContext = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: SAMPLE_RATE });
         var source   = audioContext.createMediaStreamSource(mediaStream);
 
+        // AnalyserNode for real-time spectral noise detection (analysis only, not in audio routing chain)
+        analyserNode = audioContext.createAnalyser();
+        analyserNode.fftSize = FFT_SIZE;
+        frequencyData = new Uint8Array(analyserNode.frequencyBinCount);
+        source.connect(analyserNode);
+
         // Silent gain node — required so ScriptProcessorNode fires without echo
         var silentGain       = audioContext.createGain();
         silentGain.gain.value = 0;
@@ -112,6 +151,16 @@ var HebrewSpeech = (function () {
             if (!isListening) return;
 
             var input  = e.inputBuffer.getChannelData(0);
+
+            // 1. Skip near-silence (soft RMS gate)
+            if (calcRms(input) < RMS_THRESHOLD) return;
+
+            // 2. Skip high-frequency noise bursts (squeakers, rattles ≥ 4 kHz)
+            //    Flush the accumulation buffer so no noise leaks into the next chunk.
+            if (isHighFreqNoise()) {
+                pcmBuffer = new Float32Array(0);
+                return;
+            }
 
             var merged = new Float32Array(pcmBuffer.length + input.length);
             merged.set(pcmBuffer);
@@ -144,6 +193,11 @@ var HebrewSpeech = (function () {
         if (scriptProcessor) {
             scriptProcessor.disconnect();
             scriptProcessor = null;
+        }
+        if (analyserNode) {
+            analyserNode.disconnect();
+            analyserNode  = null;
+            frequencyData = null;
         }
         if (mediaStream) {
             mediaStream.getTracks().forEach(function (t) { t.stop(); });

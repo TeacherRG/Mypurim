@@ -884,11 +884,11 @@ body::before {
     margin-left: 6px;
 }
 
-.megilla-audio-speed-btn {
+.megilla-audio-speed-select {
     background: rgba(255, 255, 255, 0.1);
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.25);
-    padding: 6px 12px;
+    padding: 6px 10px;
     border-radius: 7px;
     font-family: 'Inter', sans-serif;
     font-size: 13px;
@@ -897,15 +897,16 @@ body::before {
     transition: background 0.2s, border-color 0.2s;
 }
 
-.megilla-audio-speed-btn:hover {
+.megilla-audio-speed-select:hover,
+.megilla-audio-speed-select:focus {
     background: rgba(255, 204, 0, 0.2);
     border-color: rgba(255, 204, 0, 0.5);
+    outline: none;
 }
 
-.megilla-audio-speed-btn.active {
-    background: rgba(255, 204, 0, 0.3);
-    border-color: #ffcc00;
-    color: #ffcc00;
+.megilla-audio-speed-select option {
+    background: #2c2f6a;
+    color: #fff;
 }
 
 .megilla-audio-progress-wrap {

@@ -173,27 +173,29 @@ function renderEstherScroll() {
     stopBtn.className = 'megilla-audio-btn megilla-audio-btn-stop';
     stopBtn.textContent = I18N.t('audioStop', langMode);
 
-    const speedLabel = document.createElement('span');
+    const speedLabel = document.createElement('label');
     speedLabel.className = 'megilla-audio-speed-label';
+    speedLabel.htmlFor = 'megilla-audio-speed-select';
     speedLabel.textContent = I18N.t('audioSpeed', langMode);
 
-    const speeds = [1, 1.25, 1.5, 2];
-    const speedBtns = speeds.map(function (s) {
-        const btn = document.createElement('button');
-        btn.className = 'megilla-audio-speed-btn' + (s === 1 ? ' active' : '');
-        btn.textContent = s === 1 ? '1×' : s + '×';
-        btn.dataset.speed = s;
-        btn.addEventListener('click', function () {
-            audio.playbackRate = s;
-            speedBtns.forEach(function (b) { b.classList.toggle('active', b === btn); });
-        });
-        return btn;
+    const speedSelect = document.createElement('select');
+    speedSelect.className = 'megilla-audio-speed-select';
+    speedSelect.id = 'megilla-audio-speed-select';
+    [1, 1.25, 1.5, 2].forEach(function (s) {
+        const opt = document.createElement('option');
+        opt.value = s;
+        opt.textContent = s === 1 ? '1×' : s + '×';
+        if (s === 1) opt.selected = true;
+        speedSelect.appendChild(opt);
+    });
+    speedSelect.addEventListener('change', function () {
+        audio.playbackRate = parseFloat(speedSelect.value);
     });
 
     controls.appendChild(playBtn);
     controls.appendChild(stopBtn);
     controls.appendChild(speedLabel);
-    speedBtns.forEach(function (b) { controls.appendChild(b); });
+    controls.appendChild(speedSelect);
     audioPlayer.appendChild(controls);
 
     const progressWrap = document.createElement('div');

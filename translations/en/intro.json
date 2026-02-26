@@ -1,0 +1,34 @@
+{
+  "id": "intro",
+  "title": "Purim — the Holiday that Conceals Infinite Light",
+  "content": [
+    {
+      "type": "hero-text",
+      "text": "This website is dedicated to the elevation of the soul of Irina bat Sara."
+    },
+    {
+      "type": "quote",
+      "text": "\"Megillat Esther is the only book of the Torah in which G-d's name is not mentioned even once. That is the central lesson of Purim: to learn to see G-d precisely where He is hidden.\" — The Rebbe"
+    },
+    {
+      "type": "paragraph",
+      "text": "Behind coincidence — providence. Behind the masquerade — truth. Behind laughter — the deepest faith. Purim teaches us that G-d never abandons His people — even when His presence is hidden."
+    },
+    {
+      "type": "paragraph",
+      "text": "On this website you will find:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "🎵 Music Player — Purim melodies and niggunim for a festive atmosphere",
+        "📜 Dvar Malchut — the Rebbe's Sicha on the inner meaning of Purim",
+        "📖 Megillat Esther — the eternal words that Jews read in every generation",
+        "⚖️ Halacha — the laws of Purim: three sections for study and review",
+        "🎮 Games for children — three fun games in the Purim spirit",
+        "🥂 Alcohol calculator for adults — an interactive Purim experience with a smile",
+        "💛 Tzedaka — the opportunity to fulfill a mitzvah right now"
+      ]
+    }
+  ]
+}

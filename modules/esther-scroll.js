@@ -120,20 +120,12 @@ function buildEstherPdfBlock(pdf) {
     const btnRow = document.createElement('div');
     btnRow.className = 'esther-btn-row';
 
-    const openBtn = document.createElement('a');
-    openBtn.href = pdf.file;
-    openBtn.target = '_blank';
-    openBtn.rel = 'noopener';
-    openBtn.className = 'esther-btn esther-btn-open';
-    openBtn.textContent = I18N.t('estherOpen', langMode);
-
     const downloadBtn = document.createElement('a');
     downloadBtn.href = pdf.file;
     downloadBtn.download = '';
     downloadBtn.className = 'esther-btn esther-btn-download';
     downloadBtn.textContent = I18N.t('estherDownload', langMode);
 
-    btnRow.appendChild(openBtn);
     btnRow.appendChild(downloadBtn);
     block.appendChild(btnRow);
 

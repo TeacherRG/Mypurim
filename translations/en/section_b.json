@@ -1,0 +1,115 @@
+{
+  "id": "section_b",
+  "title": "Section B — \"Will all the holidays be abolished?\"",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "The Midrash derives from the verse \"And their memory shall not perish from their descendants\" that even if in the future all holidays are abolished, the days of Purim will not be abolished."
+    },
+    {
+      "type": "paragraph",
+      "text": "This statement appears in the words of our Sages and is likewise codified by the Rambam in Halacha."
+    },
+    {
+      "type": "paragraph",
+      "text": "However, a most serious question arises: How is it possible to say that the holidays of the Torah will be abolished? One of the principles of faith states that the Torah will not be changed and will not be replaced."
+    },
+    {
+      "type": "paragraph",
+      "text": "This question is so difficult that great scholars throughout the generations have struggled to explain it."
+    },
+    {
+      "type": "paragraph",
+      "text": "The Rebbe explains that this does not refer to a literal abolishment, but rather to a comparative measure of joy."
+    },
+    {
+      "type": "paragraph",
+      "text": "The joy of the holidays is great, but it is limited. In the era of Mashiach an infinite joy will be revealed — \"everlasting joy upon their heads.\" In comparison to it, the joy of the holidays will be like the light of a small candle in the brightness of full daylight."
+    },
+    {
+      "type": "paragraph",
+      "text": "However, the joy of Purim is so great that it will retain its significance even in the light of the infinite joy of the coming Redemption."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Source 5 — Midrash Mishlei 9:2",
+      "text": "Rabbi Abbahu said: Esther the queen, at the hour when suffering came upon Israel in the days of Mordechai, made a feast for Ahasuerus and Haman and intoxicated him with wine. The wicked man thought she was honoring him, but he did not know that she was setting a trap for him. Through the fact that she intoxicated him, her people acquired eternity. All the holidays will be abolished in the future, but the days of Purim will never be abolished, as it is written: \"And these days of Purim shall not pass away from among the Jews.\""
+    },
+    {
+      "title": "Source 6 — Rambam, Laws of Megilla 2:18",
+      "text": "All the books of the Prophets and the Writings will be abolished in the days of Mashiach, except for Megillat Esther. And although the memory of the afflictions will disappear, as it is written: \"For the former troubles will be forgotten,\" the days of Purim will not be abolished, as it is written: \"And these days of Purim shall not pass away from among the Jews, and their memory shall not perish from their descendants.\""
+    },
+    {
+      "title": "Source 7 — Responsa of the Rashba, Part I, Siman 93",
+      "text": "You asked about the words of the Midrash that all the holidays will be abolished, but the days of Purim will not be abolished. Who can say that anything from the Torah will be abolished — even a letter or even the smallest element of it? Many commentators have explained this aggadic text before me, but no explanation has entered my heart. Tell me its true interpretation."
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What does the Midrash state regarding the future of all holidays?",
+        "options": [
+          {
+            "text": "All holidays will be celebrated with doubled intensity",
+            "correct": false
+          },
+          {
+            "text": "All holidays will be literally abolished forever",
+            "correct": false
+          },
+          {
+            "text": "In comparison with the joy of the future Redemption, the joy of the holidays will lose its significance — except for Purim",
+            "correct": true
+          },
+          {
+            "text": "The holidays will become optional",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "question": "How does the Rebbe explain the expression \"the holidays will be abolished\"?",
+        "options": [
+          {
+            "text": "They will be removed from the Torah",
+            "correct": false
+          },
+          {
+            "text": "Their commandments will lose their force",
+            "correct": false
+          },
+          {
+            "text": "Their joy will become imperceptible compared to the infinite joy of the era of Mashiach",
+            "correct": true
+          },
+          {
+            "text": "They will be replaced by new holidays",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "question": "Why will the joy of Purim retain its significance even in the era of Mashiach?",
+        "options": [
+          {
+            "text": "Because Purim was established by the prophets",
+            "correct": false
+          },
+          {
+            "text": "Because its joy possesses a quality that transcends the limitations of ordinary holidays",
+            "correct": true
+          },
+          {
+            "text": "Because it is celebrated for two days",
+            "correct": false
+          },
+          {
+            "text": "Because it is not mentioned in the Torah",
+            "correct": false
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "id": "section_a",
+  "title": "Section A — \"And their memory shall not perish from their descendants\"",
+
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Megillat Esther emphasizes the eternal nature of the establishment of Purim: \"And these days of Purim shall not pass away from among the Jews, and their memory shall not perish from their descendants.\""
+    },
+    {
+      "type": "quote",
+      "text": "\"And these days of Purim shall not pass away from among the Jews, and their memory shall not perish from their descendants\" (Esther 9:28)."
+    },
+    {
+      "type": "paragraph",
+      "text": "The Rebbe poses a fundamental question: What is novel about this statement? Every aspect of the Torah — whether a commandment given at Sinai or a rabbinic enactment — possesses eternal force. One of the Rambam's Thirteen Principles of Faith states that the Torah will not be changed and will not be replaced."
+    },
+    {
+      "type": "paragraph",
+      "text": "If so, why does the Megilla emphasize the eternity of Purim in a special way? Is this not self-evident?"
+    },
+    {
+      "type": "paragraph",
+      "text": "Moreover, the very text of the Megilla shows that the establishment of Purim was not originally undisputed and final. This requires further explanation."
+    }
+  ],
+
+  "sources": [
+
+    {
+      "title": "Source 1 — Megillat Esther 9:20–22, 27–28",
+      "text": "And Mordechai wrote these things and sent letters to all the Jews who were in all the provinces of King Ahasuerus, both near and far, to establish among them that they should celebrate annually the fourteenth day of the month of Adar and the fifteenth day of it — as the days on which the Jews rested from their enemies, and the month which had been turned for them from sorrow to joy and from mourning to a holiday — to make them days of feasting and joy, of sending portions one to another and gifts to the poor. And the Jews confirmed and took upon themselves and upon their descendants and upon all who joined them, without fail, to observe these two days according to their prescription and at their appointed time every year. And these days of Purim shall not pass away from among the Jews, and their memory shall not perish from their descendants."
+    },
+
+    {
+      "title": "Source 2 — Talmud Bavli, tractate Megilla 7a",
+      "text": "Esther sent to the Sages: \"Establish me for all generations,\" meaning: make the celebration of Purim and the reading of the Megilla a permanent enactment for all generations. The Sages replied to her: \"You will arouse the envy of the nations against us,\" for the Megilla describes the victory of the Jews over the nations, and one should not provoke their hostility. She said to them: \"I am already written in the chronicles of the kings of Media and Persia,\" meaning the event had already become known, and therefore it is fitting to establish it in Israel as well."
+    },
+
+    {
+      "title": "Source 3 — Megillat Esther 9:29–32",
+      "text": "And Esther the queen, the daughter of Avichayil, and Mordechai the Jew wrote with full authority to confirm this second letter of Purim. And he sent letters to all the Jews — to the one hundred and twenty-seven provinces of the kingdom of Ahasuerus — words of peace and truth, to confirm these days of Purim at their appointed times, as Mordechai the Jew and Esther the queen had established for themselves, and as they had confirmed upon themselves and upon their descendants with ordinances of fasting and lamentation. And the word of Esther confirmed these matters of Purim, and it was written in the book."
+    },
+
+    {
+      "title": "Source 4 — Ibn Ezra (second version) on Esther 9:29",
+      "text": "\"And she wrote\" — the reason is that Israel observed the enactment of Purim for only certain years and then slackened in its observance. Therefore Mordechai asked the queen to write and send a second letter to the Jews, for her authority would have greater impact. The proof of this is that it says: \"And the word of Esther confirmed these matters of Purim\" — for had it not been for her word, the enactment might have been forgotten."
+    }
+
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is the Rebbe's fundamental question regarding the verse \"And their memory shall not perish from their descendants\"?",
+        "options": [
+          {
+            "text": "Why Purim was established only for Jews in the Diaspora",
+            "correct": false
+          },
+          {
+            "text": "Why there is any need to celebrate Purim at all",
+            "correct": false
+          },
+          {
+            "text": "What is novel about emphasizing the eternity of Purim, given that the entire Torah and rabbinic enactments already possess eternal force",
+            "correct": true
+          },
+          {
+            "text": "Why Esther wrote a second letter",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "question": "Which episode in the Talmud (Megilla 7a) shows that the establishment of Purim was not originally undisputed?",
+        "options": [
+          {
+            "text": "The Sages refused to read the Megilla publicly",
+            "correct": false
+          },
+          {
+            "text": "Esther asked the Sages: \"Establish me for all generations\"",
+            "correct": true
+          },
+          {
+            "text": "Mordechai doubted the miracle",
+            "correct": false
+          },
+          {
+            "text": "Purim was initially observed for only one day",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "question": "According to Ibn Ezra, why was a second letter from Esther necessary?",
+        "options": [
+          {
+            "text": "To change the date of the holiday",
+            "correct": false
+          },
+          {
+            "text": "Because observance of Purim had weakened and could have been forgotten",
+            "correct": true
+          },
+          {
+            "text": "To add new commandments",
+            "correct": false
+          },
+          {
+            "text": "To annul Mordechai's original enactment",
+            "correct": false
+          }
+        ]
+      }
+    ]
+  }
+}

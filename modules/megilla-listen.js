@@ -1,6 +1,9 @@
 // ===== MEGILLA LISTEN =====
-// Renders Hebrew Megilla text and listens via microphone,
-// highlighting words as they are read aloud and auto-scrolling.
+// Renders Hebrew Megilla text and auto-advances word highlighting at a
+// comfortable reading pace.  Uses the Web Audio API to detect ambient noise
+// (e.g. gragger / ra'ashan) and pauses the highlight while noise is loud,
+// resuming automatically when quiet returns.
+// Clicking any word jumps the highlight to that word.
 
 async function renderMegillaListen() {
     contentArea.innerHTML = '';
@@ -15,22 +18,22 @@ async function renderMegillaListen() {
     const controls = document.createElement('div');
     controls.className = 'ml-controls';
 
-    const listenBtn = document.createElement('button');
-    listenBtn.className = 'ml-btn ml-btn-start';
-    listenBtn.id = 'ml-listen-btn';
-    listenBtn.innerHTML = '🎤 ' + I18N.t('mlListen', langMode);
+    const startBtn = document.createElement('button');
+    startBtn.className = 'ml-btn ml-btn-start';
+    startBtn.id = 'ml-listen-btn';
+    startBtn.textContent = I18N.t('mlStart', langMode);
 
     const stopBtn = document.createElement('button');
     stopBtn.className = 'ml-btn ml-btn-stop';
     stopBtn.id = 'ml-stop-btn';
-    stopBtn.innerHTML = '⏹ ' + I18N.t('mlStop', langMode);
+    stopBtn.textContent = I18N.t('mlStop', langMode);
     stopBtn.hidden = true;
 
     const statusEl = document.createElement('span');
     statusEl.className = 'ml-status';
     statusEl.id = 'ml-status';
 
-    controls.appendChild(listenBtn);
+    controls.appendChild(startBtn);
     controls.appendChild(stopBtn);
     controls.appendChild(statusEl);
     contentArea.appendChild(controls);
@@ -55,15 +58,10 @@ async function renderMegillaListen() {
     }
 
     // ── Build word list & render text ──────────────────────────────────────
-    // wordList: flat array of { text, element }
-    // verseList: flat array of { id, text } for verse-level sync
     var wordList = [];
     var globalWordIdx = 0;
-    var verseList = [];
-    var globalVerseIdx = 0;
 
     data.chapters.forEach(function (chapter) {
-        // Chapter header
         const chapterHeader = document.createElement('div');
         chapterHeader.className = 'ml-chapter-header';
         chapterHeader.textContent = I18N.t('mlChapter', langMode) + ' ' + chapter.chapter_id;
@@ -72,23 +70,15 @@ async function renderMegillaListen() {
         chapter.verses.forEach(function (verse) {
             const verseLine = document.createElement('div');
             verseLine.className = 'ml-verse';
-            var verseElemId = 'ml-verse-' + globalVerseIdx;
-            verseLine.id = verseElemId;
-            verseList.push({ id: verseElemId, text: verse.text });
-            globalVerseIdx++;
 
-            // Verse number
             const verseNum = document.createElement('sup');
             verseNum.className = 'ml-verse-num';
             verseNum.textContent = verse.verse_id;
             verseLine.appendChild(verseNum);
 
-            // Split verse into words, wrap each in a span
             var words = verse.text.split(/\s+/).filter(function (w) { return w.length > 0; });
             words.forEach(function (word, i) {
-                if (i > 0) {
-                    verseLine.appendChild(document.createTextNode(' '));
-                }
+                if (i > 0) verseLine.appendChild(document.createTextNode(' '));
                 var span = document.createElement('span');
                 span.className = 'ml-word';
                 span.dataset.idx = globalWordIdx;
@@ -104,202 +94,227 @@ async function renderMegillaListen() {
 
     // ── State ──────────────────────────────────────────────────────────────
     var currentWordIdx = 0;
-    var currentVerseIndex = 0;
     var highlightedEl = null;
-    var highlightedVerseEl = null;
+    var isRunning = false;
+    var isPausedByNoise = false;
+    var autoTimer = null;
 
-    // ── Manual correction: click any word to jump currentWordIdx there ─────
+    // Reading speed: ~150 WPM ≈ 400 ms per word
+    var WORD_INTERVAL = 400;
+
+    // ── Noise detection state ──────────────────────────────────────────────
+    var audioCtx = null;
+    var analyser = null;
+    var micStream = null;
+    var noiseDataBuffer = null;
+    var noiseCheckInterval = null;
+    var noiseResumeTimer = null;
+    var NOISE_THRESHOLD = 0.05;   // RMS amplitude threshold
+    var NOISE_RESUME_DELAY = 1200; // ms of quiet before resuming
+
+    // ── Noise detection ────────────────────────────────────────────────────
+    function startNoiseDetection() {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+        navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+            .then(function (stream) {
+                micStream = stream;
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioCtx.createAnalyser();
+                analyser.fftSize = 512;
+                analyser.smoothingTimeConstant = 0.3;
+                var source = audioCtx.createMediaStreamSource(stream);
+                source.connect(analyser);
+                noiseDataBuffer = new Float32Array(analyser.frequencyBinCount);
+                noiseCheckInterval = setInterval(checkNoise, 80);
+            })
+            .catch(function (e) {
+                AppLogger.warn('megilla-listen: noise detection unavailable', e);
+            });
+    }
+
+    function checkNoise() {
+        if (!analyser || !noiseDataBuffer) return;
+        analyser.getFloatTimeDomainData(noiseDataBuffer);
+        var sum = 0;
+        for (var i = 0; i < noiseDataBuffer.length; i++) {
+            sum += noiseDataBuffer[i] * noiseDataBuffer[i];
+        }
+        var rms = Math.sqrt(sum / noiseDataBuffer.length);
+
+        if (rms > NOISE_THRESHOLD) {
+            clearTimeout(noiseResumeTimer);
+            noiseResumeTimer = null;
+            if (isRunning && !isPausedByNoise) pauseHighlight();
+        } else if (isPausedByNoise) {
+            if (!noiseResumeTimer) {
+                noiseResumeTimer = setTimeout(function () {
+                    noiseResumeTimer = null;
+                    resumeHighlight();
+                }, NOISE_RESUME_DELAY);
+            }
+        }
+    }
+
+    function stopNoiseDetection() {
+        clearInterval(noiseCheckInterval);
+        noiseCheckInterval = null;
+        clearTimeout(noiseResumeTimer);
+        noiseResumeTimer = null;
+        if (micStream) {
+            micStream.getTracks().forEach(function (t) { t.stop(); });
+            micStream = null;
+        }
+        if (audioCtx) {
+            audioCtx.close().catch(function (e) { AppLogger.warn('megilla-listen: AudioContext close failed', e); });
+            audioCtx = null;
+            analyser = null;
+        }
+    }
+
+    // ── Auto-advance ───────────────────────────────────────────────────────
+    function scheduleNext() {
+        clearTimeout(autoTimer);
+        autoTimer = setTimeout(advanceWord, WORD_INTERVAL);
+    }
+
+    function advanceWord() {
+        if (!isRunning || isPausedByNoise) return;
+        if (currentWordIdx >= wordList.length) {
+            showCongratulations();
+            return;
+        }
+        highlightWord(currentWordIdx);
+        currentWordIdx++;
+        scheduleNext();
+    }
+
+    function pauseHighlight() {
+        isPausedByNoise = true;
+        clearTimeout(autoTimer);
+        statusEl.textContent = I18N.t('mlNoisePaused', langMode);
+        statusEl.className = 'ml-status ml-status-noise';
+    }
+
+    function resumeHighlight() {
+        isPausedByNoise = false;
+        statusEl.textContent = I18N.t('mlRunning', langMode);
+        statusEl.className = 'ml-status ml-status-active';
+        advanceWord();
+    }
+
+    // ── Highlight & scroll ─────────────────────────────────────────────────
+    function highlightWord(idx) {
+        if (highlightedEl) highlightedEl.classList.remove('ml-word-active');
+        var el = wordList[idx].element;
+        el.classList.add('ml-word-active');
+        highlightedEl = el;
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // ── Congratulations ────────────────────────────────────────────────────
+    function showCongratulations() {
+        isRunning = false;
+        clearTimeout(autoTimer);
+        stopNoiseDetection();
+
+        startBtn.hidden = false;
+        stopBtn.hidden = true;
+        statusEl.textContent = '';
+        statusEl.className = 'ml-status';
+
+        var overlay = document.createElement('div');
+        overlay.className = 'ml-congrats-overlay';
+        var box = document.createElement('div');
+        box.className = 'ml-congrats-box';
+
+        var emoji = document.createElement('div');
+        emoji.className = 'ml-congrats-emoji';
+        emoji.textContent = '🎉';
+
+        var msg = document.createElement('div');
+        msg.className = 'ml-congrats-text';
+        msg.textContent = I18N.t('mlCongratulations', langMode);
+
+        var closeBtn = document.createElement('button');
+        closeBtn.className = 'ml-btn ml-btn-start';
+        closeBtn.textContent = '✓ OK';
+        closeBtn.addEventListener('click', function () {
+            overlay.remove();
+            currentWordIdx = 0;
+            if (highlightedEl) {
+                highlightedEl.classList.remove('ml-word-active');
+                highlightedEl = null;
+            }
+        });
+
+        box.appendChild(emoji);
+        box.appendChild(msg);
+        box.appendChild(closeBtn);
+        overlay.appendChild(box);
+        contentArea.appendChild(overlay);
+    }
+
+    // ── Click any word to jump ─────────────────────────────────────────────
     textContainer.addEventListener('click', function (e) {
         var target = e.target;
         if (!target.classList.contains('ml-word')) return;
         var idx = parseInt(target.dataset.idx, 10);
         if (isNaN(idx)) return;
-        currentWordIdx = idx;
         highlightWord(idx);
+        currentWordIdx = idx + 1;
+        if (!isRunning) {
+            // Start reading from clicked word: set up state then schedule next advance
+            isRunning = true;
+            isPausedByNoise = false;
+            startBtn.hidden = true;
+            stopBtn.hidden = false;
+            statusEl.textContent = I18N.t('mlRunning', langMode);
+            statusEl.className = 'ml-status ml-status-active';
+            startNoiseDetection();
+            scheduleNext();
+        } else {
+            // Already running: jump to clicked word and reschedule
+            clearTimeout(autoTimer);
+            clearTimeout(noiseResumeTimer);
+            noiseResumeTimer = null;
+            isPausedByNoise = false;
+            statusEl.textContent = I18N.t('mlRunning', langMode);
+            statusEl.className = 'ml-status ml-status-active';
+            scheduleNext();
+        }
     });
 
-    // ── Hebrew normalization ───────────────────────────────────────────────
-    // Strip niqqud (vowel marks U+05B0–U+05C7) for comparison
-    function normalizeHeb(str) {
-        return str
-            .replace(/[\u05B0-\u05C7\u05F0-\u05F4\u05C0\u05C3\u05C6]/g, '')
-            .replace(/[^\u05D0-\u05EA]/g, '')
-            .trim();
-    }
-
-    // ── stripNikud ─────────────────────────────────────────────────────────
-    // Strip Hebrew nikud (vowel points), cantillation marks, punctuation and
-    // extra whitespace to produce a clean consonantal string for comparison.
-    function stripNikud(text) {
-        return text
-            .replace(/[\u0591-\u05C7]/g, '')  // nikud + cantillation (U+0591–U+05C7)
-            .replace(/[^\u05D0-\u05EA\s]/g, '') // keep only Hebrew letters and spaces
-            .replace(/\s+/g, ' ')
-            .trim();
-    }
-
-    // ── Levenshtein distance ───────────────────────────────────────────────
-    function levenshtein(a, b) {
-        var m = a.length, n = b.length;
-        if (m === 0) return n;
-        if (n === 0) return m;
-        var prev = [], curr = [];
-        for (var j = 0; j <= n; j++) prev[j] = j;
-        for (var i = 1; i <= m; i++) {
-            curr[0] = i;
-            for (var j = 1; j <= n; j++) {
-                curr[j] = a[i - 1] === b[j - 1]
-                    ? prev[j - 1]
-                    : 1 + Math.min(prev[j], curr[j - 1], prev[j - 1]);
-            }
-            var tmp = prev; prev = curr; curr = tmp;
-        }
-        return prev[n];
-    }
-
-    // ── scrollToVerse ──────────────────────────────────────────────────────
-    // Highlight the verse element with the given id and scroll it into view.
-    function scrollToVerse(id) {
-        var el = document.getElementById(id);
-        if (!el) return;
-        if (highlightedVerseEl) highlightedVerseEl.classList.remove('ml-verse-active');
-        el.classList.add('ml-verse-active');
-        highlightedVerseEl = el;
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    // ── syncMegillah ───────────────────────────────────────────────────────
-    // Match recognizedText against a sliding window of verses around
-    // currentVerseIndex using Levenshtein similarity.  When the best match
-    // exceeds the 60 % threshold, advance currentVerseIndex and highlight
-    // the matched verse via scrollToVerse().
-    var VERSE_WINDOW = 5; // look ±5 verses from current position
-    var MATCH_THRESHOLD = 0.6;
-
-    function syncMegillah(recognizedText) {
-        var norm = stripNikud(recognizedText).replace(/\s/g, '');
-        if (!norm) return;
-
-        var start = Math.max(0, currentVerseIndex - VERSE_WINDOW);
-        var end = Math.min(verseList.length - 1, currentVerseIndex + VERSE_WINDOW);
-
-        var bestIdx = -1;
-        var bestScore = 0;
-
-        for (var i = start; i <= end; i++) {
-            var verseNorm = stripNikud(verseList[i].text).replace(/\s/g, '');
-            var maxLen = Math.max(norm.length, verseNorm.length);
-            if (maxLen === 0) continue;
-            var dist = levenshtein(norm, verseNorm);
-            var score = 1 - dist / maxLen;
-            if (score > bestScore) {
-                bestScore = score;
-                bestIdx = i;
-            }
-        }
-
-        if (bestIdx >= 0 && bestScore >= MATCH_THRESHOLD) {
-            currentVerseIndex = bestIdx;
-            scrollToVerse(verseList[bestIdx].id);
-        }
-    }
-
-    // ── Word matching ──────────────────────────────────────────────────────
-    // Look ahead up to LOOKAHEAD words from currentWordIdx for the best match.
-    var LOOKAHEAD = 20;
-
-    function findBestMatch(spokenWord) {
-        var norm = normalizeHeb(spokenWord);
-        if (!norm) return -1;
-
-        // Exact match first
-        for (var i = currentWordIdx; i < Math.min(currentWordIdx + LOOKAHEAD, wordList.length); i++) {
-            if (normalizeHeb(wordList[i].text) === norm) return i;
-        }
-        // Prefix match
-        for (var i = currentWordIdx; i < Math.min(currentWordIdx + LOOKAHEAD, wordList.length); i++) {
-            var wn = normalizeHeb(wordList[i].text);
-            if (wn && (wn.startsWith(norm) || norm.startsWith(wn))) return i;
-        }
-        return -1;
-    }
-
-    // ── Highlight & scroll ─────────────────────────────────────────────────
-    function highlightWord(idx) {
-        if (highlightedEl) {
-            highlightedEl.classList.remove('ml-word-active');
-        }
-        var el = wordList[idx].element;
-        el.classList.add('ml-word-active');
-        highlightedEl = el;
-
-        // Auto-scroll: keep word roughly centered in viewport
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    // ── Process recognized text ────────────────────────────────────────────
-    function processTranscript(transcript) {
-        var words = transcript.trim().split(/\s+/).filter(function (w) { return w.length > 0; });
-        words.forEach(function (word) {
-            var matchIdx = findBestMatch(word);
-            if (matchIdx >= 0) {
-                highlightWord(matchIdx);
-                currentWordIdx = matchIdx + 1;
-            }
-        });
-    }
-
-    // ── Speech Recognition via HebrewSpeech / Web Speech API ──────────────
-
-    function startListening() {
-        listenBtn.hidden = true;
+    // ── Start / Stop ───────────────────────────────────────────────────────
+    function startReading() {
+        if (isRunning) return;
+        isRunning = true;
+        isPausedByNoise = false;
+        startBtn.hidden = true;
         stopBtn.hidden = false;
-        statusEl.textContent = I18N.t('mlListening', langMode);
+        statusEl.textContent = I18N.t('mlRunning', langMode);
         statusEl.className = 'ml-status ml-status-active';
-
-        HebrewSpeech.start({
-            onStatusChange: function (status) {
-                if (status === 'listening') {
-                    statusEl.textContent = I18N.t('mlListening', langMode);
-                    statusEl.className = 'ml-status ml-status-active';
-                } else if (status === 'not-supported') {
-                    statusEl.textContent = I18N.t('mlNotSupported', langMode);
-                    statusEl.className = 'ml-status ml-status-error';
-                    stopListening();
-                } else if (status === 'mic-denied') {
-                    statusEl.textContent = I18N.t('mlMicDenied', langMode);
-                    statusEl.className = 'ml-status ml-status-error';
-                    stopListening();
-                } else if (status === 'error') {
-                    statusEl.textContent = I18N.t('mlError', langMode);
-                    statusEl.className = 'ml-status ml-status-error';
-                    stopListening();
-                }
-            },
-            onTranscript: function (data) {
-                var text = data.text || '';
-                processTranscript(text);
-                syncMegillah(text);
-            }
-        });
+        startNoiseDetection();
+        advanceWord();
     }
 
-    function stopListening() {
-        HebrewSpeech.stop();
-        listenBtn.hidden = false;
+    function stopReading() {
+        isRunning = false;
+        isPausedByNoise = false;
+        clearTimeout(autoTimer);
+        stopNoiseDetection();
+        startBtn.hidden = false;
         stopBtn.hidden = true;
         statusEl.textContent = '';
         statusEl.className = 'ml-status';
     }
 
     // ── Button events ──────────────────────────────────────────────────────
-    listenBtn.addEventListener('click', startListening);
-    stopBtn.addEventListener('click', stopListening);
+    startBtn.addEventListener('click', startReading);
+    stopBtn.addEventListener('click', stopReading);
 
     // ── Cleanup on section change ──────────────────────────────────────────
     contentArea.addEventListener('maharash-cleanup', function onCleanup() {
-        stopListening();
-        HebrewSpeech.terminate();
+        stopReading();
         contentArea.removeEventListener('maharash-cleanup', onCleanup);
     }, { once: true });
 }

@@ -5,8 +5,16 @@
     "artist": "Songs for Purim",
     "duration": 100,
     "url": "https://TeacherRG.github.io/Purim/audio/addelojoda.mp3"
+  },
+  {
+    "id": 2,
+    "title": "PURIM.Pinchas",
+    "artist": "Songs for Purim",
+    "duration": 100,
+    "url": "https://TeacherRG.github.io/myPurim/audio/PURIM.Pinchas.mp3"
   }
 ]
+
 
 
 

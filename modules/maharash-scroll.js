@@ -151,7 +151,6 @@ function renderMaharashScroll() {
         pageCounter.textContent = (currentPage + 1) + ' / ' + IMAGES.length;
         prevBtn.disabled = currentPage === 0;
         nextBtn.disabled = currentPage === IMAGES.length - 1;
-        zoomLevel = 1;
         panY = 0;
         applyZoom();
     }
@@ -252,10 +251,44 @@ function renderMaharashScroll() {
     }
     document.addEventListener('fullscreenchange', onFsChange);
 
-    // Cleanup keyboard and fullscreen listeners when section changes
+    // ── Floating rattle button ─────────────────────────────────────────────
+    var fabBar = document.createElement('div');
+    fabBar.className = 'ml-fab-bar';
+
+    var rattleBtn = document.createElement('button');
+    rattleBtn.className = 'ml-fab-rattle';
+    rattleBtn.title = I18N.t('mlRattleBtn', langMode);
+    rattleBtn.textContent = '🪘';
+    var rattleAudio = new Audio('audio/Shum/' + encodeURIComponent('Шумящая игрушка.wav'));
+    rattleAudio.loop = true;
+    var rattlePlaying = false;
+    rattleBtn.addEventListener('click', function () {
+        if (rattlePlaying) {
+            rattleAudio.pause();
+            rattleAudio.currentTime = 0;
+            rattlePlaying = false;
+            rattleBtn.classList.remove('ml-fab-rattle-active');
+        } else {
+            rattleAudio.currentTime = 0;
+            var p = rattleAudio.play();
+            if (p) p.catch(function (e) { AppLogger.warn('maharash-scroll: rattle audio blocked', e); });
+            rattlePlaying = true;
+            rattleBtn.classList.add('ml-fab-rattle-active');
+        }
+    });
+    fabBar.appendChild(rattleBtn);
+    contentArea.appendChild(fabBar);
+
+    // Cleanup keyboard, fullscreen listeners and rattle when section changes
     var cleanupOnce = function () {
         document.removeEventListener('keydown', onKey);
         document.removeEventListener('fullscreenchange', onFsChange);
+        if (rattlePlaying) {
+            rattleAudio.pause();
+            rattleAudio.currentTime = 0;
+            rattlePlaying = false;
+        }
+        fabBar.remove();
     };
     contentArea.addEventListener('maharash-cleanup', cleanupOnce, { once: true });
 }

@@ -3007,6 +3007,54 @@ html[dir="rtl"] .megilla-shop-list {
     to   { transform: rotate(8deg); }
 }
 
+/* ── Rattle wrap & sound-selection menu ── */
+
+.ml-rattle-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.ml-rattle-menu {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(20, 22, 50, 0.97);
+    border: 1px solid rgba(255, 204, 0, 0.4);
+    border-radius: 12px;
+    padding: 6px 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 160px;
+    z-index: 300;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
+}
+
+.ml-rattle-menu-item {
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    text-align: left;
+    padding: 7px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+}
+
+.ml-rattle-menu-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.ml-rattle-menu-item-active {
+    background: rgba(255, 152, 0, 0.25);
+    color: #ffe066;
+    font-weight: 600;
+}
+
 .ml-fab-speed-label {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.75);

@@ -3152,6 +3152,94 @@ html[dir="rtl"] .megilla-shop-list {
     text-align: center;
 }
 
+/* ── Help button (next to rattle) ── */
+
+.ml-help-btn {
+    font-size: 13px;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.85);
+    padding: 0;
+    transition: background 0.2s, transform 0.1s;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.ml-help-btn:hover {
+    background: rgba(255, 204, 0, 0.25);
+    border-color: rgba(255, 204, 0, 0.6);
+    color: #ffe066;
+}
+
+.ml-help-btn:active {
+    transform: scale(0.9);
+}
+
+/* ── Help popup overlay ── */
+
+.ml-help-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: ml-fadein 0.25s ease;
+}
+
+.ml-help-box {
+    background: linear-gradient(135deg, #1e1f3a, #2c2f6a);
+    border: 2px solid rgba(255, 204, 0, 0.6);
+    border-radius: 16px;
+    padding: 28px 28px 24px;
+    max-width: 440px;
+    width: 90%;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+}
+
+.ml-help-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #ffe066;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.ml-help-content {
+    font-size: 14px;
+    color: #e8e8f0;
+    line-height: 1.65;
+    white-space: pre-line;
+    margin-bottom: 20px;
+}
+
+.ml-help-close {
+    display: block;
+    margin: 0 auto;
+    padding: 8px 28px;
+    background: rgba(255, 204, 0, 0.18);
+    border: 1px solid rgba(255, 204, 0, 0.5);
+    border-radius: 8px;
+    color: #ffe066;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.ml-help-close:hover {
+    background: rgba(255, 204, 0, 0.3);
+}
+
 @media (max-width: 600px) {
     .ml-text-container {
         font-size: 19px;

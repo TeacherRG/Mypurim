@@ -418,6 +418,41 @@ async function renderMegillaListen() {
     });
 
     rattleWrap.appendChild(rattleBtn);
+
+    // Small help button (?) next to rattle
+    function showHelpPopup() {
+        var overlay = document.createElement('div');
+        overlay.className = 'ml-help-overlay';
+        var box = document.createElement('div');
+        box.className = 'ml-help-box';
+        var titleEl = document.createElement('div');
+        titleEl.className = 'ml-help-title';
+        titleEl.textContent = I18N.t('mlHelpTitle', langMode);
+        var content = document.createElement('div');
+        content.className = 'ml-help-content';
+        content.textContent = I18N.t('mlHelpPopup', langMode);
+        var closeBtn = document.createElement('button');
+        closeBtn.className = 'ml-help-close';
+        closeBtn.textContent = '✓ OK';
+        closeBtn.addEventListener('click', function () { overlay.remove(); });
+        overlay.addEventListener('click', function (e) { if (e.target === overlay) overlay.remove(); });
+        box.appendChild(titleEl);
+        box.appendChild(content);
+        box.appendChild(closeBtn);
+        overlay.appendChild(box);
+        contentArea.appendChild(overlay);
+    }
+
+    var helpBtn = document.createElement('button');
+    helpBtn.className = 'ml-help-btn';
+    helpBtn.title = I18N.t('mlHelpBtn', langMode);
+    helpBtn.textContent = '?';
+    helpBtn.addEventListener('click', function (ev) {
+        ev.stopPropagation();
+        showHelpPopup();
+    });
+    rattleWrap.appendChild(helpBtn);
+
     fabBar.appendChild(rattleWrap);
 
     // Speed control: slower (▼) / label / faster (▲)

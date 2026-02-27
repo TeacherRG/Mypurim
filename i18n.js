@@ -32,6 +32,8 @@ const I18N = (function () {
             estherMobileNotice:  'На мобильных устройствах просмотр PDF внутри страницы недоступен. Используйте кнопки выше, чтобы открыть или скачать файл.',
             shareCopied:         'Ссылка скопирована',
             visitorLabel:        'Посетителей:',
+            footerPartnersTitle: 'Партнёры',
+            footerPartnerJRCV:   'Еврейская русскоязычная община Вены',
             sections: {
                 home:            '🏠 Главная',
                 intro:           'О проекте',
@@ -113,6 +115,8 @@ const I18N = (function () {
             estherMobileNotice:  'На мобільних пристроях перегляд PDF на сторінці недоступний. Використовуйте кнопки вище, щоб відкрити або завантажити файл.',
             shareCopied:         'Посилання скопійовано',
             visitorLabel:        'Відвідувачів:',
+            footerPartnersTitle: 'Партнери',
+            footerPartnerJRCV:   'Єврейська російськомовна громада Відня',
             sections: {
                 home:            '🏠 Головна',
                 intro:           'Про проєкт',
@@ -194,6 +198,8 @@ const I18N = (function () {
             estherMobileNotice:  'Auf mobilen Geräten ist die PDF-Anzeige auf der Seite nicht verfügbar. Verwenden Sie die Schaltflächen oben, um die Datei zu öffnen oder herunterzuladen.',
             shareCopied:         'Link kopiert',
             visitorLabel:        'Besucher:',
+            footerPartnersTitle: 'Partner',
+            footerPartnerJRCV:   'Jüdische russischsprachige Gemeinde Wien',
             sections: {
                 home:            '🏠 Startseite',
                 intro:           'Über das Projekt',
@@ -275,6 +281,8 @@ const I18N = (function () {
             estherMobileNotice:  'On mobile devices, viewing the PDF within the page is not available. Use the buttons above to open or download the file.',
             shareCopied:         'Link copied',
             visitorLabel:        'Visitors:',
+            footerPartnersTitle: 'Partners',
+            footerPartnerJRCV:   'Jewish Russian-Speaking Community of Vienna',
             sections: {
                 home:            '🏠 Home',
                 intro:           'About the Project',
@@ -356,6 +364,8 @@ const I18N = (function () {
             estherMobileNotice:  'במכשירים ניידים אין אפשרות לצפות ב-PDF בתוך הדף. השתמשו בכפתורים למעלה כדי לפתוח או להוריד את הקובץ.',
             shareCopied:         'הקישור הועתק',
             visitorLabel:        'מבקרים:',
+            footerPartnersTitle: 'שותפים',
+            footerPartnerJRCV:   'הקהילה היהודית דוברת הרוסית בווינה',
             sections: {
                 home:            '🏠 דף הבית',
                 intro:           'אודות הפרויקט',

@@ -1532,6 +1532,63 @@ body::before {
     letter-spacing: 0.03em;
 }
 
+/* ===== FOOTER PARTNERS ===== */
+
+.footer-partners {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.footer-partners-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 14px;
+}
+
+.footer-partners-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+}
+
+.footer-partner-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.85);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.footer-partner-item:hover {
+    opacity: 0.85;
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.footer-partner-logo {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 6px;
+}
+
+.footer-partner-name {
+    font-size: 12px;
+    text-align: center;
+    max-width: 160px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.75);
+}
+
 /* ===== RESPONSIVE ===== */
 
 @media (max-width: 768px) {

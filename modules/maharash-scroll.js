@@ -253,16 +253,107 @@ function renderMaharashScroll() {
 
     // ── Floating rattle button ─────────────────────────────────────────────
     var fabBar = document.createElement('div');
-    fabBar.className = 'ml-fab-bar';
+    fabBar.className = 'ml-fab-bar maharash-fab-bar';
+
+    var rattleSoundList = [
+        { file: 'audio/Shum/' + encodeURIComponent('Гудок игрушечного паровоза.mp3'),        emoji: '🚂', label: { ru: 'Паровозик', uk: 'Паровозик', de: 'Lokomotive', en: 'Train',   he: 'קטר' } },
+        { file: 'audio/Shum/' + encodeURIComponent('Игрушка-шумелка_ крутящаяся шумелка металлическая.mp3'), emoji: '🎉', label: { ru: 'Шумелка',   uk: 'Шумілка',   de: 'Rassel',    en: 'Rattle',  he: 'רעשן' } },
+        { file: 'audio/Shum/' + encodeURIComponent('Игрушки_ много детских игрушек-шумелок, гудят и пищат.mp3'), emoji: '🧸', label: { ru: 'Игрушки',   uk: 'Іграшки',   de: 'Spielzeug', en: 'Toys',    he: 'צעצועים' } },
+        { file: 'audio/Shum/' + encodeURIComponent('Шумящая игрушка.wav'),                    emoji: '🪘', label: { ru: 'Гремелка',  uk: 'Гриміт',    de: 'Klapper',   en: 'Gragger', he: 'פורימשפיל' } }
+    ];
+    var rattleSoundIdx = 3; // default: Шумящая игрушка.wav
+    var rattleAudio = new Audio(rattleSoundList[rattleSoundIdx].file);
+    rattleAudio.loop = true;
+    var rattlePlaying = false;
+
+    var rattleWrap = document.createElement('div');
+    rattleWrap.className = 'ml-rattle-wrap';
 
     var rattleBtn = document.createElement('button');
     rattleBtn.className = 'ml-fab-rattle';
     rattleBtn.title = I18N.t('mlRattleBtn', langMode);
-    rattleBtn.textContent = '🪘';
-    var rattleAudio = new Audio('audio/Shum/' + encodeURIComponent('Шумящая игрушка.wav'));
-    rattleAudio.loop = true;
-    var rattlePlaying = false;
+    rattleBtn.textContent = rattleSoundList[rattleSoundIdx].emoji;
+
+    var rattleMenuCloseListener = null;
+
+    function openRattleMenu() {
+        if (rattleMenuCloseListener) {
+            document.removeEventListener('click', rattleMenuCloseListener);
+            rattleMenuCloseListener = null;
+        }
+        var existing = rattleWrap.querySelector('.ml-rattle-menu');
+        if (existing) { existing.remove(); return; }
+        var uiLang = ['uk', 'de', 'he', 'en'].indexOf(langMode) !== -1 ? langMode : 'ru';
+        var menu = document.createElement('div');
+        menu.className = 'ml-rattle-menu';
+        rattleSoundList.forEach(function (snd, i) {
+            var item = document.createElement('button');
+            item.className = 'ml-rattle-menu-item' + (i === rattleSoundIdx ? ' ml-rattle-menu-item-active' : '');
+            item.textContent = snd.emoji + ' ' + (snd.label[uiLang] || snd.label.ru);
+            item.addEventListener('click', function (ev) {
+                ev.stopPropagation();
+                if (rattleMenuCloseListener) {
+                    document.removeEventListener('click', rattleMenuCloseListener);
+                    rattleMenuCloseListener = null;
+                }
+                if (i !== rattleSoundIdx) {
+                    if (rattlePlaying) {
+                        rattleAudio.pause();
+                        rattleAudio.currentTime = 0;
+                    }
+                    var oldAudio = rattleAudio;
+                    rattleSoundIdx = i;
+                    rattleAudio = new Audio(rattleSoundList[rattleSoundIdx].file);
+                    rattleAudio.loop = true;
+                    rattleBtn.textContent = rattleSoundList[rattleSoundIdx].emoji;
+                    oldAudio.src = '';
+                    if (rattlePlaying) {
+                        var p = rattleAudio.play();
+                        if (p) p.catch(function (e) { AppLogger.warn('maharash-scroll: rattle audio blocked', e); });
+                    }
+                }
+                menu.remove();
+            });
+            menu.appendChild(item);
+        });
+        rattleWrap.appendChild(menu);
+        setTimeout(function () {
+            rattleMenuCloseListener = function (ev) {
+                if (!rattleWrap.contains(ev.target)) {
+                    menu.remove();
+                    document.removeEventListener('click', rattleMenuCloseListener);
+                    rattleMenuCloseListener = null;
+                }
+            };
+            document.addEventListener('click', rattleMenuCloseListener);
+        }, 0);
+    }
+
+    var rattlePressTimer = null;
+    var rattleLongPressed = false;
+
+    function startRattlePress() {
+        rattleLongPressed = false;
+        rattlePressTimer = setTimeout(function () {
+            rattleLongPressed = true;
+            openRattleMenu();
+        }, 500);
+    }
+
+    function cancelRattlePress() {
+        clearTimeout(rattlePressTimer);
+        rattlePressTimer = null;
+    }
+
+    rattleBtn.addEventListener('mousedown', startRattlePress);
+    rattleBtn.addEventListener('touchstart', startRattlePress, { passive: true });
+    rattleBtn.addEventListener('mouseup', cancelRattlePress);
+    rattleBtn.addEventListener('mouseleave', cancelRattlePress);
+    rattleBtn.addEventListener('touchend', cancelRattlePress);
+    rattleBtn.addEventListener('touchcancel', cancelRattlePress);
+
     rattleBtn.addEventListener('click', function () {
+        if (rattleLongPressed) { rattleLongPressed = false; return; }
         if (rattlePlaying) {
             rattleAudio.pause();
             rattleAudio.currentTime = 0;
@@ -276,18 +367,28 @@ function renderMaharashScroll() {
             rattleBtn.classList.add('ml-fab-rattle-active');
         }
     });
-    fabBar.appendChild(rattleBtn);
-    contentArea.appendChild(fabBar);
+
+    rattleWrap.appendChild(rattleBtn);
+    fabBar.appendChild(rattleWrap);
+    viewer.appendChild(fabBar);
 
     // Cleanup keyboard, fullscreen listeners and rattle when section changes
     var cleanupOnce = function () {
         document.removeEventListener('keydown', onKey);
         document.removeEventListener('fullscreenchange', onFsChange);
+        clearTimeout(rattlePressTimer);
+        rattlePressTimer = null;
         if (rattlePlaying) {
             rattleAudio.pause();
             rattleAudio.currentTime = 0;
             rattlePlaying = false;
         }
+        if (rattleMenuCloseListener) {
+            document.removeEventListener('click', rattleMenuCloseListener);
+            rattleMenuCloseListener = null;
+        }
+        var existingMenu = rattleWrap.querySelector('.ml-rattle-menu');
+        if (existingMenu) existingMenu.remove();
         fabBar.remove();
     };
     contentArea.addEventListener('maharash-cleanup', cleanupOnce, { once: true });

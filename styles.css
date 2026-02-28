@@ -2933,6 +2933,27 @@ html[dir="rtl"] .megilla-shop-list {
     outline-offset: 2px;
 }
 
+.ml-verse-special-wrapper {
+    display: block;
+    background: rgba(255, 180, 0, 0.12);
+    border: 2px solid rgba(200, 140, 0, 0.35);
+    border-radius: 10px;
+    padding: 10px 14px 12px;
+    margin: 12px 0;
+}
+
+.ml-verse-transcription {
+    direction: ltr;
+    text-align: left;
+    font-size: 14px;
+    color: #7a5c00;
+    font-family: Arial, sans-serif;
+    font-style: italic;
+    padding-top: 6px;
+    margin-top: 6px;
+    border-top: 1px dashed rgba(200, 140, 0, 0.4);
+}
+
 .ml-verse-num {
     font-size: 11px;
     color: #777;

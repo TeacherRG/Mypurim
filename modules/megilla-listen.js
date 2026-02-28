@@ -61,6 +61,66 @@ async function renderMegillaListen() {
     var wordList = [];
     var globalWordIdx = 0;
 
+    // Special verses that require a different background and phonetic transcription
+    var SPECIAL_VERSES = {
+        '2_ה': {
+            ru: 'Иш йехуди hая бэ-Шушан hа-бира, у-шмо Мордехай...',
+            uk: 'Іш єгуді гая бе-Шушан га-біра, у-шмо Мордехай...',
+            de: 'Isch Jehudi haja be-Schushan ha-bira, u-schmo Mordechai...',
+            en: 'Ish yehudi haya be-Shushan ha-bira, u-shmo Mordechai...'
+        },
+        '6_א': {
+            ru: 'Балайла hа-hу надéда шнат hа-мéлех...',
+            uk: 'Балайла га-гу надеда шнат га-мелех...',
+            de: 'Ba-laila ha-hu nadeda schenat ha-melech...',
+            en: 'Ba-layla ha-hu nadeda shenat ha-melech...'
+        },
+        '8_טו': {
+            ru: 'У-Мордехай яца милифнэй hа-мéлех...',
+            uk: 'У-Мордехай яца мілефней га-мелех...',
+            de: 'U-Mordechai jaza milifnej ha-melech...',
+            en: 'U-Mordechai yatza milifnei ha-melech...'
+        },
+        '8_טז': {
+            ru: 'Лайехудим hайта ора вэ-симха вэ-сасон вийкар',
+            uk: 'Ла-єгудім гайта ора ве-сімха ве-сасон вийкар',
+            de: 'La-jehudim hajta ora we-simcha we-sason wijkar',
+            en: 'La-yehudim hayta ora ve-simcha ve-sason vi-ykar'
+        },
+        '9_ו': {
+            ru: 'У-вэ-Шушан hа-бира аргу hайехудим вэ-авэд хамéш мэóт иш',
+            uk: 'У-ве-Шушан га-біра аргу га-єгудім ве-авед хамеш меот іш',
+            de: 'U-we-Schushan ha-bira hargu ha-jehudim we-awed chamesch me\'ot isch',
+            en: 'U-ve-Shushan ha-bira hargu ha-yehudim ve-aved chamesh me\'ot ish'
+        },
+        '9_ז': {
+            ru: 'Вэ-эт Паршандата, вэ-эт Далфон, вэ-эт Аспата',
+            uk: 'Ве-ет Паршандата, ве-ет Далфон, ве-ет Аспата',
+            de: 'We-et Parschandata, we-et Dalfon, we-et Aspata',
+            en: 'Ve\'et Parshandata, ve\'et Dalfon, ve\'et Aspata'
+        },
+        '9_ח': {
+            ru: 'Вэ-эт Пората, вэ-эт Адалья, вэ-эт Аридата',
+            uk: 'Ве-ет Пората, ве-ет Адалья, ве-ет Аридата',
+            de: 'We-et Porata, we-et Adalja, we-et Aridata',
+            en: 'Ve\'et Porata, ve\'et Adalya, ve\'et Aridata'
+        },
+        '9_ט': {
+            ru: 'Вэ-эт Пармашта, вэ-эт Арисай, вэ-эт Аридай, вэ-эт Вайзата',
+            uk: 'Ве-ет Пармашта, ве-ет Арісай, ве-ет Арідай, ве-ет Вайзата',
+            de: 'We-et Parmaschta, we-et Arisaj, we-et Aridaj, we-et Wajsata',
+            en: 'Ve\'et Parmashta, ve\'et Arisai, ve\'et Aridai, ve\'et Vayzata'
+        },
+        '9_י': {
+            ru: 'Эсэрет бнэй Аман бен-hа-Мэдата...',
+            uk: 'Есерет бней Гаман бен-га-Медата...',
+            de: 'Asseret bnei Haman ben-ha-Medata...',
+            en: 'Aseret bnei Haman ben-ha-Medata...'
+        }
+    };
+    var uiLang = { uk: 'uk', de: 'de', en: 'en' }[langMode] || 'ru';
+    var showTranscription = (langMode !== 'he');
+
     data.chapters.forEach(function (chapter) {
         const chapterHeader = document.createElement('div');
         chapterHeader.className = 'ml-chapter-header';
@@ -68,6 +128,9 @@ async function renderMegillaListen() {
         textContainer.appendChild(chapterHeader);
 
         chapter.verses.forEach(function (verse) {
+            var verseKey = chapter.chapter_id + '_' + verse.verse_id;
+            var specialData = SPECIAL_VERSES[verseKey];
+
             const verseLine = document.createElement('div');
             verseLine.className = 'ml-verse';
 
@@ -88,7 +151,20 @@ async function renderMegillaListen() {
                 globalWordIdx++;
             });
 
-            textContainer.appendChild(verseLine);
+            if (specialData) {
+                var wrapper = document.createElement('div');
+                wrapper.className = 'ml-verse-special-wrapper';
+                wrapper.appendChild(verseLine);
+                if (showTranscription && specialData[uiLang]) {
+                    var transcription = document.createElement('div');
+                    transcription.className = 'ml-verse-transcription';
+                    transcription.textContent = specialData[uiLang];
+                    wrapper.appendChild(transcription);
+                }
+                textContainer.appendChild(wrapper);
+            } else {
+                textContainer.appendChild(verseLine);
+            }
         });
     });
 

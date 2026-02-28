@@ -17,14 +17,14 @@ function renderHome() {
             colorTo:   '#c07800'
         },
         {
-            id: 'esther_scroll',
-            emoji: '📜',
+            id: 'megilla_listen',
+            emoji: '🎤',
             colorFrom: '#7b4fa8',
             colorTo:   '#4e2a80'
         },
         {
-            id: 'alcohol',
-            emoji: '🍷',
+            id: 'maharash_scroll',
+            emoji: '📜',
             colorFrom: '#c0392b',
             colorTo:   '#7b1c14'
         }

@@ -99,8 +99,8 @@ async function renderMegillaListen() {
     var isPausedByNoise = false;
     var autoTimer = null;
 
-    // Reading speed: 130 WPM ≈ 462 ms per word
-    var currentWpm = 130;
+    // Reading speed: 110 WPM ≈ 545 ms per word
+    var currentWpm = 110;
     var WORD_INTERVAL = Math.round(60000 / currentWpm);
 
     // ── Noise detection state ──────────────────────────────────────────────
@@ -493,6 +493,36 @@ async function renderMegillaListen() {
     fabBar.appendChild(slowerBtn);
     fabBar.appendChild(speedValueEl);
     fabBar.appendChild(fasterBtn);
+
+    // Font size control: slider
+    var DEFAULT_FONT_SIZE = 22;
+    var fontSizeLabel = document.createElement('span');
+    fontSizeLabel.className = 'ml-fab-speed-label ml-font-size-label';
+    fontSizeLabel.title = I18N.t('mlFontSize', langMode);
+    fontSizeLabel.textContent = 'A';
+
+    var fontSizeSlider = document.createElement('input');
+    fontSizeSlider.type = 'range';
+    fontSizeSlider.className = 'ml-font-slider';
+    fontSizeSlider.min = 14;
+    fontSizeSlider.max = 40;
+    fontSizeSlider.step = 1;
+    fontSizeSlider.value = DEFAULT_FONT_SIZE;
+    fontSizeSlider.title = I18N.t('mlFontSize', langMode);
+
+    var fontSizeValueEl = document.createElement('span');
+    fontSizeValueEl.className = 'ml-fab-speed-value';
+    fontSizeValueEl.textContent = DEFAULT_FONT_SIZE + 'px';
+
+    fontSizeSlider.addEventListener('input', function () {
+        var size = parseInt(fontSizeSlider.value, 10);
+        textContainer.style.fontSize = size + 'px';
+        fontSizeValueEl.textContent = size + 'px';
+    });
+
+    fabBar.appendChild(fontSizeLabel);
+    fabBar.appendChild(fontSizeSlider);
+    fabBar.appendChild(fontSizeValueEl);
 
     contentArea.appendChild(fabBar);
 

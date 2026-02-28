@@ -2947,17 +2947,17 @@ html[dir="rtl"] .megilla-shop-list {
 .ml-word {
     display: inline;
     border-radius: 3px;
-    transition: background 0.15s, color 0.15s;
+    transition: background 0.35s ease-in-out, color 0.25s ease, box-shadow 0.35s ease-in-out;
     padding: 1px 2px;
     cursor: pointer;
 }
 
 .ml-word-active {
-    background: rgba(255, 230, 0, 0.85);
+    background: linear-gradient(90deg, rgba(255, 220, 0, 0.12), rgba(255, 230, 0, 0.88), rgba(255, 220, 0, 0.12));
     color: #1a1a2e;
     border-radius: 4px;
     padding: 1px 4px;
-    box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.5);
+    box-shadow: 0 0 22px 10px rgba(255, 210, 0, 0.32);
     font-weight: 600;
 }
 
@@ -3238,6 +3238,44 @@ html[dir="rtl"] .megilla-shop-list {
 
 .ml-help-close:hover {
     background: rgba(255, 204, 0, 0.3);
+}
+
+/* ── Font size slider ── */
+
+.ml-font-size-label {
+    font-size: 16px;
+    font-weight: 700;
+    margin-left: 8px;
+}
+
+.ml-font-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 80px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.ml-font-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ffe066;
+    cursor: pointer;
+}
+
+.ml-font-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ffe066;
+    cursor: pointer;
+    border: none;
 }
 
 @media (max-width: 600px) {

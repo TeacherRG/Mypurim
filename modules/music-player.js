@@ -62,7 +62,6 @@ function bindMpEvents() {
     mpAudio.addEventListener('ended', function () {
         mpPlaying = true;
         mpLoad((mpIndex + 1) % mpTracks.length);
-        mpAudio.play();
     });
 
     bar.addEventListener('click', function (e) {

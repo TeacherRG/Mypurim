@@ -308,8 +308,8 @@ async function renderMegillaListen() {
     var autoTimer = null;
     var repeatedVerses = new Set(); // tracks which special verses have already been repeated
 
-    // Reading speed: 110 WPM ≈ 545 ms per word; highlight advances 3 words at a time
-    var currentWpm = 110;
+    // Reading speed: 55 WPM ≈ 1100 ms per word; highlight advances 3 words at a time
+    var currentWpm = 55;
     var WORD_INTERVAL = Math.round(60000 * 3 / currentWpm);
 
     // ── Noise detection state ──────────────────────────────────────────────
@@ -672,8 +672,8 @@ async function renderMegillaListen() {
     updateSpeedLabel();
 
     slowerBtn.addEventListener('click', function () {
-        if (currentWpm > 50) {
-            currentWpm -= 10;
+        if (currentWpm > 30) {
+            currentWpm -= 5;
             WORD_INTERVAL = Math.round(60000 * 3 / currentWpm);
             updateSpeedLabel();
         }
@@ -681,7 +681,7 @@ async function renderMegillaListen() {
 
     fasterBtn.addEventListener('click', function () {
         if (currentWpm < 300) {
-            currentWpm += 10;
+            currentWpm += 5;
             WORD_INTERVAL = Math.round(60000 * 3 / currentWpm);
             updateSpeedLabel();
         }

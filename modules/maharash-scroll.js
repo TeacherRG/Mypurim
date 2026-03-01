@@ -81,8 +81,21 @@ function renderMaharashScroll() {
     zoomInFs.textContent = '+';
     zoomInFs.title = 'Увеличить / Zoom in';
 
+    const fitWidthBtn = document.createElement('button');
+    fitWidthBtn.className = 'maharash-zoom-fs-btn maharash-fit-width-btn';
+    fitWidthBtn.textContent = '↔';
+    fitWidthBtn.title = I18N.t('zoomFitWidth', langMode);
+
+    // Rattle button inside viewer (visible in fullscreen)
+    const rattleFsBtn = document.createElement('button');
+    rattleFsBtn.className = 'maharash-zoom-fs-btn maharash-rattle-fs-btn';
+    rattleFsBtn.textContent = '🪘';
+    rattleFsBtn.title = I18N.t('mlRattleBtn', langMode);
+
     zoomOverlay.appendChild(zoomInFs);
     zoomOverlay.appendChild(zoomOutFs);
+    zoomOverlay.appendChild(fitWidthBtn);
+    zoomOverlay.appendChild(rattleFsBtn);
     viewer.appendChild(zoomOverlay);
 
     IMAGES.forEach(function (src, idx) {
@@ -262,22 +275,57 @@ function renderMaharashScroll() {
     var rattleAudio = new Audio('audio/Shum/' + encodeURIComponent('Шумящая игрушка.wav'));
     rattleAudio.loop = true;
     var rattlePlaying = false;
-    rattleBtn.addEventListener('click', function () {
+
+    function toggleRattle() {
         if (rattlePlaying) {
             rattleAudio.pause();
             rattleAudio.currentTime = 0;
             rattlePlaying = false;
             rattleBtn.classList.remove('ml-fab-rattle-active');
+            rattleFsBtn.classList.remove('maharash-rattle-fs-btn-active');
         } else {
             rattleAudio.currentTime = 0;
             var p = rattleAudio.play();
             if (p) p.catch(function (e) { AppLogger.warn('maharash-scroll: rattle audio blocked', e); });
             rattlePlaying = true;
             rattleBtn.classList.add('ml-fab-rattle-active');
+            rattleFsBtn.classList.add('maharash-rattle-fs-btn-active');
         }
-    });
+    }
+
+    rattleBtn.addEventListener('click', toggleRattle);
+    rattleFsBtn.addEventListener('click', toggleRattle);
     fabBar.appendChild(rattleBtn);
     contentArea.appendChild(fabBar);
+
+    // ── Fit to screen width button ─────────────────────────────────────────
+    fitWidthBtn.addEventListener('click', function () {
+        var img = strip.querySelectorAll('.maharash-img')[currentPage];
+        if (!img) return;
+        var viewerW = viewer.offsetWidth || window.innerWidth;
+        var imgW = img.naturalWidth;
+        var imgH = img.naturalHeight;
+        if (!imgW || !imgH) return;
+        // Compute display size of image at zoom=1 (constrained by max-height)
+        // In fullscreen, screen height minus a 5% margin matches the CSS max-height: 95vh rule
+        var maxH = document.fullscreenElement === viewer
+            ? window.screen.height * 0.95
+            : viewer.offsetHeight;
+        var displayW, displayH;
+        var aspectRatio = imgW / imgH;
+        if (imgW / viewerW <= imgH / maxH) {
+            // height-constrained
+            displayH = Math.min(imgH, maxH);
+            displayW = displayH * aspectRatio;
+        } else {
+            // width-constrained (already fills width)
+            displayW = Math.min(imgW, viewerW);
+        }
+        var fitScale = viewerW / displayW;
+        zoomLevel = Math.max(0.5, Math.min(4, parseFloat(fitScale.toFixed(2))));
+        panY = 0;
+        applyZoom();
+    });
 
     // Cleanup keyboard, fullscreen listeners and rattle when section changes
     var cleanupOnce = function () {

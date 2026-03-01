@@ -3406,11 +3406,24 @@ html[dir="rtl"] .megilla-shop-list {
     appearance: none;
     width: 80px;
     height: 4px;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(200, 140, 0, 0.35);
     border-radius: 2px;
     outline: none;
     cursor: pointer;
     flex-shrink: 0;
+}
+
+.ml-font-slider::-webkit-slider-runnable-track {
+    height: 4px;
+    background: rgba(200, 140, 0, 0.35);
+    border-radius: 2px;
+}
+
+.ml-font-slider::-moz-range-track {
+    height: 4px;
+    background: rgba(200, 140, 0, 0.35);
+    border-radius: 2px;
+    border: none;
 }
 
 .ml-font-slider::-webkit-slider-thumb {
@@ -3420,6 +3433,7 @@ html[dir="rtl"] .megilla-shop-list {
     border-radius: 50%;
     background: #ffe066;
     cursor: pointer;
+    margin-top: -6px;
 }
 
 .ml-font-slider::-moz-range-thumb {

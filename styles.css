@@ -2900,13 +2900,13 @@ html[dir="rtl"] .megilla-shop-list {
 .ml-text-container {
     direction: rtl;
     text-align: justify;
-    padding: 24px 32px 100px;
+    padding: 24px 8px 100px;
     line-height: 2.1;
     font-size: 22px;
     font-family: 'Stam Ashkenaz CLM', 'Frank Ruhl Libre', 'Times New Roman', 'David', serif;
     color: #1a1a2e;
-    max-width: 900px;
-    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .ml-chapter-header {
@@ -3424,7 +3424,7 @@ html[dir="rtl"] .megilla-shop-list {
 @media (max-width: 600px) {
     .ml-text-container {
         font-size: 19px;
-        padding: 16px 16px 100px;
+        padding: 16px 6px 100px;
     }
 
     .ml-controls {

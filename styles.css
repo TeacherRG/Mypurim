@@ -2500,6 +2500,12 @@ html[dir="rtl"] .maharash-nav-next { right: auto; left: 6px; }
     pointer-events: none;
 }
 
+.maharash-rattle-fs-btn-active {
+    background: rgba(255, 204, 0, 0.35) !important;
+    opacity: 1 !important;
+    border-color: rgba(255, 204, 0, 0.9) !important;
+}
+
 /* Fullscreen — fill the entire screen */
 .maharash-viewer:-webkit-full-screen {
     max-width: 100vw;

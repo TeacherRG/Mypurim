@@ -693,8 +693,7 @@ async function renderMegillaListen() {
 
     contentArea.appendChild(fabBar);
 
-    // Stop rattle when leaving the section
-    contentArea.addEventListener('maharash-cleanup', function onFabCleanup() {
+    function megillaListenCleanup() {
         stopReading();
         if (rattlePlaying) {
             rattleAudio.pause();
@@ -712,6 +711,15 @@ async function renderMegillaListen() {
         var existingMenu = document.getElementById('ml-rattle-menu');
         if (existingMenu) existingMenu.remove();
         fabBar.remove();
-        contentArea.removeEventListener('maharash-cleanup', onFabCleanup);
+    }
+
+    // Stop rattle when leaving the section
+    contentArea.addEventListener('maharash-cleanup', function onFabCleanup() {
+        megillaListenCleanup();
+        window.removeEventListener('pagehide', onMegillaListenPageHide);
     }, { once: true });
+
+    // Stop rattle when leaving the site
+    function onMegillaListenPageHide() { megillaListenCleanup(); }
+    window.addEventListener('pagehide', onMegillaListenPageHide);
 }

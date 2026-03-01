@@ -3204,6 +3204,128 @@ html[dir="rtl"] .megilla-shop-list {
     transform: scale(0.9);
 }
 
+/* ── Help button in top controls bar ── */
+
+.ml-ctrl-help-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 2px solid rgba(30, 31, 58, 0.35);
+    background: rgba(30, 31, 58, 0.07);
+    color: #1e1f3a;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.ml-ctrl-help-btn:hover {
+    background: rgba(255, 204, 0, 0.25);
+    border-color: #c99a00;
+    color: #7a5c00;
+}
+
+.ml-ctrl-help-btn:active {
+    transform: scale(0.94);
+}
+
+/* ── Settings button and dropdown ── */
+
+.ml-settings-wrap {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
+.ml-ctrl-settings-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 2px solid rgba(30, 31, 58, 0.35);
+    background: rgba(30, 31, 58, 0.07);
+    color: #1e1f3a;
+    font-size: 17px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.ml-ctrl-settings-btn:hover {
+    background: rgba(255, 204, 0, 0.25);
+    border-color: #c99a00;
+    color: #7a5c00;
+}
+
+.ml-ctrl-settings-btn:active {
+    transform: scale(0.94);
+}
+
+.ml-settings-panel {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    background: #fff;
+    border: 1px solid rgba(200, 140, 0, 0.45);
+    border-radius: 12px;
+    padding: 14px 16px;
+    z-index: 50;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+    min-width: 230px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.ml-settings-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ml-settings-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    white-space: nowrap;
+    min-width: 60px;
+}
+
+.ml-settings-select {
+    flex: 1;
+    padding: 5px 8px;
+    border: 1px solid rgba(200, 140, 0, 0.5);
+    border-radius: 6px;
+    font-size: 13px;
+    color: #1a1a2e;
+    background: #fff;
+    cursor: pointer;
+    outline: none;
+}
+
+.ml-settings-select:focus {
+    border-color: #c99a00;
+    box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.25);
+}
+
+.ml-settings-size-value {
+    font-size: 12px;
+    font-weight: 600;
+    color: #7a5c00;
+    min-width: 32px;
+    text-align: right;
+}
+
 /* ── Help popup overlay ── */
 
 .ml-help-overlay {

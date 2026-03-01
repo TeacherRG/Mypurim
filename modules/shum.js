@@ -134,4 +134,24 @@ function renderShumGame() {
             }
         });
     });
+
+    function stopActiveSound() {
+        if (activeIndex >= 0) {
+            stopSound(activeIndex);
+            if (grid.children[activeIndex]) {
+                grid.children[activeIndex].classList.remove('shum-active');
+            }
+            activeIndex = -1;
+        }
+    }
+
+    // Stop sound when navigating to another section
+    contentArea.addEventListener('maharash-cleanup', function onShumCleanup() {
+        stopActiveSound();
+        window.removeEventListener('pagehide', onShumPageHide);
+    }, { once: true });
+
+    // Stop sound when leaving the site
+    function onShumPageHide() { stopActiveSound(); }
+    window.addEventListener('pagehide', onShumPageHide);
 }

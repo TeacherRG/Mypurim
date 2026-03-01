@@ -2949,6 +2949,13 @@ html[dir="rtl"] .megilla-shop-list {
     margin: 12px 0;
 }
 
+.ml-verse-special-wrapper--active {
+    background: rgba(255, 180, 0, 0.38);
+    border-color: rgba(200, 140, 0, 0.85);
+    box-shadow: 0 0 18px 6px rgba(255, 180, 0, 0.28);
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
 .ml-verse-transcription {
     direction: ltr;
     text-align: left;

@@ -2460,10 +2460,11 @@ html[dir="rtl"] .maharash-nav-next { right: auto; left: 6px; }
 .maharash-zoom-overlay {
     position: absolute;
     bottom: 16px;
-    right: 16px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 20;
     display: none;
-    flex-direction: column;
+    flex-direction: row;
     gap: 8px;
 }
 

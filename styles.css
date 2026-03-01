@@ -3287,6 +3287,10 @@ html[dir="rtl"] .megilla-shop-list {
     gap: 14px;
 }
 
+.ml-settings-panel[hidden] {
+    display: none;
+}
+
 .ml-settings-row {
     display: flex;
     align-items: center;

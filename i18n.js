@@ -34,6 +34,7 @@ const I18N = (function () {
             visitorLabel:        'Посетителей:',
             footerPartnersTitle: 'Партнёры',
             footerPartnerJRCV:   'Еврейская русскоязычная община Вены',
+            footerPartnerDJC:    'Еврейская община Днепра',
             sections: {
                 home:            '🏠 Главная',
                 intro:           'О проекте',
@@ -124,6 +125,7 @@ const I18N = (function () {
             visitorLabel:        'Відвідувачів:',
             footerPartnersTitle: 'Партнери',
             footerPartnerJRCV:   'Єврейська російськомовна громада Відня',
+            footerPartnerDJC:    'Єврейська громада Дніпра',
             sections: {
                 home:            '🏠 Головна',
                 intro:           'Про проєкт',
@@ -214,6 +216,7 @@ const I18N = (function () {
             visitorLabel:        'Besucher:',
             footerPartnersTitle: 'Partner',
             footerPartnerJRCV:   'Jüdische russischsprachige Gemeinde Wien',
+            footerPartnerDJC:    'Jüdische Gemeinde Dnipro',
             sections: {
                 home:            '🏠 Startseite',
                 intro:           'Über das Projekt',
@@ -304,6 +307,7 @@ const I18N = (function () {
             visitorLabel:        'Visitors:',
             footerPartnersTitle: 'Partners',
             footerPartnerJRCV:   'Jewish Russian-Speaking Community of Vienna',
+            footerPartnerDJC:    'Jewish Community of Dnipro',
             sections: {
                 home:            '🏠 Home',
                 intro:           'About the Project',
@@ -394,6 +398,7 @@ const I18N = (function () {
             visitorLabel:        'מבקרים:',
             footerPartnersTitle: 'שותפים',
             footerPartnerJRCV:   'הקהילה היהודית דוברת הרוסית בווינה',
+            footerPartnerDJC:    'הקהילה היהודית של דניפרו',
             sections: {
                 home:            '🏠 דף הבית',
                 intro:           'אודות הפרויקט',

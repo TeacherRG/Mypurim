@@ -299,7 +299,7 @@ async function renderMegillaListen() {
 
     // ── State ──────────────────────────────────────────────────────────────
     var currentWordIdx = 0;
-    var highlightedEl = null;
+    var highlightedEls = [];
     var isRunning = false;
     var isPausedByNoise = false;
     var autoTimer = null;
@@ -374,7 +374,7 @@ async function renderMegillaListen() {
             return;
         }
         highlightWord(currentWordIdx);
-        currentWordIdx++;
+        currentWordIdx += 3;
         scheduleNext();
     }
 
@@ -394,11 +394,15 @@ async function renderMegillaListen() {
 
     // ── Highlight & scroll ─────────────────────────────────────────────────
     function highlightWord(idx) {
-        if (highlightedEl) highlightedEl.classList.remove('ml-word-active');
-        var el = wordList[idx].element;
-        el.classList.add('ml-word-active');
-        highlightedEl = el;
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        highlightedEls.forEach(function (el) { el.classList.remove('ml-word-active'); });
+        highlightedEls = [];
+        for (var i = 0; i < 3; i++) {
+            if (idx + i < wordList.length) {
+                wordList[idx + i].element.classList.add('ml-word-active');
+                highlightedEls.push(wordList[idx + i].element);
+            }
+        }
+        wordList[idx].element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     // ── Congratulations ────────────────────────────────────────────────────
@@ -431,10 +435,8 @@ async function renderMegillaListen() {
         closeBtn.addEventListener('click', function () {
             overlay.remove();
             currentWordIdx = 0;
-            if (highlightedEl) {
-                highlightedEl.classList.remove('ml-word-active');
-                highlightedEl = null;
-            }
+            highlightedEls.forEach(function (el) { el.classList.remove('ml-word-active'); });
+            highlightedEls = [];
         });
 
         box.appendChild(emoji);
@@ -451,7 +453,7 @@ async function renderMegillaListen() {
         var idx = parseInt(target.dataset.idx, 10);
         if (isNaN(idx)) return;
         highlightWord(idx);
-        currentWordIdx = idx + 1;
+        currentWordIdx = idx + 3;
         if (!isRunning) {
             // Start reading from clicked word: set up state then schedule next advance
             isRunning = true;

@@ -189,6 +189,7 @@ async function renderMegillaListen() {
     // ── Build word list & render text ──────────────────────────────────────
     var wordList = [];
     var globalWordIdx = 0;
+    var specialVerseRanges = []; // [{verseKey, startIdx, endIdx}] for verses shown with transcription
 
     // Special verses that require a different background and phonetic transcription
     var SPECIAL_VERSES = {
@@ -197,12 +198,6 @@ async function renderMegillaListen() {
             uk: 'Іш єгуді гая бе-Шушан га-біра, у-шмо Мордехай...',
             de: 'Isch Jehudi haja be-Schushan ha-bira, u-schmo Mordechai...',
             en: 'Ish yehudi haya be-Shushan ha-bira, u-shmo Mordechai...'
-        },
-        '6_א': {
-            ru: 'Балайла hа-hу надéда шнат hа-мéлех...',
-            uk: 'Балайла га-гу надеда шнат га-мелех...',
-            de: 'Ba-laila ha-hu nadeda schenat ha-melech...',
-            en: 'Ba-layla ha-hu nadeda shenat ha-melech...'
         },
         '8_טו': {
             ru: 'У-Мордехай яца милифнэй hа-мéлех...',
@@ -245,6 +240,12 @@ async function renderMegillaListen() {
             uk: 'Есерет бней Гаман бен-га-Медата...',
             de: 'Asseret bnei Haman ben-ha-Medata...',
             en: 'Aseret bnei Haman ben-ha-Medata...'
+        },
+        '10_ג': {
+            ru: 'Ки Мордехай hа-Йехуди мишнэ ла-мéлех Ахашвэрóш вэ-гадóл лайехудим вэ-рацуй лэ-рóв эхав, дорéш тов лэ-амо вэ-довэр шалóм лэхоль-заró',
+            uk: 'Кі Мордехай га-Єгуді мішне ла-мелех Ахашверош ве-гадол ла-єгудім ве-рацуй ле-рів ехав, дореш тов ле-амо ве-довер шалом ле-холь-заро',
+            de: 'Ki Mordechai ha-Jehudi mischne la-melech Ahaschverosch we-gadol la-Jehudim we-razuj le-row echaw, doresch tow le-ammo we-dover schalom le-chol-saro',
+            en: 'Ki Mordechai ha-Yehudi mishne la-melech Achashverosh ve-gadol la-Yehudim ve-ratsuy le-rov echav, doresh tov le-amo ve-dover shalom le-chol-zaro'
         }
     };
     var uiLang = { uk: 'uk', de: 'de', en: 'en' }[langMode] || 'ru';
@@ -269,6 +270,7 @@ async function renderMegillaListen() {
             verseLine.appendChild(verseNum);
 
             var words = verse.text.split(/\s+/).filter(function (w) { return w.length > 0; });
+            var verseWordStartIdx = globalWordIdx;
             words.forEach(function (word, i) {
                 if (i > 0) verseLine.appendChild(document.createTextNode(' '));
                 var span = document.createElement('span');
@@ -285,6 +287,7 @@ async function renderMegillaListen() {
                 wrapper.className = 'ml-verse-special-wrapper';
                 wrapper.appendChild(verseLine);
                 if (showTranscription && specialData[uiLang]) {
+                    specialVerseRanges.push({ verseKey: verseKey, startIdx: verseWordStartIdx, endIdx: globalWordIdx - 1 });
                     var transcription = document.createElement('div');
                     transcription.className = 'ml-verse-transcription';
                     transcription.textContent = specialData[uiLang];
@@ -303,6 +306,7 @@ async function renderMegillaListen() {
     var isRunning = false;
     var isPausedByNoise = false;
     var autoTimer = null;
+    var repeatedVerses = new Set(); // tracks which special verses have already been repeated
 
     // Reading speed: 110 WPM ≈ 545 ms per word; highlight advances 3 words at a time
     var currentWpm = 110;
@@ -374,7 +378,17 @@ async function renderMegillaListen() {
             return;
         }
         highlightWord(currentWordIdx);
-        currentWordIdx += 3;
+        var nextIdx = currentWordIdx + 3;
+        // After covering a special verse's last words, repeat it once more
+        for (var r = 0; r < specialVerseRanges.length; r++) {
+            var range = specialVerseRanges[r];
+            if (currentWordIdx <= range.endIdx && nextIdx > range.endIdx && !repeatedVerses.has(range.verseKey)) {
+                repeatedVerses.add(range.verseKey);
+                nextIdx = range.startIdx;
+                break;
+            }
+        }
+        currentWordIdx = nextIdx;
         scheduleNext();
     }
 
@@ -435,6 +449,7 @@ async function renderMegillaListen() {
         closeBtn.addEventListener('click', function () {
             overlay.remove();
             currentWordIdx = 0;
+            repeatedVerses = new Set();
             highlightedEls.forEach(function (el) { el.classList.remove('ml-word-active'); });
             highlightedEls = [];
         });
@@ -481,6 +496,7 @@ async function renderMegillaListen() {
         if (isRunning) return;
         isRunning = true;
         isPausedByNoise = false;
+        repeatedVerses = new Set();
         startBtn.hidden = true;
         stopBtn.hidden = false;
         statusEl.textContent = I18N.t('mlRunning', langMode);

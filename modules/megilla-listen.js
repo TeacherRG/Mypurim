@@ -14,6 +14,30 @@ async function renderMegillaListen() {
     titleBar.textContent = I18N.sectionTitle('megilla_listen', langMode);
     contentArea.appendChild(titleBar);
 
+    // ── Help popup ─────────────────────────────────────────────────────────
+    function showHelpPopup() {
+        var overlay = document.createElement('div');
+        overlay.className = 'ml-help-overlay';
+        var box = document.createElement('div');
+        box.className = 'ml-help-box';
+        var titleEl = document.createElement('div');
+        titleEl.className = 'ml-help-title';
+        titleEl.textContent = I18N.t('mlHelpTitle', langMode);
+        var content = document.createElement('div');
+        content.className = 'ml-help-content';
+        content.textContent = I18N.t('mlHelpPopup', langMode);
+        var closeBtn = document.createElement('button');
+        closeBtn.className = 'ml-help-close';
+        closeBtn.textContent = '✓ OK';
+        closeBtn.addEventListener('click', function () { overlay.remove(); });
+        overlay.addEventListener('click', function (e) { if (e.target === overlay) overlay.remove(); });
+        box.appendChild(titleEl);
+        box.appendChild(content);
+        box.appendChild(closeBtn);
+        overlay.appendChild(box);
+        contentArea.appendChild(overlay);
+    }
+
     // ── Controls ───────────────────────────────────────────────────────────
     const controls = document.createElement('div');
     controls.className = 'ml-controls';
@@ -33,8 +57,113 @@ async function renderMegillaListen() {
     statusEl.className = 'ml-status';
     statusEl.id = 'ml-status';
 
+    // ── Help button (top bar) ──────────────────────────────────────────────
+    var ctrlHelpBtn = document.createElement('button');
+    ctrlHelpBtn.className = 'ml-ctrl-help-btn';
+    ctrlHelpBtn.title = I18N.t('mlHelpBtn', langMode);
+    ctrlHelpBtn.textContent = '?';
+    ctrlHelpBtn.addEventListener('click', function (ev) {
+        ev.stopPropagation();
+        showHelpPopup();
+    });
+
+    // ── Settings button with dropdown (top bar) ────────────────────────────
+    var DEFAULT_FONT_SIZE = 22;
+
+    var settingsWrap = document.createElement('div');
+    settingsWrap.className = 'ml-settings-wrap';
+
+    var settingsBtn = document.createElement('button');
+    settingsBtn.className = 'ml-ctrl-settings-btn';
+    settingsBtn.title = I18N.t('mlSettingsBtn', langMode);
+    settingsBtn.textContent = '⚙';
+
+    var settingsPanel = document.createElement('div');
+    settingsPanel.className = 'ml-settings-panel';
+    settingsPanel.hidden = true;
+
+    // Font family row
+    var fontFamilyRow = document.createElement('div');
+    fontFamilyRow.className = 'ml-settings-row';
+    var fontFamilyLbl = document.createElement('label');
+    fontFamilyLbl.className = 'ml-settings-label';
+    fontFamilyLbl.textContent = I18N.t('mlFontFamily', langMode);
+    var fontFamilySelect = document.createElement('select');
+    fontFamilySelect.className = 'ml-settings-select';
+    var FONT_FAMILIES = [
+        { value: "'Stam Ashkenaz CLM', 'Frank Ruhl Libre', serif", label: 'Stam Ashkenaz' },
+        { value: "'Frank Ruhl Libre', serif",                        label: 'Frank Ruhl Libre' },
+        { value: "'Times New Roman', serif",                          label: 'Times New Roman' },
+        { value: 'Arial, sans-serif',                                 label: 'Arial' }
+    ];
+    FONT_FAMILIES.forEach(function (ff, i) {
+        var opt = document.createElement('option');
+        opt.value = ff.value;
+        opt.textContent = ff.label;
+        if (i === 0) opt.selected = true;
+        fontFamilySelect.appendChild(opt);
+    });
+    fontFamilySelect.addEventListener('change', function () {
+        textContainer.style.fontFamily = fontFamilySelect.value;
+    });
+    fontFamilyRow.appendChild(fontFamilyLbl);
+    fontFamilyRow.appendChild(fontFamilySelect);
+
+    // Font size row
+    var fontSizeRow = document.createElement('div');
+    fontSizeRow.className = 'ml-settings-row';
+    var fontSizeLbl = document.createElement('label');
+    fontSizeLbl.className = 'ml-settings-label';
+    fontSizeLbl.textContent = I18N.t('mlFontSize', langMode);
+    var fontSizeSlider = document.createElement('input');
+    fontSizeSlider.type = 'range';
+    fontSizeSlider.className = 'ml-font-slider';
+    fontSizeSlider.min = 14;
+    fontSizeSlider.max = 40;
+    fontSizeSlider.step = 1;
+    fontSizeSlider.value = DEFAULT_FONT_SIZE;
+    var fontSizeValueEl = document.createElement('span');
+    fontSizeValueEl.className = 'ml-settings-size-value';
+    fontSizeValueEl.textContent = DEFAULT_FONT_SIZE + 'px';
+    fontSizeSlider.addEventListener('input', function () {
+        var size = parseInt(fontSizeSlider.value, 10);
+        textContainer.style.fontSize = size + 'px';
+        fontSizeValueEl.textContent = size + 'px';
+    });
+    fontSizeRow.appendChild(fontSizeLbl);
+    fontSizeRow.appendChild(fontSizeSlider);
+    fontSizeRow.appendChild(fontSizeValueEl);
+
+    settingsPanel.appendChild(fontFamilyRow);
+    settingsPanel.appendChild(fontSizeRow);
+    settingsWrap.appendChild(settingsBtn);
+    settingsWrap.appendChild(settingsPanel);
+
+    var settingsPanelCloseListener = null;
+    settingsBtn.addEventListener('click', function (ev) {
+        ev.stopPropagation();
+        settingsPanel.hidden = !settingsPanel.hidden;
+        if (!settingsPanel.hidden) {
+            if (settingsPanelCloseListener) {
+                document.removeEventListener('click', settingsPanelCloseListener);
+            }
+            settingsPanelCloseListener = function (ev) {
+                if (!settingsWrap.contains(ev.target)) {
+                    settingsPanel.hidden = true;
+                    document.removeEventListener('click', settingsPanelCloseListener);
+                    settingsPanelCloseListener = null;
+                }
+            };
+            setTimeout(function () {
+                document.addEventListener('click', settingsPanelCloseListener);
+            }, 0);
+        }
+    });
+
     controls.appendChild(startBtn);
     controls.appendChild(stopBtn);
+    controls.appendChild(ctrlHelpBtn);
+    controls.appendChild(settingsWrap);
     controls.appendChild(statusEl);
     contentArea.appendChild(controls);
 
@@ -495,40 +624,6 @@ async function renderMegillaListen() {
 
     rattleWrap.appendChild(rattleBtn);
 
-    // Small help button (?) next to rattle
-    function showHelpPopup() {
-        var overlay = document.createElement('div');
-        overlay.className = 'ml-help-overlay';
-        var box = document.createElement('div');
-        box.className = 'ml-help-box';
-        var titleEl = document.createElement('div');
-        titleEl.className = 'ml-help-title';
-        titleEl.textContent = I18N.t('mlHelpTitle', langMode);
-        var content = document.createElement('div');
-        content.className = 'ml-help-content';
-        content.textContent = I18N.t('mlHelpPopup', langMode);
-        var closeBtn = document.createElement('button');
-        closeBtn.className = 'ml-help-close';
-        closeBtn.textContent = '✓ OK';
-        closeBtn.addEventListener('click', function () { overlay.remove(); });
-        overlay.addEventListener('click', function (e) { if (e.target === overlay) overlay.remove(); });
-        box.appendChild(titleEl);
-        box.appendChild(content);
-        box.appendChild(closeBtn);
-        overlay.appendChild(box);
-        contentArea.appendChild(overlay);
-    }
-
-    var helpBtn = document.createElement('button');
-    helpBtn.className = 'ml-help-btn';
-    helpBtn.title = I18N.t('mlHelpBtn', langMode);
-    helpBtn.textContent = '?';
-    helpBtn.addEventListener('click', function (ev) {
-        ev.stopPropagation();
-        showHelpPopup();
-    });
-    rattleWrap.appendChild(helpBtn);
-
     fabBar.appendChild(rattleWrap);
 
     // Speed control: slower (▼) / label / faster (▲)
@@ -570,36 +665,6 @@ async function renderMegillaListen() {
     fabBar.appendChild(speedValueEl);
     fabBar.appendChild(fasterBtn);
 
-    // Font size control: slider
-    var DEFAULT_FONT_SIZE = 22;
-    var fontSizeLabel = document.createElement('span');
-    fontSizeLabel.className = 'ml-fab-speed-label ml-font-size-label';
-    fontSizeLabel.title = I18N.t('mlFontSize', langMode);
-    fontSizeLabel.textContent = 'A';
-
-    var fontSizeSlider = document.createElement('input');
-    fontSizeSlider.type = 'range';
-    fontSizeSlider.className = 'ml-font-slider';
-    fontSizeSlider.min = 14;
-    fontSizeSlider.max = 40;
-    fontSizeSlider.step = 1;
-    fontSizeSlider.value = DEFAULT_FONT_SIZE;
-    fontSizeSlider.title = I18N.t('mlFontSize', langMode);
-
-    var fontSizeValueEl = document.createElement('span');
-    fontSizeValueEl.className = 'ml-fab-speed-value';
-    fontSizeValueEl.textContent = DEFAULT_FONT_SIZE + 'px';
-
-    fontSizeSlider.addEventListener('input', function () {
-        var size = parseInt(fontSizeSlider.value, 10);
-        textContainer.style.fontSize = size + 'px';
-        fontSizeValueEl.textContent = size + 'px';
-    });
-
-    fabBar.appendChild(fontSizeLabel);
-    fabBar.appendChild(fontSizeSlider);
-    fabBar.appendChild(fontSizeValueEl);
-
     contentArea.appendChild(fabBar);
 
     // Stop rattle when leaving the section
@@ -613,6 +678,10 @@ async function renderMegillaListen() {
         if (rattleMenuCloseListener) {
             document.removeEventListener('click', rattleMenuCloseListener);
             rattleMenuCloseListener = null;
+        }
+        if (settingsPanelCloseListener) {
+            document.removeEventListener('click', settingsPanelCloseListener);
+            settingsPanelCloseListener = null;
         }
         var existingMenu = document.getElementById('ml-rattle-menu');
         if (existingMenu) existingMenu.remove();

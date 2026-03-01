@@ -194,26 +194,26 @@ async function renderMegillaListen() {
     // Special verses that require a different background and phonetic transcription
     var SPECIAL_VERSES = {
         '2_ה': {
-            ru: 'Иш йехуди hая бэ-Шушан hа-бира, у-шмо Мордехай...',
-            uk: 'Іш єгуді гая бе-Шушан га-біра, у-шмо Мордехай...',
+            ru: 'Иш йеґуди ґая бэ-Шушан ґа-бира, у-шмо Мордехай...',
+            uk: 'Іш єґуді ґая бе-Шушан ґа-біра, у-шмо Мордехай...',
             de: 'Isch Jehudi haja be-Schushan ha-bira, u-schmo Mordechai...',
             en: 'Ish yehudi haya be-Shushan ha-bira, u-shmo Mordechai...'
         },
         '8_טו': {
-            ru: 'У-Мордехай яца милифнэй hа-мéлех...',
-            uk: 'У-Мордехай яца мілефней га-мелех...',
+            ru: 'У-Мордехай яца милифнэй ґа-мéлех...',
+            uk: 'У-Мордехай яца мілефней ґа-мелех...',
             de: 'U-Mordechai jaza milifnej ha-melech...',
             en: 'U-Mordechai yatza milifnei ha-melech...'
         },
         '8_טז': {
-            ru: 'Лайехудим hайта ора вэ-симха вэ-сасон вийкар',
-            uk: 'Ла-єгудім гайта ора ве-сімха ве-сасон вийкар',
+            ru: 'Лайеґудим ґайта ора вэ-симха вэ-сасон вийкар',
+            uk: 'Ла-єґудім ґайта ора ве-сімха ве-сасон вийкар',
             de: 'La-jehudim hajta ora we-simcha we-sason wijkar',
             en: 'La-yehudim hayta ora ve-simcha ve-sason vi-ykar'
         },
         '9_ו': {
-            ru: 'У-вэ-Шушан hа-бира аргу hайехудим вэ-авэд хамéш мэóт иш',
-            uk: 'У-ве-Шушан га-біра аргу га-єгудім ве-авед хамеш меот іш',
+            ru: 'У-вэ-Шушан ґа-бира аргу hайеґудим вэ-авэд хамéш мэот иш',
+            uk: 'У-ве-Шушан ґа-біра аргу га-єґудім ве-авед хамеш меот іш',
             de: 'U-we-Schushan ha-bira hargu ha-jehudim we-awed chamesch me\'ot isch',
             en: 'U-ve-Shushan ha-bira hargu ha-yehudim ve-aved chamesh me\'ot ish'
         },
@@ -242,8 +242,8 @@ async function renderMegillaListen() {
             en: 'Aseret bnei Haman ben-ha-Medata...'
         },
         '10_ג': {
-            ru: 'Ки Мордехай hа-Йехуди мишнэ ла-мéлех Ахашвэрóш вэ-гадóл лайехудим вэ-рацуй лэ-рóв эхав, дорéш тов лэ-амо вэ-довэр шалóм лэхоль-заró',
-            uk: 'Кі Мордехай га-Єгуді мішне ла-мелех Ахашверош ве-гадол ла-єгудім ве-рацуй ле-рів ехав, дореш тов ле-амо ве-довер шалом ле-холь-заро',
+            ru: 'Ки Мордехай ґа-Йеґуди мишнэ ла-мéлех Ахашвэрóш вэ-гадóл лайеґудим вэ-рацуй лэ-рóв эхав, дорéш тов лэ-амо вэ-довэр шалóм лэхоль-заро',
+            uk: 'Кі Мордехай ґа-Єґуді мішне ла-мелех Ахашверош ве-гадол ла-єґудім ве-рацуй ле-ров ехав, дореш тов ле-амо ве-довер шалом лехоль-заро',
             de: 'Ki Mordechai ha-Jehudi mischne la-melech Ahaschverosch we-gadol la-Jehudim we-razuj le-row echaw, doresch tow le-ammo we-dover schalom le-chol-saro',
             en: 'Ki Mordechai ha-Yehudi mishne la-melech Achashverosh ve-gadol la-Yehudim ve-ratsuy le-rov echav, doresh tov le-amo ve-dover shalom le-chol-zaro'
         }

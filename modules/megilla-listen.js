@@ -287,7 +287,7 @@ async function renderMegillaListen() {
                 wrapper.className = 'ml-verse-special-wrapper';
                 wrapper.appendChild(verseLine);
                 if (showTranscription && specialData[uiLang]) {
-                    specialVerseRanges.push({ verseKey: verseKey, startIdx: verseWordStartIdx, endIdx: globalWordIdx - 1 });
+                    specialVerseRanges.push({ verseKey: verseKey, startIdx: verseWordStartIdx, endIdx: globalWordIdx - 1, wrapper: wrapper });
                     var transcription = document.createElement('div');
                     transcription.className = 'ml-verse-transcription';
                     transcription.textContent = specialData[uiLang];
@@ -416,6 +416,13 @@ async function renderMegillaListen() {
                 highlightedEls.push(wordList[idx + i].element);
             }
         }
+        specialVerseRanges.forEach(function (range) {
+            if (idx >= range.startIdx && idx <= range.endIdx) {
+                range.wrapper.classList.add('ml-verse-special-wrapper--active');
+            } else {
+                range.wrapper.classList.remove('ml-verse-special-wrapper--active');
+            }
+        });
         wordList[idx].element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
@@ -452,6 +459,7 @@ async function renderMegillaListen() {
             repeatedVerses = new Set();
             highlightedEls.forEach(function (el) { el.classList.remove('ml-word-active'); });
             highlightedEls = [];
+            specialVerseRanges.forEach(function (range) { range.wrapper.classList.remove('ml-verse-special-wrapper--active'); });
         });
 
         box.appendChild(emoji);

@@ -31,9 +31,6 @@ function renderMaharashScroll() {
     zoomIn.textContent = '+';
     zoomIn.title = 'Увеличить / Zoom in';
 
-    toolbar.appendChild(zoomOut);
-    toolbar.appendChild(zoomIn);
-
     const fsBtn = document.createElement('button');
     fsBtn.className = 'maharash-fs-btn';
     fsBtn.title = 'Полный экран / Fullscreen';
@@ -295,6 +292,8 @@ function renderMaharashScroll() {
 
     rattleBtn.addEventListener('click', toggleRattle);
     rattleFsBtn.addEventListener('click', toggleRattle);
+    fabBar.appendChild(zoomOut);
+    fabBar.appendChild(zoomIn);
     fabBar.appendChild(rattleBtn);
     contentArea.appendChild(fabBar);
 

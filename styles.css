@@ -1577,7 +1577,7 @@ body::before {
     height: 64px;
     object-fit: contain;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.06);
+    background: #ffffff;
     padding: 6px;
 }
 
